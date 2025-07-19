@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #171717;
+  --foreground: #ffffff;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-open-sans);
+  --font-serif: var(--font-lora);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -20,7 +20,93 @@
 }
 
 body {
-  background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-open-sans), Arial, Helvetica, sans-serif;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #192119 !important;
+}
+
+/* Custom font classes */
+.font-open-sans {
+  font-family: var(--font-open-sans), Arial, Helvetica, sans-serif;
+}
+
+.font-lora {
+  font-family: var(--font-lora), Georgia, serif;
+}
+
+.onyx-hero-border {
+}
+
+.hero-page {
+  background: #192119 !important;
+  padding: 1rem;
+  min-height: 100vh;
+}
+
+@keyframes tiny-spin {
+  from   { transform: rotate(0deg); }
+  to     { transform: rotate(10deg); }
+}
+
+.ttt {
+  background-color: #192119;
+  opacity: 1;
+  background-image:  radial-gradient(rgba(255,255,255, 0.1) 0.5px, transparent 0.5px), radial-gradient(rgba(255,255,255, 0.1) 0.5px, #646464 0.5px);
+  background-size: 20px 20px;
+  background-position: 0 0,10px 10px;
+  width: 100%;
+  left: 0%;
+  bottom: 5%;
+}
+
+@keyframes phone-wiggle {
+  0%, 20%, 100% { transform: rotate(0deg); }
+  2% { transform: rotate(-15deg); }
+  4% { transform: rotate(15deg); }
+  6% { transform: rotate(-15deg); }
+  8% { transform: rotate(15deg); }
+  10% { transform: rotate(-10deg); }
+  12% { transform: rotate(10deg); }
+  14% { transform: rotate(-5deg); }
+  16% { transform: rotate(5deg); }
+  18% { transform: rotate(0deg); }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 6s ease-in-out infinite;
+}
+
+.animate-pulse-slower {
+  animation: pulse-slower 8s ease-in-out infinite;
+}
+
+.phone-wiggle {
+  animation: phone-wiggle 7.5s ease-in-out infinite;
+}
+
+.hero-blur-edges::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 10;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0) 50%,
+    rgba(0, 0, 0, 0.2) 80%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+  mix-blend-mode: soft-light;
+  filter: blur(16px);
+}
+
+.error-border {
+  border-color: #ef4444 !important;
+}
+.error-text {
+  color: #f87171;
 }
