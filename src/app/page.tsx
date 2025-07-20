@@ -2,6 +2,31 @@
 import { motion, AnimatePresence, useAnimationControls } from "framer-motion";
 import React, { useState, useEffect, useRef } from "react";
 
+// Type declarations for Google Maps API
+declare global {
+    interface Window {
+        google: {
+            maps: {
+                places: {
+                    Autocomplete: new (
+                        input: HTMLInputElement,
+                        options?: {
+                            types?: string[];
+                            componentRestrictions?: { country: string };
+                            fields?: string[];
+                        }
+                    ) => {
+                        addListener: (event: string, callback: () => void) => void;
+                        getPlace: () => {
+                            formatted_address?: string;
+                        };
+                    };
+                };
+            };
+        };
+    }
+}
+
 export default function Home() {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [isFormClosing, setIsFormClosing] = useState(false);
@@ -199,7 +224,7 @@ export default function Home() {
 
     useEffect(() => {
         const loadGoogleMapsScript = () => {
-            if (window.google) {
+            if (typeof window !== 'undefined' && window.google) {
                 console.log('Google Maps API already loaded');
                 setIsGoogleMapsLoaded(true);
                 return;
@@ -226,11 +251,11 @@ export default function Home() {
     }, []);
 
     useEffect(() => {
-        console.log('Autocomplete useEffect triggered:', { isFormOpen, isGoogleMapsLoaded, hasGoogle: !!window.google, hasRef: !!autocompleteRef.current });
-        if (isFormOpen && isGoogleMapsLoaded && autocompleteRef.current && window.google) {
+        console.log('Autocomplete useEffect triggered:', { isFormOpen, isGoogleMapsLoaded, hasGoogle: !!(typeof window !== 'undefined' && window.google), hasRef: !!autocompleteRef.current });
+        if (isFormOpen && isGoogleMapsLoaded && autocompleteRef.current && typeof window !== 'undefined' && window.google) {
             console.log('Initializing Autocomplete');
             try {
-                const autocomplete = new google.maps.places.Autocomplete(autocompleteRef.current, {
+                const autocomplete = new window.google.maps.places.Autocomplete(autocompleteRef.current, {
                     types: ['address'],
                     componentRestrictions: { country: 'us' },
                     fields: ['formatted_address'],
@@ -1076,7 +1101,7 @@ export default function Home() {
                                                                         }}
                                                                         className="text-gray-400 mb-6"
                                                                     >
-                                                                        We'll be in touch shortly to confirm your consultation details.
+                                                                        We&apos;ll be in touch shortly to confirm your consultation details.
                                                                     </motion.p>
                                                                     
                                                                     <motion.button
