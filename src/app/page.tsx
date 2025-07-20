@@ -48,6 +48,8 @@ export default function Home() {
         serviceAddress: false,
     });
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const [isMobile, setIsMobile] = useState(false); // New state to detect mobile
+    const [isMenuOpen, setIsMenuOpen] = useState(false); // State for mobile menu
     
     // Enhanced video state management
     const [isVideoLoaded, setIsVideoLoaded] = useState(false);
@@ -74,6 +76,16 @@ export default function Home() {
     const phoneControls = useAnimationControls();
     const emailControls = useAnimationControls();
     const serviceAddressControls = useAnimationControls();
+
+    // Detect mobile screen size
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 768); // md breakpoint in Tailwind
+        };
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     // Phone icon wiggle effect
     useEffect(() => {
@@ -128,20 +140,17 @@ export default function Home() {
                 : '/alsaba-house-afternoon.mp4';
         }
     
-        // Enhanced logic to prevent unnecessary transitions and flashes
         if (newVideo !== currentVideo && newVideo !== videoQueue && !isTransitioning) {
             setVideoQueue(newVideo);
         }
     };
 
-    // Video transition initialization
     useEffect(() => {
         pickAndTransitionVideo();
         const intervalId = setInterval(pickAndTransitionVideo, 5 * 60 * 1000);
         return () => clearInterval(intervalId);
     }, []);
 
-    // Enhanced video loading and transition effect
     useEffect(() => {
         if (!videoQueue) return;
 
@@ -159,7 +168,6 @@ export default function Home() {
         nextVidElement.load();
     }, [videoQueue]);
 
-    // Enhanced transition cleanup to prevent flashes
     useEffect(() => {
         if (!isTransitioning || !nextVideo) return;
 
@@ -225,23 +233,19 @@ export default function Home() {
     useEffect(() => {
         const loadGoogleMapsScript = () => {
             if (typeof window !== 'undefined' && window.google) {
-                console.log('Google Maps API already loaded');
                 setIsGoogleMapsLoaded(true);
                 return;
             }
 
-            console.log('Google Maps API loading initiated');
             const script = document.createElement('script');
             script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyB1p6Tyk3pWW05XVsEbfHhWXUy1G-GDxms&libraries=places`;
             script.async = true;
             script.defer = true;
             script.onload = () => {
-                console.log('Google Maps API loaded successfully');
                 setIsGoogleMapsLoaded(true);
                 setGoogleMapsError(null);
             };
             script.onerror = () => {
-                console.error('Google Maps API failed to load');
                 setGoogleMapsError('Failed to load address autocomplete. Please enter the address manually.');
             };
             document.head.appendChild(script);
@@ -251,9 +255,7 @@ export default function Home() {
     }, []);
 
     useEffect(() => {
-        console.log('Autocomplete useEffect triggered:', { isFormOpen, isGoogleMapsLoaded, hasGoogle: !!(typeof window !== 'undefined' && window.google), hasRef: !!autocompleteRef.current });
         if (isFormOpen && isGoogleMapsLoaded && autocompleteRef.current && typeof window !== 'undefined' && window.google) {
-            console.log('Initializing Autocomplete');
             try {
                 const autocomplete = new window.google.maps.places.Autocomplete(autocompleteRef.current, {
                     types: ['address'],
@@ -262,16 +264,13 @@ export default function Home() {
                 });
                 autocomplete.addListener('place_changed', () => {
                     const place = autocomplete.getPlace();
-                    console.log('Place selected:', place);
                     if (place.formatted_address) {
                         setFormData(prev => ({ ...prev, serviceAddress: place.formatted_address || '' }));
                         setErrors(prev => ({ ...prev, serviceAddress: false }));
                     }
                 });
-                console.log('Autocomplete initialized successfully');
             } catch (error) {
-                console.error('Failed to initialize Autocomplete:', error);
-                setGoogleMapsError('Address autocomplete is unavailable. Please enter the address manually.');
+                setGoogleMapsError('Address autocomplete is unavailable. Please enter the address manually. ' + error);
             }
         }
     }, [isFormOpen, isGoogleMapsLoaded]);
@@ -315,13 +314,7 @@ export default function Home() {
             spread: 60,
             ticks: 100,
             origin,
-            colors: [
-                '#13A19C', // Teal
-                '#FFC34A', // Gold
-                '#FFFFFF', // White
-                '#4FC3F7', // Light Cyan
-                '#A1E3D8'  // Mint Aqua
-            ]
+            colors: ['#13A19C', '#FFC34A', '#FFFFFF', '#4FC3F7', '#A1E3D8']
         });
     };
 
@@ -380,22 +373,18 @@ export default function Home() {
             return;
         }
         
-        // Get ripple origin from click position
         const rect = e.currentTarget.getBoundingClientRect();
         setRippleOrigin({
             x: e.clientX - rect.left,
             y: e.clientY - rect.top
         });
         
-        // Start animation sequence
         setSubmitStage('loading');
         
-        // Simulate API call
         setTimeout(async () => {
             setSubmitStage('success');
             await ejectConfetti();
             
-            // Show success screen after checkmark completes
             setTimeout(() => {
                 setSubmitStage('complete');
                 setIsSubmitted(true);
@@ -404,7 +393,6 @@ export default function Home() {
     };
 
     const handleViewRequests = () => {
-        // Navigate to requests page or handle as needed
         console.log('Navigating to requests...');
         handleCloseForm();
         setFormData({
@@ -445,14 +433,19 @@ export default function Home() {
                         animate={{ scale: scrolled ? 1.02 : 1 }}
                         transition={{ duration: 0.6, ease: "easeOut" }}
                     >
-                        {/* Current Video - Always mounted */}
+                        {/* Current Video */}
                         <motion.video 
                             key={`current-${currentVideo}`}
                             ref={videoRef}
-                            className="house-background absolute inset-0 w-full h-full object-cover will-change-transform"
+                            className={`
+                                house-background absolute inset-0 w-full h-full will-change-transform
+                                ${isMobile ? 'object-cover scale-100' : 'object-contain scale-[1.08]'}
+                            `}
                             style={{
                                 filter: 'blur(5px) brightness(1) saturate(0.75)',
-                                transform: `scale(1.08) translate3d(${mousePosition.x * -50}px, calc(${(mousePosition.y * -15) - 10}px + var(--scroll-offset, 10px)), 0)`,
+                                transform: isMobile 
+                                    ? undefined 
+                                    : `translate3d(${mousePosition.x * -50}px, calc(${(mousePosition.y * -15) - 10}px + var(--scroll-offset, 10px)), 0)`,
                                 maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)',
                                 WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)',
                             }}
@@ -468,14 +461,19 @@ export default function Home() {
                             <source src={currentVideo} type="video/mp4" />
                         </motion.video>
 
-                        {/* Next Video - Always mounted when transitioning */}
+                        {/* Next Video */}
                         <motion.video 
                             key={`next-${nextVideo || currentVideo}`}
                             ref={nextVideoRef}
-                            className="house-background absolute inset-0 w-full h-full object-cover will-change-transform"
+                            className={`
+                                house-background absolute inset-0 w-full h-full will-change-transform
+                                ${isMobile ? 'object-cover scale-100' : 'object-contain scale-[1.08]'}
+                            `}
                             style={{
                                 filter: 'blur(5px) brightness(1) saturate(0.75)',
-                                transform: `scale(1.08) translate3d(${mousePosition.x * -50}px, calc(${(mousePosition.y * -15) - 10}px + var(--scroll-offset, 0px)), 0)`,
+                                transform: isMobile 
+                                    ? undefined 
+                                    : `translate3d(${mousePosition.x * -50}px, calc(${(mousePosition.y * -15) - 10}px + var(--scroll-offset, 0px)), 0)`,
                                 maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)',
                                 WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)',
                             }}
@@ -513,24 +511,25 @@ export default function Home() {
                                 </>
                             )}
                         </AnimatePresence>
-                        <div className="absolute top-1/3 left-1/4 w-[400px] h-[400px] bg-[#13938f]/3 rounded-full blur-[120px] animate-pulse-slow will-change-[opacity]" />
-                        <div className="absolute bottom-1/3 right-1/3 w-[300px] h-[300px] bg-white/3 rounded-full blur-[100px] animate-pulse-slower will-change-[opacity]" />
+                        <div className="hidden md:block absolute top-1/3 left-1/4 w-96 h-96 bg-[#13938f]/3 rounded-full blur-[120px] animate-pulse-slow will-change-[opacity]" />
+                        <div className="hidden md:block absolute bottom-1/3 right-1/3 w-96 h-96 bg-white/3 rounded-full blur-[100px] animate-pulse-slower will-change-[opacity]" />
                     </motion.div>
-                    <div className="relative z-20 h-full"> 
+                    <div className="relative z-20 h-full pb-16 md:pb-0"> 
                         <motion.nav 
-                            className={`fixed top-0 left-0 right-0 z-30 transition-all duration-500 ${scrolled ? 'backdrop-blur-md bg-black/10 py-4' : 'py-10'}`}
+                            className={`fixed top-0 left-0 right-0 z-30 transition-all duration-500 ${scrolled ? 'backdrop-blur-md bg-black/10 py-4' : 'py-6 md:py-10'}`}
                             initial={{ y: -100 }}
                             animate={{ y: 0 }}
                             transition={{ duration: 0.6, ease: "easeOut" }}
                         >
-                            <div className="max-w-7xl mx-auto px-8 flex items-center justify-between">
+                            <div className="max-w-7xl mx-auto px-12 pt-3 sm:px-8 flex items-center justify-between">
                                 <motion.img
                                     src="/onyx-roofing-logo-black.png"
                                     alt="Onyx Roofing"
-                                    className="h-13 w-auto brightness-0 invert"
+                                    className="h-10 sm:h-13 w-auto brightness-0 invert"
                                     whileHover={{ scale: 1.03 }}
                                     transition={{ duration: 0.2 }}
                                 />
+                                {/* Desktop Navigation */}
                                 <div className="hidden md:flex items-center gap-8">
                                     {['Services', 'Projects', 'About', 'Contact'].map((item, index) => (
                                         <motion.a
@@ -545,14 +544,48 @@ export default function Home() {
                                         </motion.a>
                                     ))}
                                 </div>
+                                {/* Mobile Hamburger Menu */}
+                                <div className="md:hidden">
+                                    <button 
+                                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                                        className="text-white focus:outline-none"
+                                    >
+                                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
+                            {/* Mobile Menu */}
+                            {isMenuOpen && (
+                                <motion.div 
+                                    className="absolute top-full left-0 right-0 bg-black/90 md:hidden pt-safe-top"
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -10 }}
+                                    transition={{ duration: 0.3 }}
+                                >
+                                    <div className="flex flex-col items-center py-4 space-y-2">
+                                        {['Services', 'Projects', 'About', 'Contact'].map((item) => (
+                                            <a 
+                                                key={item} 
+                                                href={`#${item.toLowerCase()}`} 
+                                                className="py-2 text-white hover:text-gray-300 text-lg font-normal transition-all duration-300"
+                                                onClick={() => setIsMenuOpen(false)}
+                                            >
+                                                {item}
+                                            </a>
+                                        ))}
+                                    </div>
+                                </motion.div>
+                            )}
                         </motion.nav>
-                        <section className="relative h-full flex items-center justify-center px-8">
+                        <section className="relative h-full flex items-center justify-center px-4 sm:px-8">
                             <AnimatePresence mode="wait">
                                 {!isFormOpen ? (
                                     <motion.div
                                         key="hero-content"
-                                        className="relative z-20 text-left max-w-6xl mx-auto"
+                                        className="relative z-20 text-left mx-auto px-4 max-w-md sm:max-w-lg md:max-w-4xl"
                                         initial={{ opacity: 1, scale: 1 }}
                                         exit={{ opacity: 0, scale: 0.95 }}
                                         transition={{ duration: 0.15, ease: "easeOut" }}
@@ -562,7 +595,7 @@ export default function Home() {
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ duration: 0.6, ease: "easeOut" }}
                                         >
-                                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-tight" style={{ textAlign: 'left', textShadow: '-0px 0px 3px rgba(0,0,0, .32)' }}>
+                                            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light leading-tight" style={{ textAlign: 'left', textShadow: '-0px 0px 3px rgba(0,0,0, .32)' }}>
                                                 <span className="block text-white mb-3 tracking-wide" style={{ mixBlendMode: 'difference' }}>
                                                     Built to <span className="font-normal" style={{ mixBlendMode: 'difference', color: '#40d6d1' }}>Withstand.</span>
                                                 </span>
@@ -572,7 +605,7 @@ export default function Home() {
                                             </h1>
                                         </motion.div>
                                         <motion.p
-                                            className="mt-10 text-base md:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed font-light"
+                                            className="mt-6 sm:mt-10 text-sm sm:text-base md:text-lg text-white/80 max-w-md sm:max-w-lg md:max-w-2xl mx-auto leading-relaxed font-light"
                                             initial={{ opacity: 0, y: 20 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: 0.2, duration: 0.5, ease: "easeOut" }}
@@ -581,14 +614,14 @@ export default function Home() {
                                             <span className="block mt-1">Premium craftsmanship for discerning homeowners.</span>
                                         </motion.p>
                                         <motion.div
-                                            className="mt-12 flex flex-col sm:flex-row gap-5 justify-start items-start"
+                                            className="mt-8 sm:mt-12 flex flex-col sm:flex-row gap-3 sm:gap-5 justify-start items-start"
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}
                                             transition={{ delay: 0.4, duration: 0.5, ease: "easeOut" }}
                                         >
                                             <button
                                                 onClick={() => setIsFormOpen(true)}
-                                                className="group relative px-10 py-4 bg-[#13a19c] hover:bg-[#0f7a76] text-white font-normal rounded-full transition-all duration-300 flex items-center cursor-pointer"
+                                                className="group relative px-6 sm:px-8 md:px-10 py-3 sm:py-4 bg-[#13a19c] hover:bg-[#0f7a76] text-white font-normal rounded-full transition-all duration-300 flex items-center cursor-pointer text-sm sm:text-base"
                                             >
                                                 <span className="mr-3">Schedule Free Inspection</span>
                                                 <svg
@@ -602,14 +635,14 @@ export default function Home() {
                                             </button>
                                             <a
                                                 href="#portfolio"
-                                                className="px-10 py-4 border border-white/50 text-white hover:bg-white hover:text-gray-900 font-normal rounded-full transition-all duration-300 cursor-pointer"
+                                                className="px-6 sm:px-8 md:px-10 py-3 sm:py-4 border border-white/50 text-white hover:bg-white hover:text-gray-900 font-normal rounded-full transition-all duration-300 cursor-pointer text-sm sm:text-base"
                                                 style={{ backdropFilter: 'blur(20px)' }}
                                             >
                                                 View Our Work
                                             </a>
                                         </motion.div>
                                         <motion.div
-                                            className="mt-16 flex flex-wrap justify-start items-center gap-3 text-sm"
+                                            className="mt-8 sm:mt-16 grid grid-cols-2 sm:flex sm:flex-wrap justify-start items-center gap-2 sm:gap-3 text-xs sm:text-sm"
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}
                                             transition={{ delay: 0.6, duration: 0.5 }}
@@ -617,7 +650,7 @@ export default function Home() {
                                             {['✓ Licensed & Insured', '✓ Free Inspection', '✓ Kentucky Owned', '✓ Family Owned & Operated'].map((item, index) => (
                                                 <motion.span
                                                     key={item}
-                                                    className="text-white/90 font-light px-3 py-2 bg-[#474747]/30 backdrop-blur-md"
+                                                    className="text-white/90 font-light px-2 sm:px-3 py-1 sm:py-2 bg-[#474747]/30 backdrop-blur-md"
                                                     initial={{ opacity: 0, y: 10 }}
                                                     animate={{ opacity: 1, y: 0 }}
                                                     transition={{ delay: 0.7 + (index * 0.05), duration: 0.3 }}
@@ -632,22 +665,23 @@ export default function Home() {
                                     <AnimatePresence>
                                         {isFormOpen && (
                                             <motion.div
-                                                key="form-overlay"
-                                                className="absolute inset-0 z-25 pointer-events-auto"
-                                                initial={{ y: '100%', scale: 0.95, opacity: 0 }}
-                                                animate={{ 
-                                                    y: isFormClosing ? '100%' : 0, 
-                                                    scale: isFormClosing ? 0.95 : 1,
-                                                    opacity: isFormClosing ? 0 : 1
-                                                }}
-                                                exit={{ y: '100%', scale: 0.95, opacity: 0 }}
-                                                transition={{ 
-                                                    y: { duration: 0.6, ease: [0.32, 0.72, 0, 1] },
-                                                    scale: { duration: 0.5, ease: [0.32, 0.72, 0, 1] },
-                                                    opacity: { duration: 0.4, ease: "easeOut" }
-                                                }}
-                                                style={{ borderRadius: '32px 32px 0 0', overflow: 'visible' }}
-                                            >
+                                            key="form-overlay"
+                                            className="absolute inset-0 z-25 pointer-events-auto bg-[#2a2d31]"
+                                            initial={{ y: '100%', scale: 0.95, opacity: 0 }}
+                                            animate={{ 
+                                                y: isFormClosing ? '100%' : 0, 
+                                                scale: isFormClosing ? 0.95 : 1,
+                                                opacity: isFormClosing ? 0 : 1
+                                            }}
+                                            exit={{ y: '100%', scale: 0.95, opacity: 0 }}
+                                            transition={{ 
+                                                y: { duration: 0.6, ease: [0.32, 0.72, 0, 1] },
+                                                scale: { duration: 0.5, ease: [0.32, 0.72, 0, 1] },
+                                                opacity: { duration: 0.4, ease: "easeOut" }
+                                            }}
+                                            style={{ borderRadius: '32px 32px 0 0', overflow: 'visible', bottom: '-20px' }}
+                                        >
+                                        
                                                 <motion.div 
                                                     className="absolute inset-0 bg-[#2a2d31]/92 backdrop-blur-2xl"
                                                     initial={{ backdropFilter: 'blur(0px)' }}
@@ -655,7 +689,7 @@ export default function Home() {
                                                     transition={{ duration: 0.6, ease: "easeOut" }}
                                                 />
                                                 <motion.div 
-                                                    className="relative h-full flex items-center justify-center p-8 mt-3"
+                                                    className="relative h-full flex items-center justify-center p-4 sm:p-8 mt-3"
                                                     initial={{ y: 20, opacity: 0 }}
                                                     animate={{ y: 0, opacity: 1 }}
                                                     transition={{ delay: 0.3, duration: 0.5, ease: "easeOut" }}
@@ -675,10 +709,10 @@ export default function Home() {
                                                                         animate={{ y: 0, opacity: 1 }}
                                                                         transition={{ delay: 0.4, duration: 0.5 }}
                                                                     >
-                                                                        <h2 className="text-2xl font-semibold text-white mb-1">
+                                                                        <h2 className="text-xl sm:text-2xl font-semibold text-white mb-1">
                                                                             Schedule Your Consultation
                                                                         </h2>
-                                                                        <p className="text-sm text-gray-400">
+                                                                        <p className="text-xs sm:text-sm text-gray-400">
                                                                             Step {formStep} of 2: {formStep === 1 ? 'Your Information' : 'Services & Details'}
                                                                         </p>
                                                                     </motion.div>
@@ -940,7 +974,6 @@ export default function Home() {
                                                                                     className="flex-1 relative px-4 py-2 bg-[#13a19c] hover:bg-[#0f7a76] disabled:hover:bg-[#13a19c] cursor-pointer disabled:cursor-not-allowed text-white rounded-lg transition-all duration-200 font-medium text-sm overflow-hidden"
                                                                                     whileTap={submitStage === 'idle' ? { scale: 0.97 } : {}}
                                                                                 >
-                                                                                    {/* Ripple Effect */}
                                                                                     <AnimatePresence>
                                                                                         {submitStage !== 'idle' && (
                                                                                             <motion.span
@@ -967,7 +1000,6 @@ export default function Home() {
                                                                                         )}
                                                                                     </AnimatePresence>
                                                                                     
-                                                                                    {/* Button Content */}
                                                                                     <AnimatePresence mode="wait">
                                                                                         {submitStage === 'idle' && (
                                                                                             <motion.span
@@ -1093,7 +1125,7 @@ export default function Home() {
                                                                                 delay: 0.3
                                                                             }
                                                                         }}
-                                                                        className="text-2xl font-semibold text-white mb-2"
+                                                                        className="text-xl sm:text-2xl font-semibold text-white mb-2"
                                                                     >
                                                                         Request Booked!
                                                                     </motion.h3>
@@ -1108,9 +1140,9 @@ export default function Home() {
                                                                                 delay: 0.4
                                                                             }
                                                                         }}
-                                                                        className="text-gray-400 mb-6"
+                                                                        className="text-gray-400 mb-6 text-sm sm:text-base"
                                                                     >
-                                                                        We&apos;ll be in touch shortly to confirm your consultation details.
+                                                                        We'll be in touch shortly to confirm your consultation details.
                                                                     </motion.p>
                                                                     
                                                                     <motion.button
@@ -1126,7 +1158,7 @@ export default function Home() {
                                                                             }
                                                                         }}
                                                                         onClick={handleViewRequests}
-                                                                        className="w-full px-6 py-3 bg-[#13a19c] hover:bg-[#0f7a76] text-white rounded-lg transition-colors duration-200 font-medium"
+                                                                        className="w-full px-6 py-3 bg-[#13a19c] hover:bg-[#0f7a76] text-white rounded-lg transition-colors duration-200 font-medium text-sm sm:text-base"
                                                                     >
                                                                         Return to Home
                                                                     </motion.button>
@@ -1143,8 +1175,8 @@ export default function Home() {
                         </section>
                         <a 
                             href="tel:5022073007" 
-                            className="absolute left-0 right-0 bg-[#192119] hover:bg-[#192119] text-white text-center py-4 z-20 transition-all duration-300 transform shadow-lg cursor-pointer flex items-center justify-center"
-                            style={{ bottom: '-12px', borderRadius: '0', background: '#192119', textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}
+                            className="fixed bottom-0 left-0 right-0 bg-[#192119] hover:bg-[#192119] text-white text-center py-4 z-20 transition-all duration-300 transform shadow-lg cursor-pointer flex items-center justify-center"
+                            style={{ borderRadius: '0', background: '#192119', textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}
                         >
                             <svg 
                                 ref={phoneIconRef}
@@ -1154,7 +1186,7 @@ export default function Home() {
                             >
                                 <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-1C7.82 18 2 12.18 2 5V3z"/>
                             </svg>
-                            <span className="font-semibold text-xl" style={{ backgroundColor: '#192119' }}>Call us at 502-207-3007</span>
+                            <span className="font-semibold text-lg sm:text-xl" style={{ backgroundColor: '#192119' }}>Call us at 502-207-3007</span>
                         </a>
                     </div>
                 </div>
@@ -1184,14 +1216,12 @@ export default function Home() {
                     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
                 }
                 
-                /* Keyframe for phone wiggle animation */
                 @keyframes phone-wiggle {
                     0%, 100% { transform: rotate(0deg); }
                     25% { transform: rotate(-5deg); }
                     75% { transform: rotate(5deg); }
                 }
                 
-                /* One-shot wiggle class */
                 .wiggle-once {
                     animation: phone-wiggle 0.5s ease-in-out;
                 }
@@ -1239,6 +1269,10 @@ export default function Home() {
                 
                 .animate-spin {
                     animation: spin 0.8s linear infinite;
+                }
+
+                .pt-safe-top {
+                    padding-top: env(safe-area-inset-top);
                 }
             `}</style>
         </div>
