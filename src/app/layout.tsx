@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Open_Sans, Lora } from "next/font/google";
 import "./globals.css";
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const openSans = Open_Sans({
   variable: "--font-open-sans",
@@ -41,6 +42,7 @@ export default function RootLayout({
       >
         {children}
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
