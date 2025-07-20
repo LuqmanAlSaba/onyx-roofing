@@ -436,7 +436,7 @@ export default function Home() {
                             key={`current-${currentVideo}`}
                             ref={videoRef}
                             className={`
-                                house-background absolute w-full h-full will-change-transform object-cover
+                                house-background absolute w-full will-change-transform object-cover
                             `}
                             style={{
                                 filter: 'blur(5px) brightness(1) saturate(0.75)',
@@ -466,7 +466,7 @@ export default function Home() {
                             key={`next-${nextVideo || currentVideo}`}
                             ref={nextVideoRef}
                             className={`
-                                house-background absolute w-full h-full will-change-transform object-cover
+                                house-background absolute w-full will-change-transform object-cover
                             `}
                             style={{
                                 filter: 'blur(5px) brightness(1) saturate(0.75)',
@@ -1240,7 +1240,7 @@ export default function Home() {
                             </AnimatePresence>
                         </section>
                         <motion.nav
-                            className={`fixed top-0 left-0 right-0 z-30 transition-all duration-500 ${scrolled ? 'py-4' : 'py-6 md:py-10'}`}
+                            className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${scrolled ? 'py-4' : 'py-6 md:py-10'}`}
                             style={{background: 'transparent'}}
                             initial={{y: -100}}
                             animate={{y: 0}}
@@ -1283,7 +1283,7 @@ export default function Home() {
                             <AnimatePresence>
                                 {isMenuOpen && (
                                     <motion.div
-                                        className="fixed inset-0 z-40 bg-[#2a2d31] overflow-hidden"
+                                        className="fixed inset-0 z-30 bg-[#2a2d31] overflow-hidden"
                                         style={{paddingTop: 'env(safe-area-inset-top)'}}
                                         initial={{y: '100%', scale: 0.95, opacity: 0}}
                                         animate={{y: 0, scale: 1, opacity: 1}}
