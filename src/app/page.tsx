@@ -642,24 +642,26 @@ export default function Home() {
                                             </a>
                                         </motion.div>
                                         <motion.div
-                                            className="mt-8 sm:mt-16 grid grid-cols-2 sm:flex sm:flex-wrap justify-start items-center gap-2 sm:gap-3 text-xs sm:text-sm"
-                                            initial={{ opacity: 0 }}
-                                            animate={{ opacity: 1 }}
-                                            transition={{ delay: 0.6, duration: 0.5 }}
-                                        >
-                                            {['✓ Licensed & Insured', '✓ Free Inspection', '✓ Kentucky Owned', '✓ Family Owned & Operated'].map((item, index) => (
-                                                <motion.span
-                                                    key={item}
-                                                    className="text-white/90 font-light px-2 sm:px-3 py-1 sm:py-2 bg-[#474747]/30 backdrop-blur-md"
-                                                    initial={{ opacity: 0, y: 10 }}
-                                                    animate={{ opacity: 1, y: 0 }}
-                                                    transition={{ delay: 0.7 + (index * 0.05), duration: 0.3 }}
-                                                    style={{borderRadius: '16px', border: '2px solid rgba(200,200,200,0.04)'}}
-                                                >
-                                                    {item}
-                                                </motion.span>
-                                            ))}
-                                        </motion.div>
+  className="mt-8 sm:mt-16 grid grid-cols-2 sm:flex sm:flex-wrap justify-start items-stretch gap-2 sm:gap-3 text-xs sm:text-sm"
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ delay: 0.6, duration: 0.5 }}
+>
+  {['Licensed & Insured', 'Free Inspection', 'Kentucky Owned', 'Family Business'].map((item, index) => (
+    <motion.span
+      key={item}
+      className="inline-flex items-center gap-2 text-white/90 font-light px-2 sm:px-3 py-1 sm:py-2 bg-[#474747]/30 backdrop-blur-md h-full"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.7 + index * 0.05, duration: 0.3 }}
+      style={{ borderRadius: '16px', border: '2px solid rgba(200,200,200,0.04)' }}
+    >
+      <span className="text-sm">✓</span>
+      <span>{item}</span>
+    </motion.span>
+  ))}
+</motion.div>
+
                                     </motion.div>
                                 ) : (
                                     <AnimatePresence>
@@ -728,9 +730,11 @@ export default function Home() {
                                                                             animate="visible"
                                                                         >
                                                                             <motion.div
-                                                                                className="h-1 bg-[#13a19c] rounded-full"
-                                                                                variants={{progressBarVariants}}
-                                                                            />
+    className="h-1 bg-[#13a19c] rounded-full"
+    variants={progressBarVariants}
+    initial="hidden"
+    animate="visible"
+/>
                                                                         </motion.div>
                                                                         <AnimatePresence mode="wait">
                                                                             {formStep === 1 ? (
@@ -849,13 +853,17 @@ export default function Home() {
                                                                                     transition={{ duration: 0.3, ease: "easeOut" }}
                                                                                 >
                                                                                     <div>
-                                                                                        <label className="block text-xs font-medium text-gray-300 mb-1">
+                                                                                        <label className="block text-xs font-medium text-gray-300 mb-4">
                                                                                             Services Needed
                                                                                         </label>
-                                                                                        <motion.div layout className="grid grid-cols-2 gap-2">
+                                                                                        <motion.div layout className="grid grid-cols-2 gap-2" style={{textAlign: 'left'}}>
                                                                                         {[
-  'Roof Inspection',
-  'Shingle Repair',
+                                                                                                'Shingle Repair',
+                                                                                                'Roof Inspection',
+                                                                                                'Complete Replacement',
+                                                                                                'Storm Damage',
+                                                                                                'Leak Repair',
+                                                                                                'Emergency Service'
   /* … */
 ].map(service => {
   const selected = formData.services.includes(service);
@@ -869,7 +877,7 @@ export default function Home() {
       className={`
         relative overflow-visible
         w-full flex items-center justify-between
-        px-4 py-3 rounded-xl text-sm font-medium
+        px-4 py-3 rounded-xl text-sm font-medium 
         transition-all duration-300 border shadow-sm
         ${selected
           ? 'bg-[#5c9c5f]/50 text-[#fefefe] border-[#a1b5a1]/50'
@@ -878,14 +886,8 @@ export default function Home() {
     >
       {service === 'Roof Inspection' && (
         <span
-          className={`
-            absolute -top-2 -left-2
-            bg-white text-black
-            text-xs font-semibold
-            px-2 py-1
-            rounded-br-lg
-            shadow-sm
-          `}
+        className="absolute top-[-16px] right-2 px-2 py-0 text-[11px] font-semibold bg-[#c78a36]/60 text-white/80 rounded-t-sm shadow-lg shadow-black/50 z-10"
+          style={{boxShadow: 'inset 0 -4px 8px -4px rgba(0, 0, 0, 0.9)', fontSize: '11px', borderRadius: '2px 2px 0 0', top: '-17px', right: '8px'}}
         >
           Popular
         </span>
