@@ -17,6 +17,15 @@ const lora = Lora({
 export const metadata: Metadata = {
   title: "Onyx Roofing - Professional Roofing Services",
   description: "Professional roofing services with quality craftsmanship and exceptional customer service. We provide reliable roofing solutions for residential and commercial properties.",
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/icon0.svg', type: 'image/svg+xml' },
+      { url: '/icon1.png', type: 'image/png' }
+    ],
+    apple: '/apple-icon.png',
+  },
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({
