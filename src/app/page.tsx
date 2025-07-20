@@ -347,14 +347,22 @@ export default function Home() {
 
         if (Object.values(newErrors).some(error => error)) {
             setErrors(newErrors);
-            const shakeAnimation = {
+            if (newErrors.fullName) fullNameControls.start({
                 x: [0, -3, 3, -3, 3, -1.5, 1.5, 0],
                 transition: { duration: 0.6, times: [0, 0.15, 0.3, 0.45, 0.55, 0.7, 0.85, 1], ease: "easeInOut" }
-            };
-            if (newErrors.fullName) fullNameControls.start(shakeAnimation);
-            if (newErrors.phone) phoneControls.start(shakeAnimation);
-            if (newErrors.email) emailControls.start(shakeAnimation);
-            if (newErrors.serviceAddress) serviceAddressControls.start(shakeAnimation);
+            });
+            if (newErrors.phone) phoneControls.start({
+                x: [0, -3, 3, -3, 3, -1.5, 1.5, 0],
+                transition: { duration: 0.6, times: [0, 0.15, 0.3, 0.45, 0.55, 0.7, 0.85, 1], ease: "easeInOut" }
+            });
+            if (newErrors.email) emailControls.start({
+                x: [0, -3, 3, -3, 3, -1.5, 1.5, 0],
+                transition: { duration: 0.6, times: [0, 0.15, 0.3, 0.45, 0.55, 0.7, 0.85, 1], ease: "easeInOut" }
+            });
+            if (newErrors.serviceAddress) serviceAddressControls.start({
+                x: [0, -3, 3, -3, 3, -1.5, 1.5, 0],
+                transition: { duration: 0.6, times: [0, 0.15, 0.3, 0.45, 0.55, 0.7, 0.85, 1], ease: "easeInOut" }
+            });
             return;
         }
 
@@ -488,18 +496,19 @@ export default function Home() {
                                 <>
                                     <motion.div 
                                         className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/10"
-                                        variants={gradientVariants}
+                                        variants={{gradientVariants}}
                                         initial="hidden"
                                         animate="visible"
                                         exit="hidden"
-                                        transition={{ ...gradientVariants.visible.transition, delay: 0.3 }}
+                                        transition={{ duration: 0.8, delay: 0.3 }}
                                     />
                                     <motion.div 
                                         className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20"
-                                        variants={gradientVariants}
+                                        variants={{gradientVariants}}
                                         initial="hidden"
                                         animate="visible"
                                         exit="hidden"
+                                        transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
                                     />
                                 </>
                             )}
@@ -686,7 +695,7 @@ export default function Home() {
                                                                         >
                                                                             <motion.div
                                                                                 className="h-1 bg-[#13a19c] rounded-full"
-                                                                                variants={progressBarVariants}
+                                                                                variants={{progressBarVariants}}
                                                                             />
                                                                         </motion.div>
                                                                         <AnimatePresence mode="wait">
