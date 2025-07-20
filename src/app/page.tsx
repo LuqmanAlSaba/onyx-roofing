@@ -1,5 +1,5 @@
 "use client";
-import { motion, AnimatePresence, useAnimationControls } from "framer-motion";
+import { motion, AnimatePresence, useAnimationControls, Variants } from "framer-motion";
 import React, { useState, useEffect, useRef } from "react";
 
 // Type declarations for Google Maps API
@@ -50,20 +50,20 @@ export default function Home() {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [isMobile, setIsMobile] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    
+
     const [isVideoLoaded, setIsVideoLoaded] = useState(false);
     const [currentVideo, setCurrentVideo] = useState('/alsaba-house-afternoon.mp4');
     const [nextVideo, setNextVideo] = useState<string | null>(null);
     const [videoQueue, setVideoQueue] = useState<string | null>(null);
     const [isTransitioning, setIsTransitioning] = useState(false);
-    
+
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isGoogleMapsLoaded, setIsGoogleMapsLoaded] = useState(false);
     const [googleMapsError, setGoogleMapsError] = useState<string | null>(null);
-    
+
     const [submitStage, setSubmitStage] = useState<'idle' | 'loading' | 'success' | 'complete'>('idle');
     const [rippleOrigin, setRippleOrigin] = useState({ x: 0, y: 0 });
-    
+
     const confettiRef = useRef<unknown>(null);
     const submitBtnRef = useRef<HTMLButtonElement>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -101,7 +101,7 @@ export default function Home() {
         let isRaining = false;
         let sunrise = 0;
         let sunset = 0;
-    
+
         try {
             const response = await fetch(
                 `https://api.openweathermap.org/data/2.5/weather?q=Louisville,KY,US&appid=cd8280ddbfb7da4c7d8d21c92d0b165b&units=imperial`
@@ -134,7 +134,7 @@ export default function Home() {
                 ? '/alsaba-house-morning.mp4'
                 : '/alsaba-house-afternoon.mp4';
         }
-    
+
         if (newVideo !== currentVideo && newVideo !== videoQueue && !isTransitioning) {
             setVideoQueue(newVideo);
         }
@@ -208,17 +208,17 @@ export default function Home() {
         const animate = () => {
             currentX += (targetX - currentX) * lerpFactor;
             currentY += (targetY - currentY) * lerpFactor;
-            
+
             if (Math.abs(targetX - currentX) > 0.001 || Math.abs(targetY - currentY) > 0.001) {
                 setMousePosition({ x: currentX, y: currentY });
             }
-            
+
             animationId = requestAnimationFrame(animate);
         };
 
         window.addEventListener('mousemove', handleMouseMove, { passive: true });
         animationId = requestAnimationFrame(animate);
-        
+
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
             cancelAnimationFrame(animationId);
@@ -302,7 +302,7 @@ export default function Home() {
                 y: (rect.top + rect.height / 2) / window.innerHeight,
             };
         }
-        
+
         confetti({
             particleCount: 40,
             startVelocity: 35,
@@ -363,23 +363,23 @@ export default function Home() {
     };
 
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-        if (!formData.fullName || !formData.phone || !formData.email || 
+        if (!formData.fullName || !formData.phone || !formData.email ||
             !formData.serviceAddress || formData.services.length === 0) {
             return;
         }
-        
+
         const rect = e.currentTarget.getBoundingClientRect();
         setRippleOrigin({
             x: e.clientX - rect.left,
             y: e.clientY - rect.top
         });
-        
+
         setSubmitStage('loading');
-        
+
         setTimeout(async () => {
             setSubmitStage('success');
             await ejectConfetti();
-            
+
             setTimeout(() => {
                 setSubmitStage('complete');
                 setIsSubmitted(true);
@@ -400,26 +400,30 @@ export default function Home() {
         });
     };
 
-    const progressBarVariants = {
-        hidden: { width: '0%' },
-        visible: { 
-            width: isSubmitted ? '100%' : formStep === 2 ? '50%' : '0%', 
-            transition: { duration: 0.3, ease: "easeOut" }
+    const progressBarVariants: Variants = {
+        hidden: { width: "0%" },
+        visible: {
+            width: isSubmitted ? "100%" : formStep === 2 ? "50%" : "0%",
+            transition: {
+                duration: 0.3,
+                // import the easing helper directly
+                ease: "easeOut"
+            }
         }
-    };
+    }
 
     return (
         <div className="min-h-screen font-inter antialiased overflow-x-hidden" style={{ fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
-            <main className="h-screen text-white relative overflow-hidden" style={{ border: window.innerWidth < 768 ? '8px solid #192119' : '16px solid #192119', background: '#192119', borderRadius: '0px', maxWidth: '100vw' }}>
+            <main className="h-screen text-white relative overflow-hidden" style={{ border: isMobile ? '8px solid #192119' : '16px solid #192119', background: '#192119', borderRadius: '0px', maxWidth: '100vw' }}>
                 <div className="relative h-full overflow-hidden" style={{ borderRadius: '32px 32px 0 0', maxWidth: '100%' }}>
                     <canvas id="confetti-canvas" className="absolute inset-0 pointer-events-none" style={{ zIndex: 100 }} />
-                    <motion.div 
+                    <motion.div
                         className="absolute inset-0 overflow-hidden"
                         style={{ backgroundColor: '#192119' }}
                         animate={{ scale: scrolled ? 1.02 : 1 }}
                         transition={{ duration: 0.6, ease: "easeOut" }}
                     >
-                        <motion.video 
+                        <motion.video
                             key={`current-${currentVideo}`}
                             ref={videoRef}
                             className={`
@@ -427,8 +431,8 @@ export default function Home() {
                             `}
                             style={{
                                 filter: 'blur(5px) brightness(1) saturate(0.75)',
-                                transform: isMobile 
-                                    ? 'scale(1.05)' 
+                                transform: isMobile
+                                    ? 'scale(1.05)'
                                     : `scale(1.08) translate3d(${mousePosition.x * -50}px, calc(${(mousePosition.y * -15) - 10}px + var(--scroll-offset, 10px)), 0)`,
                                 maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)',
                                 WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)',
@@ -449,7 +453,7 @@ export default function Home() {
                             <source src={currentVideo} type="video/mp4" />
                         </motion.video>
 
-                        <motion.video 
+                        <motion.video
                             key={`next-${nextVideo || currentVideo}`}
                             ref={nextVideoRef}
                             className={`
@@ -457,8 +461,8 @@ export default function Home() {
                             `}
                             style={{
                                 filter: 'blur(5px) brightness(1) saturate(0.75)',
-                                transform: isMobile 
-                                    ? 'scale(1.05)' 
+                                transform: isMobile
+                                    ? 'scale(1.05)'
                                     : `scale(1.08) translate3d(${mousePosition.x * -50}px, calc(${(mousePosition.y * -15) - 10}px + var(--scroll-offset, 0px)), 0)`,
                                 maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)',
                                 WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)',
@@ -488,7 +492,7 @@ export default function Home() {
                         <div className="hidden md:block absolute top-1/3 left-1/4 w-96 h-96 bg-[#13938f]/3 rounded-full blur-[120px] animate-pulse-slow will-change-[opacity]" />
                         <div className="hidden md:block absolute bottom-1/3 right-1/3 w-96 h-96 bg-white/3 rounded-full blur-[100px] animate-pulse-slower will-change-[opacity]" />
                     </motion.div>
-                    <div className="relative z-20 h-full pb-16 md:pb-0"> 
+                    <div className="relative z-20 h-full pb-16 md:pb-0">
                         <section className="relative h-full flex items-center justify-center px-4 sm:px-8">
                             <AnimatePresence mode="wait">
                                 {!isFormOpen ? (
@@ -578,26 +582,26 @@ export default function Home() {
                                                 key="form-overlay"
                                                 className="fixed inset-0 z-25 pointer-events-auto bg-[#2a2d31] overflow-hidden"
                                                 initial={{ y: '100%', scale: 0.95, opacity: 0 }}
-                                                animate={{ 
-                                                    y: isFormClosing ? '100%' : 0, 
+                                                animate={{
+                                                    y: isFormClosing ? '100%' : 0,
                                                     scale: isFormClosing ? 0.95 : 1,
                                                     opacity: isFormClosing ? 0 : 1
                                                 }}
                                                 exit={{ y: '100%', scale: 0.95, opacity: 0 }}
-                                                transition={{ 
+                                                transition={{
                                                     y: { duration: 0.6, ease: [0.32, 0.72, 0, 1] },
                                                     scale: { duration: 0.5, ease: [0.32, 0.72, 0, 1] },
                                                     opacity: { duration: 0.4, ease: "easeOut" }
                                                 }}
                                                 style={{ borderRadius: '32px 32px 0 0', bottom: '0', maxWidth: '100vw' }}
                                             >
-                                                <motion.div 
+                                                <motion.div
                                                     className="absolute inset-0 bg-[#2a2d31]/92 backdrop-blur-2xl"
                                                     initial={{ backdropFilter: 'blur(0px)' }}
                                                     animate={{ backdropFilter: 'blur(24px)' }}
                                                     transition={{ duration: 0.6, ease: "easeOut" }}
                                                 />
-                                                <motion.div 
+                                                <motion.div
                                                     className="relative h-full flex items-center justify-center p-4 sm:p-8 mt-3 overflow-y-auto"
                                                     style={{ maxHeight: '100vh', maxWidth: '100vw' }}
                                                     initial={{ y: 20, opacity: 0 }}
@@ -607,13 +611,13 @@ export default function Home() {
                                                     <motion.div className="w-full max-w-lg mx-auto">
                                                         <AnimatePresence mode="wait">
                                                             {submitStage !== 'complete' ? (
-                                                                <motion.div 
+                                                                <motion.div
                                                                     key="form-content"
                                                                     className="relative"
                                                                     exit={{ opacity: 0, y: -20 }}
                                                                     transition={{ duration: 0.3 }}
                                                                 >
-                                                                    <motion.div 
+                                                                    <motion.div
                                                                         className="mb-4"
                                                                         initial={{ y: 20, opacity: 0 }}
                                                                         animate={{ y: 0, opacity: 1 }}
@@ -626,7 +630,7 @@ export default function Home() {
                                                                             Step {formStep} of 2: {formStep === 1 ? 'Your Information' : 'Services & Details'}
                                                                         </p>
                                                                     </motion.div>
-                                                                    <motion.div 
+                                                                    <motion.div
                                                                         className="space-y-4"
                                                                         initial={{ opacity: 0 }}
                                                                         animate={{ opacity: 1 }}
@@ -787,13 +791,13 @@ export default function Home() {
                                                                                                             px-4 py-3 rounded-xl text-sm font-medium 
                                                                                                             transition-all duration-300 border shadow-sm
                                                                                                             ${selected
-                                                                                                                ? 'bg-[#5c9c5f]/50 text-[#fefefe] border-[#a1b5a1]/50'
-                                                                                                                : 'bg-[#2d2f34] text-gray-300 border-[#4a4f55] hover:bg-[#383b40]'}
+                                                                                                            ? 'bg-[#5c9c5f]/50 text-[#fefefe] border-[#a1b5a1]/50'
+                                                                                                            : 'bg-[#2d2f34] text-gray-300 border-[#4a4f55] hover:bg-[#383b40]'}
                                                                                                         `}
                                                                                                     >
                                                                                                         {service === 'Roof Inspection' && (
                                                                                                             <span
-                                                                                                                className="absolute top-[-16px] right-2 px-2 py-0 text-[11px] font-semibold bg-[#c78a36]/60 text-white/80 rounded-t-sm shadow-lg shadow-black/50 z-10"
+                                                                                                                className="absolute px-2 py-0 text-[11px] font-semibold bg-[#c78a36]/60 text-white/80 rounded-t-sm shadow-lg shadow-black/50 z-10"
                                                                                                                 style={{ boxShadow: 'inset 0 -4px 8px -4px rgba(0, 0, 0, 0.9)', fontSize: '11px', borderRadius: '2px 2px 0 0', top: '-17px', right: '8px' }}
                                                                                                             >
                                                                                                                 Popular
@@ -904,7 +908,7 @@ export default function Home() {
                                                                                         {submitStage !== 'idle' && (
                                                                                             <motion.span
                                                                                                 className="absolute inset-0 bg-white/20"
-                                                                                                initial={{ 
+                                                                                                initial={{
                                                                                                     scale: 0,
                                                                                                     opacity: 1,
                                                                                                     borderRadius: '50%',
@@ -913,10 +917,10 @@ export default function Home() {
                                                                                                     left: rippleOrigin.x - 10,
                                                                                                     top: rippleOrigin.y - 10
                                                                                                 }}
-                                                                                                animate={{ 
+                                                                                                animate={{
                                                                                                     scale: 20,
                                                                                                     opacity: 0,
-                                                                                                    transition: { 
+                                                                                                    transition: {
                                                                                                         duration: 0.6,
                                                                                                         ease: [0.4, 0.0, 0.2, 1]
                                                                                                     }
@@ -966,7 +970,7 @@ export default function Home() {
                                                                                                             viewBox="0 0 24 24"
                                                                                                             initial={{ pathLength: 0, opacity: 0 }}
                                                                                                             animate={{ pathLength: 1, opacity: 1 }}
-                                                                                                            transition={{ 
+                                                                                                            transition={{
                                                                                                                 pathLength: { duration: 0.3, ease: "easeInOut" },
                                                                                                                 opacity: { duration: 0.1 }
                                                                                                             }}
@@ -995,9 +999,9 @@ export default function Home() {
                                                                 <motion.div
                                                                     key="success-content"
                                                                     initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                                                                    animate={{ 
-                                                                        opacity: 1, 
-                                                                        scale: 1, 
+                                                                    animate={{
+                                                                        opacity: 1,
+                                                                        scale: 1,
                                                                         y: 0,
                                                                         transition: {
                                                                             type: "spring",
@@ -1012,8 +1016,8 @@ export default function Home() {
                                                                 >
                                                                     <motion.div
                                                                         initial={{ scale: 0.5, opacity: 0 }}
-                                                                        animate={{ 
-                                                                            scale: 1, 
+                                                                        animate={{
+                                                                            scale: 1,
                                                                             opacity: 1,
                                                                             transition: {
                                                                                 type: "spring",
@@ -1040,8 +1044,8 @@ export default function Home() {
                                                                     </motion.div>
                                                                     <motion.h3
                                                                         initial={{ y: 20, opacity: 0 }}
-                                                                        animate={{ 
-                                                                            y: 0, 
+                                                                        animate={{
+                                                                            y: 0,
                                                                             opacity: 1,
                                                                             transition: {
                                                                                 duration: 0.3,
@@ -1054,8 +1058,8 @@ export default function Home() {
                                                                     </motion.h3>
                                                                     <motion.p
                                                                         initial={{ y: 20, opacity: 0 }}
-                                                                        animate={{ 
-                                                                            y: 0, 
+                                                                        animate={{
+                                                                            y: 0,
                                                                             opacity: 1,
                                                                             transition: {
                                                                                 duration: 0.3,
@@ -1068,8 +1072,8 @@ export default function Home() {
                                                                     </motion.p>
                                                                     <motion.button
                                                                         initial={{ y: 20, opacity: 0 }}
-                                                                        animate={{ 
-                                                                            y: 0, 
+                                                                        animate={{
+                                                                            y: 0,
                                                                             opacity: 1,
                                                                             transition: {
                                                                                 type: "spring",
@@ -1094,7 +1098,7 @@ export default function Home() {
                                 )}
                             </AnimatePresence>
                         </section>
-                        <motion.nav 
+                        <motion.nav
                             className={`fixed top-0 left-0 right-0 z-30 transition-all duration-500 ${scrolled ? 'py-4' : 'py-6 md:py-10'}`}
                             style={{ background: 'transparent' }}
                             initial={{ y: -100 }}
@@ -1124,7 +1128,7 @@ export default function Home() {
                                     ))}
                                 </div>
                                 <div className="md:hidden">
-                                    <button 
+                                    <button
                                         onClick={() => setIsMenuOpen(!isMenuOpen)}
                                         className="text-white focus:outline-none"
                                     >
@@ -1170,15 +1174,15 @@ export default function Home() {
                     </div>
                 </div>
             </main>
-            <a 
-                href="tel:5022073007" 
+            <a
+                href="tel:5022073007"
                 className="fixed bottom-0 left-0 right-0 bg-[#192119] hover:bg-[#192119] text-white text-center py-4 z-20 transition-all duration-300 transform shadow-lg cursor-pointer flex items-center justify-center"
                 style={{ borderRadius: '0', background: '#192119', textShadow: '0 1px 2px rgba(0,0,0,0.3)', maxWidth: '100vw' }}
             >
-                <svg 
+                <svg
                     ref={phoneIconRef}
-                    className="w-5 h-5 mr-2" 
-                    fill="currentColor" 
+                    className="w-5 h-5 mr-2"
+                    fill="currentColor"
                     viewBox="0 0 20 20"
                 >
                     <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-1C7.82 18 2 12.18 2 5V3z"/>
@@ -1187,50 +1191,50 @@ export default function Home() {
             </a>
             <style jsx global>{`
                 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap');
-                
+
                 * {
                     box-sizing: border-box;
                 }
-                
+
                 html, body {
                     overflow-x: hidden;
                     max-width: 100vw;
                     width: 100%;
                 }
-                
+
                 body {
                     margin: 0;
                     padding: 0;
                 }
-                
+
                 @keyframes pulse-slow {
                     0%, 100% { opacity: 0.3; }
                     50% { opacity: 0.5; }
                 }
-                
+
                 @keyframes pulse-slower {
                     0%, 100% { opacity: 0.2; }
                     50% { opacity: 0.4; }
                 }
-                
+
                 .animate-pulse-slow {
                     animation: pulse-slow 4s ease-in-out infinite;
                 }
-                
+
                 .animate-pulse-slower {
                     animation: pulse-slower 5s ease-in-out infinite;
                 }
-                
+
                 .font-inter {
                     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
                 }
-                
+
                 @keyframes phone-wiggle {
                     0%, 100% { transform: rotate(0deg); }
                     25% { transform: rotate(-5deg); }
                     75% { transform: rotate(5deg); }
                 }
-                
+
                 .wiggle-once {
                     animation: phone-wiggle 0.5s ease-in-out;
                 }
@@ -1270,12 +1274,12 @@ export default function Home() {
                 .pac-matched {
                     color: #13a19c;
                 }
-                
+
                 @keyframes spin {
                     from { transform: rotate(0deg); }
                     to { transform: rotate(360deg); }
                 }
-                
+
                 .animate-spin {
                     animation: spin 0.8s linear infinite;
                 }
@@ -1285,13 +1289,13 @@ export default function Home() {
                     html {
                         overflow-x: hidden;
                     }
-                    
+
                     body {
                         overflow-x: hidden;
                         position: relative;
                         width: 100%;
                     }
-                    
+
                     * {
                         max-width: 100vw;
                     }
@@ -1301,7 +1305,7 @@ export default function Home() {
                 ::-webkit-scrollbar:horizontal {
                     display: none;
                 }
-                
+
                 html {
                     scrollbar-width: none; /* Firefox */
                     -ms-overflow-style: none; /* IE and Edge */
