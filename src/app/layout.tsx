@@ -15,8 +15,8 @@ const lora = Lora({
 });
 
 export const metadata: Metadata = {
-  title: "Casa Del Sol - Home Care Services",
-  description: "Compassionate home care with a personal touch. We brighten lives through dedicated companionship, personal care, and everyday support.",
+  title: "Onyx Roofing - Professional Roofing Services",
+  description: "Professional roofing services with quality craftsmanship and exceptional customer service. We provide reliable roofing solutions for residential and commercial properties.",
 };
 
 export default function RootLayout({
