@@ -907,8 +907,7 @@ export default function Home() {
             borderRadius: "0",
             background: "#192119",
             textShadow: "0 1px 2px rgba(0,0,0,0.3)",
-            maxWidth: "100vw",
-            paddingBottom: "env(safe-area-inset-bottom)",
+            maxWidth: "100vw"
           }}
         >
           <svg ref={phoneIconRef} className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
