@@ -597,7 +597,6 @@ export default function Home() {
             <div className="hidden md:block absolute bottom-1/3 right-1/3 w-96 h-96 bg-white/3 rounded-full blur-[100px] animate-pulse-slower will-change-[opacity]" />
           </motion.div>
           <div className="relative z-20 h-full pb-16 md:pb-0">
-            <div className="h-24 md:h-32 lg:h-40" aria-hidden />
             <section className="relative h-full flex items-center justify-center px-4 sm:px-8 pt-20 md:pt-24 lg:pt-32">
               <AnimatePresence mode="wait">
                 {!isFormOpen ? (
