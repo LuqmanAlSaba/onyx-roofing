@@ -354,7 +354,9 @@ export default function Home() {
     
     // Clear errors when user starts typing, but validate email format in real-time
     if (name === "email") {
-      setErrors((prev) => ({ ...prev, [name]: value && !isValidEmail(value) }));
+      // Ensure we always return a boolean: show error if value exists and is invalid
+      const hasError = value.trim().length > 0 && !isValidEmail(value);
+      setErrors((prev) => ({ ...prev, email: hasError }));
     } else {
       setErrors((prev) => ({ ...prev, [name]: false }));
     }
