@@ -1,6 +1,6 @@
 "use client";
 import { motion, AnimatePresence, useAnimationControls, Variants } from "framer-motion";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 
 // Type declarations for Google Maps API
 declare global {
@@ -50,7 +50,6 @@ export default function Home() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isMobile, setIsMobile] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [currentVideo, setCurrentVideo] = useState("/alsaba-house-afternoon.mp4");
   const [nextVideo, setNextVideo] = useState<string | null>(null);
   const [videoQueue, setVideoQueue] = useState<string | null>(null);
@@ -107,7 +106,7 @@ export default function Home() {
   }, []);
 
   // Video selection based on weather and time
-  const pickAndTransitionVideo = async () => {
+  const pickAndTransitionVideo = useCallback(async () => {
     const now = Date.now() / 1000;
     let isRaining = false;
     let sunrise = 0;
@@ -149,13 +148,13 @@ export default function Home() {
     if (newVideo !== currentVideo && newVideo !== videoQueue && !isTransitioning) {
       setVideoQueue(newVideo);
     }
-  };
+  }, [currentVideo, videoQueue, isTransitioning]);
 
   useEffect(() => {
     pickAndTransitionVideo();
     const intervalId = setInterval(pickAndTransitionVideo, 5 * 60 * 1000);
     return () => clearInterval(intervalId);
-  }, [currentVideo, videoQueue, isTransitioning]);
+  }, [pickAndTransitionVideo]);
 
   // Preload next video
   useEffect(() => {
@@ -184,7 +183,6 @@ export default function Home() {
       setNextVideo(null);
       setVideoQueue(null);
       setIsTransitioning(false);
-      setIsVideoLoaded(false);
     }, 1500);
 
     return () => clearTimeout(transitionTimer);
@@ -289,8 +287,6 @@ export default function Home() {
       }
     }
   }, [isFormOpen, isGoogleMapsLoaded]);
-
-  const handleVideoLoad = () => setIsVideoLoaded(true);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -468,7 +464,6 @@ export default function Home() {
               loop
               muted
               playsInline
-              onLoadedData={handleVideoLoad}
             >
               <source src={currentVideo} type="video/mp4" />
             </motion.video>
@@ -493,7 +488,6 @@ export default function Home() {
               loop
               muted
               playsInline
-              onLoadedData={() => setIsVideoLoaded(true)}
             >
               <source src={nextVideo || currentVideo} type="video/mp4" />
             </motion.video>
