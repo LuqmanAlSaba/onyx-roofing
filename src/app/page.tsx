@@ -1,6 +1,60 @@
 "use client";
-import { motion, AnimatePresence, useAnimationControls, Variants } from "framer-motion";
+import { motion,AnimatePresence, useAnimationControls, Variants } from "framer-motion";
 import React, { useState, useEffect, useRef, useCallback } from "react";
+
+// Fixed Hamburger component that uses props instead of internal state
+interface HamburgerProps {
+  isOpen: boolean;
+  onToggle: () => void;
+}
+
+function Hamburger({ isOpen, onToggle }: HamburgerProps) {
+  return (
+    <motion.svg
+      onClick={onToggle}
+      viewBox="0 0 100 100"
+      width="40"
+      height="40"
+      style={{ originX: "50%", originY: "50%", cursor: "pointer" }}
+      animate={{ rotate: isOpen ? 45 : 0 }}
+      transition={{ rotate: { duration: 0.4, ease: "easeInOut" } }}
+    >
+      {/* Top line */}
+      <motion.path
+        d="m 30,33 h 40 c 3.722839,0 7.5,3.126468 7.5,8.578427 0,5.451959 -2.727029,8.421573 -7.5,8.421573 h -20"
+        fill="none"
+        stroke="#fff"
+        strokeWidth="5.5"
+        strokeLinecap="round"
+        strokeDasharray="40 160"
+        animate={{ strokeDashoffset: isOpen ? -64 : 0 }}
+        transition={{ strokeDashoffset: { duration: 0.4, ease: "easeInOut" } }}
+      />
+      {/* Middle line */}
+      <motion.path
+        d="m 30,50 h 40"
+        fill="none"
+        stroke="#fff"
+        strokeWidth="5.5"
+        strokeLinecap="round"
+        style={{ originX: "50%", originY: "50%" }}
+        animate={{ rotate: isOpen ? 90 : 0 }}
+        transition={{ rotate: { duration: 0.4, ease: "easeInOut" } }}
+      />
+      {/* Bottom line */}
+      <motion.path
+        d="m 70,67 h -40 c 0,0 -7.5,-0.802118 -7.5,-8.365747 0,-7.563629 7.5,-8.634253 7.5,-8.634253 h 20"
+        fill="none"
+        stroke="#fff"
+        strokeWidth="5.5"
+        strokeLinecap="round"
+        strokeDasharray="40 85"
+        animate={{ strokeDashoffset: isOpen ? -64 : 0 }}
+        transition={{ strokeDashoffset: { duration: 0.4, ease: "easeInOut" } }}
+      />
+    </motion.svg>
+  );
+}
 
 // Type declarations for Google Maps API
 declare global {
@@ -380,28 +434,62 @@ export default function Home() {
     setErrors({ fullName: false, phone: false, email: false, serviceAddress: false });
   };
 
-  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!formData.fullName || !formData.phone || !formData.email || !formData.serviceAddress || formData.services.length === 0) {
-      return;
-    }
-
-    const rect = e.currentTarget.getBoundingClientRect();
-    setRippleOrigin({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();  
     setSubmitStage("loading");
-
-    setTimeout(async () => {
+    
+    // Capture ripple effect origin for button animation
+    if (submitBtnRef.current) {
+      const rect = submitBtnRef.current.getBoundingClientRect();
+      setRippleOrigin({
+        x: rect.width / 2,
+        y: rect.height / 2
+      });
+    }
+    
+    try {
+      const res = await fetch("https://formspree.io/f/xdkdapno", {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          phone: formData.phone,
+          email: formData.email,
+          serviceAddress: formData.serviceAddress,
+          services: formData.services.join(", "),
+          message: formData.message,
+          // Additional metadata for the email
+          _subject: "New Consultation Request - Onyx Roofing",
+          _replyto: formData.email,
+          _format: "plain"
+        })
+      });
+      
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Failed to submit form");
+      }
+      
+      // Success! Fire confetti and transition to success state
       setSubmitStage("success");
       await ejectConfetti();
-
+      
+      // Small delay before showing completion screen
       setTimeout(() => {
         setSubmitStage("complete");
         setIsSubmitted(true);
       }, 400);
-    }, 800);
+      
+    } catch (err) {
+      console.error("Form submission error:", err);
+      setSubmitStage("idle");
+      
+      // User-friendly error handling
+      alert("Sorry, there was an error submitting your request. Please try again or call us directly at 502-207-3007.");
+    }
   };
 
   const handleViewRequests = () => {
@@ -855,9 +943,9 @@ export default function Home() {
                 )}
               </AnimatePresence>
             </section>
-            <motion.nav className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${scrolled ? "py-4" : "py-6 md:py-10"}`} style={{ background: "transparent" }} initial={{ y: -100 }} animate={{ y: 0 }} transition={{ duration: 0.6, ease: "easeOut" }}>
+            <motion.nav className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${scrolled ? "py-4" : "py-6 md:py-10"}`} style={{ zIndex: '10000 !important', background: "transparent" }} initial={{ y: -100 }} animate={{ y: 0 }} transition={{ duration: 0.6, ease: "easeOut" }}>
               <div className="max-w-7xl mx-auto px-12 pt-3 sm:px-8 flex items-center justify-between">
-                <motion.img src="/onyx-roofing-logo-black.png" alt="Onyx Roofing" className="h-10 sm:h-13 w-auto brightness-0 invert" whileHover={{ scale: 1.03 }} transition={{ duration: 0.2 }} />
+                <motion.img src="/onyx-roofing-logo-black.png" alt="Onyx Roofing" className="h-10 sm:h-13 w-auto brightness-0 invert" style={{ zIndex: '10000 !important' }} whileHover={{ scale: 1.03 }} transition={{ duration: 0.2 }} />
                 <div className="hidden md:flex items-center gap-8">
                   {["Services", "Projects", "About", "Contact"].map((item, index) => (
                     <motion.a key={item} href={`#${item.toLowerCase()}`} className="text-white/80 hover:text-white text-md font-normal transition-all duration-300" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 * index, duration: 0.5 }}>
@@ -865,12 +953,11 @@ export default function Home() {
                     </motion.a>
                   ))}
                 </div>
-                <div className="md:hidden">
-                  <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white focus:outline-none">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                  </button>
+                <div className="md:hidden" style={{ zIndex: '10000 !important' }} >
+                <Hamburger
+                    isOpen={isMenuOpen}
+                    onToggle={() => setIsMenuOpen(o => !o)}
+                />
                 </div>
               </div>
               <AnimatePresence>
