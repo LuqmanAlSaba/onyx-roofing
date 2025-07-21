@@ -602,13 +602,13 @@ export default function Home() {
                 {!isFormOpen ? (
                   <motion.div
                     key="hero-content"
-                    className="relative z-20 text-left mx-auto px-4 max-w-md sm:max-w-lg md:max-w-4xl pt-8 w-full"
+                    className="relative z-20 text-left mx-auto px-4 max-w-md sm:max-w-lg md:max-w-4xl pt-15 w-full"
                     initial={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ duration: 0.15, ease: "easeOut" }}
                   >
                     <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: "easeOut" }}>
-                      <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light leading-tight" style={{ textAlign: "left", textShadow: "-0px 0px 3px rgba(0,0,0, .32)" }}>
+                      <h1 className="text-3xl sm:text-3xl md:text-5xl lg:text-6xl font-light leading-tight" style={{ textAlign: "left", textShadow: "-0px 0px 3px rgba(0,0,0, .32)" }}>
                         <span className="block text-white mb-1 sm:mb-3 tracking-wide" style={{ mixBlendMode: "difference" }}>
                           Built to <span className="font-normal" style={{ mixBlendMode: "difference", color: "#40d6d1" }}>Withstand.</span>
                         </span>
@@ -641,7 +641,12 @@ export default function Home() {
                       </a>
                     </motion.div>
                     <motion.div className="mt-8 sm:mt-16 grid grid-cols-2 sm:flex sm:flex-wrap justify-start items-stretch gap-2 sm:gap-3 text-xs sm:text-sm" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6, duration: 0.5 }}>
-                      {["Licensed & Insured", "Free Inspection", "Kentucky Owned", "Family Business"].map((item, index) => (
+                      {["Licensed & Insured", "Free Inspection", "Kentucky Owned", "Family Business"]
+                      .filter(item =>
+                        // if mobile, drop those two
+                        !(isMobile && (item === "Kentucky Owned" || item === "Family Business"))
+                        )
+                      .map((item, index) => (
                         <motion.span
                           key={item}
                           className="inline-flex items-center gap-2 text-white/90 font-light px-2 sm:px-3 py-1 sm:py-2 bg-[#474747]/30 backdrop-blur-md h-full"
