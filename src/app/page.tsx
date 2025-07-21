@@ -342,10 +342,22 @@ export default function Home() {
     }
   }, [isFormOpen, isGoogleMapsLoaded]);
 
+  // Email validation helper function
+  const isValidEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: false }));
+    
+    // Clear errors when user starts typing, but validate email format in real-time
+    if (name === "email") {
+      setErrors((prev) => ({ ...prev, [name]: value && !isValidEmail(value) }));
+    } else {
+      setErrors((prev) => ({ ...prev, [name]: false }));
+    }
   };
 
   const handleCheckboxChange = (service: string) => {
@@ -397,7 +409,7 @@ export default function Home() {
     const newErrors = {
       fullName: !formData.fullName,
       phone: !formData.phone,
-      email: !formData.email,
+      email: !formData.email || !isValidEmail(formData.email),
       serviceAddress: !formData.serviceAddress,
     };
 
@@ -729,7 +741,7 @@ export default function Home() {
                                                   aria-invalid={errors.email ? "true" : "false"}
                                                   aria-describedby={errors.email ? "email-error" : undefined}
                                                 />
-                                                <div className="h-1">{errors.email && <p id="email-error" className="text-xs text-red-400">Please enter your email address</p>}</div>
+                                                <div className="h-1">{errors.email && <p id="email-error" className="text-xs text-red-400">{!formData.email ? "Please enter your email address" : "Please enter a valid email address"}</p>}</div>
                                               </motion.div>
                                             </div>
                                             <motion.div animate={serviceAddressControls}>
