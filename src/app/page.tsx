@@ -120,10 +120,49 @@ export default function Home() {
   const nextVideoRef = useRef<HTMLVideoElement>(null);
   const autocompleteRef = useRef<HTMLInputElement>(null);
   const phoneIconRef = useRef<SVGSVGElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
   const fullNameControls = useAnimationControls();
   const phoneControls = useAnimationControls();
   const emailControls = useAnimationControls();
   const serviceAddressControls = useAnimationControls();
+
+  const [headerHeight, setHeaderHeight] = useState(0);
+
+  // Measure header height dynamically
+  useEffect(() => {
+    const measureHeader = () => {
+      if (headerRef.current) {
+        setHeaderHeight(headerRef.current.offsetHeight);
+      }
+    };
+
+    // Measure on mount
+    measureHeader();
+
+    // Re-measure on window resize (in case header height changes)
+    window.addEventListener('resize', measureHeader);
+    
+    // Re-measure after a short delay to account for any dynamic content loading
+    const timeoutId = setTimeout(measureHeader, 100);
+
+    return () => {
+      window.removeEventListener('resize', measureHeader);
+      clearTimeout(timeoutId);
+    };
+  }, []);
+
+  // Re-measure header when scroll state changes (since padding changes)
+  useEffect(() => {
+    const measureHeader = () => {
+      if (headerRef.current) {
+        setHeaderHeight(headerRef.current.offsetHeight);
+      }
+    };
+    
+    // Small delay to let the transition complete
+    const timeoutId = setTimeout(measureHeader, 100);
+    return () => clearTimeout(timeoutId);
+  }, [scrolled]);
 
   // Set --vh for viewport height fallback
   useEffect(() => {
@@ -596,8 +635,8 @@ export default function Home() {
             <div className="hidden md:block absolute top-1/3 left-1/4 w-96 h-96 bg-[#13938f]/3 rounded-full blur-[120px] animate-pulse-slow will-change-[opacity]" />
             <div className="hidden md:block absolute bottom-1/3 right-1/3 w-96 h-96 bg-white/3 rounded-full blur-[100px] animate-pulse-slower will-change-[opacity]" />
           </motion.div>
-          <div className="relative z-20 h-full pb-16 md:pb-0">
-            <section className="relative h-full flex items-center justify-center px-4 sm:px-8 pt-20 md:pt-24 lg:pt-32">
+          <div className="relative z-20 h-full pb-16 md:pb-0" style={{ paddingTop: headerHeight }}>
+            <section className="relative h-full flex items-center justify-center px-4 sm:px-8">
               <AnimatePresence mode="wait">
                 {!isFormOpen ? (
                   <motion.div
@@ -957,7 +996,8 @@ export default function Home() {
                 )}
               </AnimatePresence>
             </section>
-            <motion.nav className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${scrolled ? "py-4" : "py-6 md:py-10"}`} style={{ zIndex: '10000 !important', background: "transparent" }} initial={{ y: -100 }} animate={{ y: 0 }} transition={{ duration: 0.6, ease: "easeOut" }}>
+            <div ref={headerRef}>
+              <motion.nav className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${scrolled ? "py-4" : "py-6 md:py-10"}`} style={{ zIndex: '10000 !important', background: "transparent" }} initial={{ y: -100 }} animate={{ y: 0 }} transition={{ duration: 0.6, ease: "easeOut" }}>
               <div className="max-w-7xl mx-auto px-12 pt-3 sm:px-8 flex items-center justify-between">
                 <motion.img src="/onyx-roofing-logo-black.png" alt="Onyx Roofing" className="h-10 sm:h-13 w-auto brightness-0 invert" style={{ zIndex: '10000 !important' }} whileHover={{ scale: 1.03 }} transition={{ duration: 0.2 }} />
                 <div className="hidden md:flex items-center gap-8">
@@ -998,7 +1038,8 @@ export default function Home() {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </motion.nav>
+              </motion.nav>
+            </div>
           </div>
         </div>
         <a
