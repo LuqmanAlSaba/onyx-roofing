@@ -902,7 +902,7 @@ export default function Home() {
         </div>
         <a
           href="tel:5022073007"
-          className="fixed bottom-3 left-0 right-0 bg-[#192119] hover:bg-[#192119] text-white text-center py-4 z-20 transition-all duration-300 transform cursor-pointer flex items-center justify-center"
+          className="fixed bottom-0 inset-x-0 bg-[#192119] text-white text-center py-4 z-20 flex items-center justify-center"
           style={{
             borderRadius: "0",
             background: "#192119",
