@@ -608,7 +608,7 @@ export default function Home() {
                     transition={{ duration: 0.15, ease: "easeOut" }}
                   >
                     <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: "easeOut" }}>
-                      <h1 className="text-3xl sm:text-3xl md:text-5xl lg:text-6xl font-light leading-tight" style={{ textAlign: "left", textShadow: "-0px 0px 3px rgba(0,0,0, .32)" }}>
+                      <h1 className="text-2xl sm:text-2xl md:text-4xl lg:text-6xl font-light leading-tight" style={{ textAlign: "left", textShadow: "-0px 0px 3px rgba(0,0,0, .32)" }}>
                         <span className="block text-white mb-1 sm:mb-3 tracking-wide" style={{ mixBlendMode: "difference" }}>
                           Built to <span className="font-normal" style={{ mixBlendMode: "difference", color: "#40d6d1" }}>Withstand.</span>
                         </span>
@@ -624,7 +624,7 @@ export default function Home() {
                       transition={{ delay: 0.2, duration: 0.5, ease: "easeOut" }}
                     >
                       Your trusted roofing professionals serving Louisville and all of Kentucky.
-                      <span className="block mt-1">Premium craftsmanship for discerning homeowners.</span>
+                      { !isMobile ? <span className="block mt-1">Premium craftsmanship for discerning homeowners.</span> : '' }
                     </motion.p>
                     <motion.div className="mt-8 sm:mt-12 flex flex-col sm:flex-row gap-3 sm:gap-5 justify-start items-start" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4, duration: 0.5, ease: "easeOut" }}>
                       <button
