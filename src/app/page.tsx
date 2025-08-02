@@ -108,7 +108,7 @@ export default function Home() {
   // --- Portfolio Items (Unchanged) ---
   const portfolioItems: WorkItem[] = [
     {
-      imageSrc: '/luqmans-house.jpg',
+      imageSrc: '/luqman-house.jpg',
       title: 'Residential Roof Repair',
       description: 'Repaired damaged shingles and fixed leaking areas'
     },
