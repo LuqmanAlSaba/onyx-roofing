@@ -12,6 +12,8 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     optimizeCss: true,
+    // Note: Next.js 15.4.2 still requires 'critters' internally
+    // 'beasties' is the modern fork but not yet supported by Next.js
   },
   headers: async () => {
     return [
