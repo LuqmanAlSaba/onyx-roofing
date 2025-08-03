@@ -489,7 +489,7 @@ export default function Home() {
               background: "#192119",
               borderRadius: "0px",
               maxWidth: "100vw",
-              touchAction: "none", // Prevent unwanted touch gestures
+              touchAction: "auto", // Allow normal touch scrolling
             }}
         >
           <div className="relative h-full overflow-hidden" style={{borderRadius: "32px 32px 0 0", maxWidth: "100%"}}>
@@ -1465,16 +1465,12 @@ export default function Home() {
             will-change: transform;
           }
           .h-dynamic {
-            height: 100dvh; /* Dynamic viewport height */
+            height: 100vh; /* Use standard viewport height for better mobile compatibility */
+            min-height: 100vh;
           }
-          @supports not (height: 100dvh) {
+          @supports (height: 100dvh) {
             .h-dynamic {
-              height: -webkit-fill-available; /* Fallback for older iOS */
-            }
-          }
-          @supports not (height: -webkit-fill-available) {
-            .h-dynamic {
-              height: calc(var(--vh, 1vh) * 100); /* JS fallback */
+              height: 100dvh; /* Dynamic viewport height for modern browsers */
             }
           }
           @keyframes pulse-slow {
@@ -1534,10 +1530,13 @@ export default function Home() {
           @media (max-width: 768px) {
             html {
               overflow-x: hidden;
+              overflow-y: auto;
             }
             body {
               overflow-x: hidden;
+              overflow-y: auto;
               width: 100%;
+              height: 100%;
             }
             * {
               max-width: 100vw;
