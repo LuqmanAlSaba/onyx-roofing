@@ -1471,6 +1471,7 @@ export default function Home() {
                       <motion.a
                           key={social.name}
                           href={social.link}
+                          aria-label={social.name}
                           target="_blank"
                           className="w-8 h-8 bg-white/5 hover:bg-[#40d6d1]/20 text-white/40 hover:text-[#40d6d1] rounded-lg flex items-center justify-center transition-all duration-300 border border-white/10 hover:border-[#40d6d1]/30"
                           whileHover={{scale: 1.1, rotate: 5}}
