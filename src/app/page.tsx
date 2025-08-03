@@ -84,7 +84,7 @@ export default function Home() {
   const [mousePosition, setMousePosition] = useState({x: 0, y: 0});
   const [isMobile, setIsMobile] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [currentVideo, setCurrentVideo] = useState("/alsaba-house-afternoon.mp4");
+  const [currentVideo, setCurrentVideo] = useState("/house-afternoon.mp4");
   const [nextVideo, setNextVideo] = useState<string | null>(null);
   const [videoQueue, setVideoQueue] = useState<string | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -197,11 +197,11 @@ export default function Home() {
     
     // Default to time-based selection
     if (now >= sunset - 3600 && now < sunset) {
-      newVideo = "/alsaba-house-sunset.mp4";
+      newVideo = "/house-sunset.mp4";
     } else if (now >= sunset || now < sunrise) {
-      newVideo = "/alsaba-house-night.mp4";
+      newVideo = "/house-night.mp4";
     } else {
-      newVideo = hour < 12 ? "/alsaba-house-morning.mp4" : "/alsaba-house-afternoon.mp4";
+      newVideo = hour < 12 ? "/house-morning.mp4" : "/house-afternoon.mp4";
     }
 
     // Update video immediately, weather will update later if needed
@@ -212,8 +212,8 @@ export default function Home() {
     // Check weather after a short delay and update if raining
     setTimeout(() => {
       weatherPromise.then(({ isRaining: rain }) => {
-        if (rain && currentVideo !== "/alsaba-house-rainy.mp4") {
-          setVideoQueue("/alsaba-house-rainy.mp4");
+        if (rain && currentVideo !== "/house-rainy.mp4") {
+          setVideoQueue("/house-rainy.mp4");
         }
       });
     }, 1000);
