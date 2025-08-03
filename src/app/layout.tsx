@@ -1,19 +1,15 @@
 import type { Metadata } from "next";
-import { Open_Sans, Lora } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
-const openSans = Open_Sans({
-  variable: "--font-open-sans",
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
-});
-
-const lora = Lora({
-  variable: "--font-lora",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["100", "200", "300", "400", "500", "600"],
+  display: "swap",
+  preload: true,
+  fallback: ["-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
 });
 
 export const metadata: Metadata = {
@@ -50,7 +46,7 @@ export const metadata: Metadata = {
     siteName: 'Onyx Roofing',
     images: [
       {
-        url: '/onyx-roofing-logo-black.png',
+        url: '/onyx-roofing-logo-black.webp',
         width: 1200,
         height: 630,
         alt: 'Onyx Roofing - Professional Roofing Services',
@@ -63,7 +59,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "Onyx Roofing - Professional Roofing Services Louisville, KY",
     description: "Professional roofing services in Louisville, Kentucky. Roof replacement, repair, storm damage, and gutter installation. Licensed & insured. Free inspection.",
-    images: ['/onyx-roofing-logo-black.png'],
+    images: ['/onyx-roofing-logo-black.webp'],
     site: '@OnyxRoofingPro',
     creator: '@OnyxRoofingPro',
   },
@@ -106,6 +102,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Preconnect hints for external resources */}
+        <link rel="preconnect" href="https://api.openweathermap.org" />
+        
+        {/* DNS prefetch for additional performance */}
+        <link rel="dns-prefetch" href="https://api.openweathermap.org" />
+        
         {/* Structured Data for Local Business */}
         <script
           type="application/ld+json"
@@ -204,7 +206,7 @@ export default function RootLayout({
               "@type": "Organization",
               "name": "Onyx Roofing",
               "url": "https://onyxroofingpro.com",
-              "logo": "https://onyxroofingpro.com/onyx-roofing-logo-black.png",
+              "logo": "https://onyxroofingpro.com/onyx-roofing-logo-black.webp",
               "contactPoint": {
                 "@type": "ContactPoint",
                 "telephone": "+1-502-207-3007",
@@ -221,7 +223,7 @@ export default function RootLayout({
         <meta property="og:image:alt" content="Onyx Roofing - Professional Roofing Services" />
       </head>
       <body
-        className={`${openSans.variable} ${lora.variable} antialiased`}
+        className={`${inter.className} antialiased`}
       >
         {children}
         <Analytics />

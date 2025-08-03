@@ -1,6 +1,7 @@
 "use client"
 import React, { useRef, useEffect, useMemo, useState } from 'react'
 import { motion, useMotionValue } from 'framer-motion'
+import Image from 'next/image'
 
 export interface WorkItem {
   title: string
@@ -195,39 +196,41 @@ export default function WorkCarousel({
   }
 
   // Ensure items are passed as props or use default
-  const displayItems = items.length > 0 ? items : [
-    {
-      imageSrc: 'https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?w=800&q=80',
-      title: 'Modern Residential Replacement',
-      description: 'Complete roof replacement with GAF Timberline shingles',
-      link: '/projects/replacement'
-    },
-    {
-      imageSrc: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',
-      title: 'Storm Damage Repair',
-      description: 'Emergency hail damage restoration completed in 48 hours'
-    },
-    {
-      imageSrc: 'https://images.unsplash.com/photo-1565009469665-205e5ba65be2?w=800&q=80',
-      title: 'Commercial Project',
-      description: 'TPO membrane installation for 50,000 sq ft warehouse'
-    },
-    {
-      imageSrc: 'https://images.unsplash.com/photo-1625047509252-fa38fb206d34?w=800&q=80',
-      title: 'Heritage Home Restoration',
-      description: 'Slate roof restoration preserving historical integrity'
-    },
-    {
-      imageSrc: 'https://images.unsplash.com/photo-1609528905064-5799fece229a?w=800&q=80',
-      title: 'Solar Ready Installation',
-      description: 'Modern roofing system with integrated solar mounting'
-    },
-    {
-      imageSrc: 'https://images.unsplash.com/photo-1572120360610-d971b9d7767c?w=800&q=80',
-      title: 'Luxury Estate Roofing',
-      description: 'Premium architectural shingles with copper accents'
-    },
-  ];
+  const displayItems = useMemo(() => {
+    return items.length > 0 ? items : [
+      {
+        imageSrc: 'https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?w=800&q=80',
+        title: 'Modern Residential Replacement',
+        description: 'Complete roof replacement with GAF Timberline shingles',
+        link: '/projects/replacement'
+      },
+      {
+        imageSrc: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',
+        title: 'Storm Damage Repair',
+        description: 'Emergency hail damage restoration completed in 48 hours'
+      },
+      {
+        imageSrc: 'https://images.unsplash.com/photo-1565009469665-205e5ba65be2?w=800&q=80',
+        title: 'Commercial Project',
+        description: 'TPO membrane installation for 50,000 sq ft warehouse'
+      },
+      {
+        imageSrc: 'https://images.unsplash.com/photo-1625047509252-fa38fb206d34?w=800&q=80',
+        title: 'Heritage Home Restoration',
+        description: 'Slate roof restoration preserving historical integrity'
+      },
+      {
+        imageSrc: 'https://images.unsplash.com/photo-1609528905064-5799fece229a?w=800&q=80',
+        title: 'Solar Ready Installation',
+        description: 'Modern roofing system with integrated solar mounting'
+      },
+      {
+        imageSrc: 'https://images.unsplash.com/photo-1572120360610-d971b9d7767c?w=800&q=80',
+        title: 'Luxury Estate Roofing',
+        description: 'Premium architectural shingles with copper accents'
+      },
+    ];
+  }, [items]);
 
   const finalExtendedItems = useMemo(() => {
     const extended = []
@@ -272,11 +275,14 @@ export default function WorkCarousel({
                     >
                       {/* Image Container */}
                       <div className="absolute inset-0">
-                        <img
+                        <Image
                             src={item.imageSrc}
                             alt={item.title}
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                            loading="lazy"
+                            fill
+                            className="object-cover transition-transform duration-700 group-hover:scale-110"
+                            sizes="(max-width: 768px) 280px, (max-width: 1024px) 400px, 500px"
+                            priority={idx < 3}
+                            quality={85}
                         />
                         {/* Dark gradient overlay */}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />

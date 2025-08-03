@@ -1,6 +1,7 @@
 "use client";
 import { motion, AnimatePresence, useAnimationControls, Variants } from "framer-motion";
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import Image from 'next/image';
 import WorkCarousel, { WorkItem } from './components/WorkCarousel';
 import { FaFacebook, FaInstagram, FaGoogle } from 'react-icons/fa';
 
@@ -108,11 +109,11 @@ export default function Home() {
   // --- Portfolio Items (Unchanged) ---
   const portfolioItems: WorkItem[] = [
     {
-      imageSrc: '/luqman-house.jpg',
+      imageSrc: '/luqman-house.webp',
       title: 'Residential Roof Repair',
       description: 'Repaired damaged shingles and fixed leaking areas'
     },
-    {imageSrc: '/ibrahim-house.jpg', title: 'Residential Roof Replacement', description: 'Complete roof replacement with GAF Timberline shingles'},
+    {imageSrc: '/ibrahim-house.webp', title: 'Residential Roof Replacement', description: 'Complete roof replacement with GAF Timberline shingles'},
   ];
 
   // --- Other useEffect hooks (Unchanged) ---
@@ -148,46 +149,74 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  // Video selection based on weather and time (Unchanged)
+  // Video selection based on weather and time (Optimized)
   const pickAndTransitionVideo = useCallback(async () => {
     const now = Date.now() / 1000;
     let isRaining = false;
     let sunrise = 0;
     let sunset = 0;
-    try {
-      const response = await fetch(
-          `https://api.openweathermap.org/data/2.5/weather?q=Louisville,KY,US&appid=cd8280ddbfb7da4c7d8d21c92d0b165b&units=imperial`
-      );
+    
+    // Use a timeout to prevent blocking the UI
+    const weatherPromise = fetch(
+      `https://api.openweathermap.org/data/2.5/weather?q=Louisville,KY,US&appid=cd8280ddbfb7da4c7d8d21c92d0b165b&units=imperial`,
+      { 
+        signal: AbortSignal.timeout(3000), // 3 second timeout
+        priority: 'low' // Lower priority for non-critical request
+      }
+    ).then(async (response) => {
       if (response.ok) {
         const weatherData = await response.json();
         const weatherId = weatherData.weather?.[0]?.id || 0;
         isRaining = weatherId >= 200 && weatherId <= 531;
         sunrise = weatherData.sys.sunrise;
         sunset = weatherData.sys.sunset;
+        return { isRaining, sunrise, sunset };
       }
-    } catch {
-      // Silent fallback
-    }
+      throw new Error('Weather API failed');
+    }).catch(() => {
+      // Silent fallback - use default values
+      return { isRaining: false, sunrise: 0, sunset: 0 };
+    });
+
+    // Don't await the weather call - let it run in background
+    weatherPromise.then(({ isRaining: rain, sunrise: sr, sunset: ss }) => {
+      isRaining = rain;
+      sunrise = sr;
+      sunset = ss;
+    });
+
+    // Determine video based on time first (immediate)
     let newVideo = "";
-    if (isRaining) {
-      newVideo = "/alsaba-house-rainy.mp4";
-    } else if (now >= sunset - 3600 && now < sunset) {
+    const hour = Number(
+      new Intl.DateTimeFormat("en-US", {
+        hour12: false,
+        hour: "numeric",
+        timeZone: "America/Kentucky/Louisville",
+      }).format(new Date())
+    );
+    
+    // Default to time-based selection
+    if (now >= sunset - 3600 && now < sunset) {
       newVideo = "/alsaba-house-sunset.mp4";
     } else if (now >= sunset || now < sunrise) {
       newVideo = "/alsaba-house-night.mp4";
     } else {
-      const hour = Number(
-          new Intl.DateTimeFormat("en-US", {
-            hour12: false,
-            hour: "numeric",
-            timeZone: "America/Kentucky/Louisville",
-          }).format(new Date())
-      );
       newVideo = hour < 12 ? "/alsaba-house-morning.mp4" : "/alsaba-house-afternoon.mp4";
     }
+
+    // Update video immediately, weather will update later if needed
     if (newVideo !== currentVideo && newVideo !== videoQueue && !isTransitioning) {
       setVideoQueue(newVideo);
     }
+
+    // Check weather after a short delay and update if raining
+    setTimeout(() => {
+      weatherPromise.then(({ isRaining: rain }) => {
+        if (rain && currentVideo !== "/alsaba-house-rainy.mp4") {
+          setVideoQueue("/alsaba-house-rainy.mp4");
+        }
+      });
+    }, 1000);
   }, [currentVideo, videoQueue, isTransitioning]);
 
   useEffect(() => {
@@ -558,13 +587,20 @@ export default function Home() {
                   transition={{duration: 0.8, ease: [0.25, 0.1, 0.25, 1]}}
               >
                 <div className="max-w-7xl mx-auto px-12 pt-0 sm:px-8 flex items-center justify-between">
-                  <motion.img
-                      src="/onyx-roofing-logo-black.png"
-                      alt="Onyx Roofing"
-                      className="h-10 sm:h-13 w-auto brightness-0 invert z-100"
+                  <motion.div
+                      className="h-10 sm:h-13 w-auto brightness-0 invert z-100 relative"
                       whileHover={{scale: 1.03}}
                       transition={{duration: 0.2}}
-                  />
+                  >
+                    <Image
+                        src="/onyx-roofing-logo-black.png"
+                        alt="Onyx Roofing"
+                        width={120}
+                        height={40}
+                        className="h-10 sm:h-13 w-auto brightness-0 invert"
+                        priority
+                    />
+                  </motion.div>
                   <div className="hidden md:flex items-center gap-8">
                     {/* Modified Desktop Nav */}
                     {["Services", "Projects", "About", "Contact"].map((item, index) => {
@@ -1217,9 +1253,11 @@ export default function Home() {
                   className="lg:col-span-2"
               >
                 <div className="mb-6">
-                  <img
+                  <Image
                       src="/onyx-roofing-logo-black.png"
                       alt="Onyx Roofing"
+                      width={120}
+                      height={48}
                       className="h-12 w-auto brightness-0 invert mb-4"
                   />
                   <p className="text-white/70 text-sm leading-relaxed max-w-md">
