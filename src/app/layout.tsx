@@ -101,15 +101,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        {/* Preconnect hints for external resources */}
-        <link rel="preconnect" href="https://api.openweathermap.org" />
-        
-        {/* DNS prefetch for additional performance */}
-        <link rel="dns-prefetch" href="https://api.openweathermap.org" />
-        
-        {/* Structured Data for Local Business */}
-        <script
+    <head>
+      <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+
+      {/* Preconnect hints for external resources */}
+      <link rel="preconnect" href="https://api.openweathermap.org"/>
+
+      {/* DNS prefetch for additional performance */}
+      <link rel="dns-prefetch" href="https://api.openweathermap.org"/>
+
+      {/* Structured Data for Local Business */}
+      <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
@@ -133,7 +135,7 @@ export default function RootLayout({
               },
               "areaServed": [
                 "Louisville, KY",
-                "Lexington, KY", 
+                "Lexington, KY",
                 "Bowling Green, KY",
                 "Owensboro, KY",
                 "Covington, KY",
@@ -161,7 +163,7 @@ export default function RootLayout({
                     }
                   },
                   {
-                    "@type": "Offer", 
+                    "@type": "Offer",
                     "itemOffered": {
                       "@type": "Service",
                       "name": "Roof Repair",
@@ -171,7 +173,7 @@ export default function RootLayout({
                   {
                     "@type": "Offer",
                     "itemOffered": {
-                      "@type": "Service", 
+                      "@type": "Service",
                       "name": "Storm Damage Repair",
                       "description": "Storm damage assessment and repair"
                     }
@@ -196,9 +198,9 @@ export default function RootLayout({
               ]
             })
           }}
-        />
-        {/* Structured Data for Organization */}
-        <script
+      />
+      {/* Structured Data for Organization */}
+      <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
@@ -215,20 +217,20 @@ export default function RootLayout({
               }
             })
           }}
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#192119" />
-        <meta property="og:type" content="website" />
-        <meta property="og:locale" content="en_US" />
-        <meta property="og:image:alt" content="Onyx Roofing - Professional Roofing Services" />
-      </head>
-      <body
+      />
+      <meta name="viewport" content="width=device-width, initial-scale=1"/>
+      <meta name="theme-color" content="#192119"/>
+      <meta property="og:type" content="website"/>
+      <meta property="og:locale" content="en_US"/>
+      <meta property="og:image:alt" content="Onyx Roofing - Professional Roofing Services"/>
+    </head>
+    <body
         className={`${inter.className} antialiased`}
-      >
-        {children}
-        <Analytics />
-        <SpeedInsights />
-      </body>
+    >
+    {children}
+    <Analytics/>
+    <SpeedInsights/>
+    </body>
     </html>
   );
 }
