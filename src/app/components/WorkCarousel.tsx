@@ -202,12 +202,12 @@ export default function WorkCarousel({
   }, [displayItems, duplicateCount])
 
   return (
-      <section className="relative w-screen px-1 pb-8 -mx-4 sm:-mx-8" style={{ left: '-80px' }}>
+      <section className="relative w-full px-4 sm:px-8 pb-8">
         {/* Outer container with overflow hidden */}
         <div className="relative overflow-hidden">
           {/* Edge fade masks - moved inside overflow-hidden container and made stronger */}
-          <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#1a1f1c] to-transparent z-20 pointer-events-none" />
-          <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#1a1f1c] to-transparent z-20 pointer-events-none" />
+          <div className="absolute inset-y-0 left-0 w-16 sm:w-32 bg-gradient-to-r from-[#192119] to-transparent z-20 pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-16 sm:w-32 bg-gradient-to-l from-[#192119] to-transparent z-20 pointer-events-none" />
 
           <div className="relative z-10 w-full space-y-2 pt-0">
             {/* First Row - Left to Right */}
@@ -218,13 +218,13 @@ export default function WorkCarousel({
             >
               <motion.div
                   ref={containerRef1}
-                  className="flex gap-5 pt-2 pb-2"
+                  className="flex gap-3 sm:gap-5 pt-2 pb-2"
                   style={{ x: x1 }}
               >
                 {finalExtendedItems.map((item, idx) => (
                     <motion.div
                         key={`row1-${idx}`}
-                        className="relative flex-shrink-0 w-[500px] h-[300px] rounded-xl overflow-hidden group cursor-pointer"
+                        className="relative flex-shrink-0 w-[280px] sm:w-[400px] md:w-[500px] h-[180px] sm:h-[240px] md:h-[300px] rounded-xl overflow-hidden group cursor-pointer"
                         whileHover={{ scale: 1.05, zIndex: 10 }}
                         transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                         style={{ originX: 0.5, originY: 0.5 }}
@@ -241,8 +241,8 @@ export default function WorkCarousel({
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                       </div>
                       {/* Content Overlay - Always at bottom */}
-                      <div className="absolute bottom-0 left-0 right-0 p-4">
-                        <h3 className="text-sm font-semibold text-white mb-1">
+                      <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
+                        <h3 className="text-xs sm:text-sm font-semibold text-white mb-1">
                           {item.title}
                         </h3>
                         <p className="text-xs text-white/80 line-clamp-1">
