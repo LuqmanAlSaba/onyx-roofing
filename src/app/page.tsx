@@ -149,74 +149,65 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  // Video selection based on weather and time (Optimized)
+// Updated pickAndTransitionVideo function to use the API route
+
   const pickAndTransitionVideo = useCallback(async () => {
-    const now = Date.now() / 1000;
-    let isRaining = false;
-    let sunrise = 0;
-    let sunset = 0;
-    
-    // Use a timeout to prevent blocking the UI
-    const weatherPromise = fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=Louisville,KY,US&appid=cd8280ddbfb7da4c7d8d21c92d0b165b&units=imperial`,
-      { 
-        signal: AbortSignal.timeout(3000), // 3 second timeout
-        priority: 'low' // Lower priority for non-critical request
-      }
-    ).then(async (response) => {
-      if (response.ok) {
-        const weatherData = await response.json();
-        const weatherId = weatherData.weather?.[0]?.id || 0;
-        isRaining = weatherId >= 200 && weatherId <= 531;
-        sunrise = weatherData.sys.sunrise;
-        sunset = weatherData.sys.sunset;
-        return { isRaining, sunrise, sunset };
-      }
-      throw new Error('Weather API failed');
-    }).catch(() => {
-      // Silent fallback - use default values
-      return { isRaining: false, sunrise: 0, sunset: 0 };
-    });
+    try {
+      // Get current time info first
+      const now = Date.now() / 1000;
+      const hour = Number(
+          new Intl.DateTimeFormat("en-US", {
+            hour12: false,
+            hour: "numeric",
+            timeZone: "America/Kentucky/Louisville",
+          }).format(new Date())
+      );
 
-    // Don't await the weather call - let it run in background
-    weatherPromise.then(({ isRaining: rain, sunrise: sr, sunset: ss }) => {
-      isRaining = rain;
-      sunrise = sr;
-      sunset = ss;
-    });
+      // Default values
+      let newVideo = "";
+      let sunrise = 6 * 3600; // Default 6 AM in seconds
+      let sunset = 18 * 3600; // Default 6 PM in seconds
+      let isRaining = false;
 
-    // Determine video based on time first (immediate)
-    let newVideo = "";
-    const hour = Number(
-      new Intl.DateTimeFormat("en-US", {
-        hour12: false,
-        hour: "numeric",
-        timeZone: "America/Kentucky/Louisville",
-      }).format(new Date())
-    );
-    
-    // Default to time-based selection
-    if (now >= sunset - 3600 && now < sunset) {
-      newVideo = "/house-sunset.mp4";
-    } else if (now >= sunset || now < sunrise) {
-      newVideo = "/house-night.mp4";
-    } else {
-      newVideo = hour < 12 ? "/house-morning.mp4" : "/house-afternoon.mp4";
-    }
+      // Try to fetch weather data from our API route
+      try {
+        const response = await fetch('/api/weather', {
+          signal: AbortSignal.timeout(3000), // 3 second timeout
+        });
 
-    // Update video immediately, weather will update later if needed
-    if (newVideo !== currentVideo && newVideo !== videoQueue && !isTransitioning) {
-      setVideoQueue(newVideo);
-    }
-
-    // Check weather after a short delay and update if raining
-    setTimeout(() => {
-      weatherPromise.then(({ isRaining: rain }) => {
-        if (rain && currentVideo !== "/house-rainy.mp4") {
-          setVideoQueue("/house-rainy.mp4");
+        if (response.ok) {
+          const weatherData = await response.json();
+          isRaining = weatherData.isRaining;
+          sunrise = weatherData.sunrise || sunrise;
+          sunset = weatherData.sunset || sunset;
         }
-      });
-    }, 1000);
+      } catch (error) {
+        console.warn("Weather API failed, using time-based selection only:", error);
+      }
+
+      // Select video based on weather and time
+      if (isRaining) {
+        newVideo = "/house-rainy.mp4";
+      } else if (now >= sunset - 3600 && now < sunset) {
+        newVideo = "/house-sunset.mp4";
+      } else if (now >= sunset || now < sunrise) {
+        newVideo = "/house-night.mp4";
+      } else {
+        newVideo = hour < 12 ? "/house-morning.mp4" : "/house-afternoon.mp4";
+      }
+
+      // Only update if video has changed
+      if (newVideo !== currentVideo && newVideo !== videoQueue && !isTransitioning) {
+        console.log(`Weather: ${isRaining ? 'Rainy' : 'Clear'}, Time: ${hour}:00, Video: ${newVideo}`);
+        setVideoQueue(newVideo);
+      }
+    } catch (error) {
+      console.error("Error in pickAndTransitionVideo:", error);
+      // Fallback to afternoon video
+      if (currentVideo !== "/house-afternoon.mp4" && !isTransitioning) {
+        setVideoQueue("/house-afternoon.mp4");
+      }
+    }
   }, [currentVideo, videoQueue, isTransitioning]);
 
   useEffect(() => {
