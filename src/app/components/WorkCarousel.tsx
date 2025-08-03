@@ -32,6 +32,9 @@ export default function WorkCarousel({
   const pausedAt2Ref = useRef(0)
   // Calculate how many times to duplicate items for seamless loop
   const [duplicateCount, setDuplicateCount] = useState(4)
+  // Touch interaction state
+  const [touchedItem, setTouchedItem] = useState<number | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
     const updateDuplicateCount = () => {
@@ -48,6 +51,16 @@ export default function WorkCarousel({
         window.removeEventListener('resize', updateDuplicateCount)
       }
     }
+  }, [])
+
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
   const extendedItems = useMemo(() => {
@@ -158,6 +171,29 @@ export default function WorkCarousel({
     }
   }
 
+  // Touch interaction handlers
+  const handleTouchStart = (row: 1 | 2, itemIndex: number) => {
+    if (isMobile) {
+      if (touchedItem === itemIndex) {
+        // If tapping the same item again, resume carousel
+        setTouchedItem(null)
+        if (row === 1) {
+          isPaused1Ref.current = false
+        } else {
+          isPaused2Ref.current = false
+        }
+      } else {
+        // If tapping a new item, pause carousel and highlight it
+        setTouchedItem(itemIndex)
+        if (row === 1) {
+          isPaused1Ref.current = true
+        } else {
+          isPaused2Ref.current = true
+        }
+      }
+    }
+  }
+
   // Ensure items are passed as props or use default
   const displayItems = items.length > 0 ? items : [
     {
@@ -228,6 +264,11 @@ export default function WorkCarousel({
                         whileHover={{ scale: 1.05, zIndex: 10 }}
                         transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                         style={{ originX: 0.5, originY: 0.5 }}
+                        onTouchStart={() => handleTouchStart(1, idx)}
+                        animate={{
+                          scale: (isMobile && touchedItem === idx) ? 1.05 : 1,
+                          zIndex: (isMobile && touchedItem === idx) ? 10 : 1
+                        }}
                     >
                       {/* Image Container */}
                       <div className="absolute inset-0">
@@ -266,7 +307,11 @@ export default function WorkCarousel({
                         )}
                       </div>
                       {/* Hover Border Effect */}
-                      <div className="absolute inset-0 rounded-xl border border-[#40d6d1] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                      <div 
+                        className={`absolute inset-0 rounded-xl border border-[#40d6d1] transition-opacity duration-300 pointer-events-none ${
+                          (isMobile && touchedItem === idx) ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                        }`} 
+                      />
                     </motion.div>
                 ))}
               </motion.div>
