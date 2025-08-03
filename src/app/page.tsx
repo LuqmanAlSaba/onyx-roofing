@@ -561,7 +561,7 @@ export default function Home() {
                   <motion.img
                       src="/onyx-roofing-logo-black.png"
                       alt="Onyx Roofing"
-                      className="h-10 sm:h-13 w-auto brightness-0 invert"
+                      className="h-10 sm:h-13 w-auto brightness-0 invert z-100"
                       whileHover={{scale: 1.03}}
                       transition={{duration: 0.2}}
                   />
@@ -584,7 +584,7 @@ export default function Home() {
                       );
                     })}
                   </div>
-                  <div className="md:hidden">
+                  <div className="md:hidden z-100">
                     <Hamburger
                         isOpen={isMenuOpen}
                         onToggle={() => setIsMenuOpen(o => !o)}
