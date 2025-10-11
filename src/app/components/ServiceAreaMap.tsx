@@ -143,7 +143,9 @@ export default function ServiceAreaMap({
         });
 
         // keep tiles crisp on container resize
-        const ro = new ResizeObserver(() => map.resize());
+        const ro = new ResizeObserver(() => {
+            map.resize();
+        });
         ro.observe(containerRef.current);
         roRef.current = ro;
 
@@ -192,7 +194,11 @@ export default function ServiceAreaMap({
             map.touchZoomRotate.disable();
         };
 
-        interactive ? enable() : disable();
+        if (interactive) {
+            enable();
+        } else {
+            disable();
+        }
     }, [interactive]);
 
     return (

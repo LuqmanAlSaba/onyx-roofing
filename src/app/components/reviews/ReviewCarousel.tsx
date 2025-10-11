@@ -1,6 +1,6 @@
 "use client";
-import React, { useEffect, useMemo, useReducer, useRef, useState } from "react";
-import { animate, useMotionValue, type AnimationPlaybackControls } from "framer-motion";
+import React, { useEffect, useMemo, useReducer, useRef, useState, useCallback } from "react";
+import { animate, useMotionValue, type AnimationPlaybackControls, type PanInfo } from "framer-motion";
 import { Lightbox } from "./Lightbox";
 import { CarouselTrack } from "./CarouselTrack";
 import { ReviewCarouselProps, ReviewItem } from "./common";
@@ -124,8 +124,8 @@ export default function ReviewCarousel({
 
     // desktop auto-scroll
     useEffect(() => {
-        if (!containerRef1.current || displayItems.length === 0) return;
-        if (isMobile) return;
+        if (!containerRef1.current || displayItems.length === 0) return undefined;
+        if (isMobile) return undefined;
         const totalWidth = 520 * displayItems.length;
         let raf = 0;
         const animateRaf = (ts: number) => {
@@ -148,16 +148,19 @@ export default function ReviewCarousel({
             raf = requestAnimationFrame(animateRaf);
         };
         raf = requestAnimationFrame(animateRaf);
-        return () => raf && cancelAnimationFrame(raf);
+        return () => {
+            if (raf) cancelAnimationFrame(raf);
+        };
     }, [displayItems.length, autoScrollSpeed, x1, isDragging, isUserPaused, isMobile]);
 
-    const getMobileTargetX = (index: number) => {
+    const getMobileTargetX = useCallback((index: number) => {
         const itemWidth = 280 + 12;
         const viewportWidth = typeof window !== "undefined" ? window.innerWidth : 0;
         const centerOffset = (viewportWidth - 280) / 2;
         return -(index * itemWidth) + centerOffset;
-    };
-    const goToMobileIndex = (index: number, opts?: { immediate?: boolean }) => {
+    }, []);
+
+    const goToMobileIndex = useCallback((index: number, opts?: { immediate?: boolean }) => {
         const clamped = Math.max(0, Math.min(finalExtendedItems.length - 1, index));
         setMobileCarouselIndex(clamped);
         const targetX = getMobileTargetX(clamped);
@@ -167,7 +170,7 @@ export default function ReviewCarousel({
             return;
         }
         mobileAnimRef.current = animate(dragX, targetX, { type: "spring", stiffness: 750, damping: 150, mass: 2 });
-    };
+    }, [finalExtendedItems.length, getMobileTargetX, dragX]);
 
     useEffect(() => {
         if (!isMobile || displayItems.length === 0) return;
@@ -177,23 +180,23 @@ export default function ReviewCarousel({
             goToMobileIndex(nextIndex);
         }, 3000);
         return () => clearInterval(interval);
-    }, [isMobile, displayItems.length, isDragging, isUserPaused, finalExtendedItems.length, mobileCarouselIndex]);
+    }, [isMobile, displayItems.length, isDragging, isUserPaused, finalExtendedItems.length, mobileCarouselIndex, goToMobileIndex]);
 
     useEffect(() => {
         if (!isMobile) return;
         goToMobileIndex(mobileCarouselIndex, { immediate: true });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isMobile]);
+    }, [isMobile, mobileCarouselIndex, goToMobileIndex]);
 
-    const handleDrag = (_e: any, info: any) => {
+    const handleDrag = useCallback((_e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
         if (!isMobile) return;
         const v = info.velocity.x;
         if (Math.abs(v) > 500) {
             const dir = v > 0 ? -1 : 1;
             goToMobileIndex(mobileCarouselIndex + dir);
         }
-    };
-    const handleDragEnd = () => {
+    }, [isMobile, mobileCarouselIndex, goToMobileIndex]);
+
+    const handleDragEnd = useCallback(() => {
         if (!isMobile) return;
         dispatch({ type: "END_DRAG" });
         const currentX = dragX.get();
@@ -202,11 +205,17 @@ export default function ReviewCarousel({
         const centerOffset = (viewportWidth - 280) / 2;
         const nearestIndex = Math.round(-(currentX - centerOffset) / itemWidth);
         goToMobileIndex(nearestIndex);
-    };
-    const handleHoverStart = () => { if (!isMobile) isPaused1Ref.current = true; };
-    const handleHoverEnd = () => { if (!isMobile) isPaused1Ref.current = false; };
+    }, [isMobile, dragX, goToMobileIndex]);
 
-    const minDrag = React.useMemo(() => {
+    const handleHoverStart = useCallback(() => {
+        if (!isMobile) isPaused1Ref.current = true;
+    }, [isMobile]);
+
+    const handleHoverEnd = useCallback(() => {
+        if (!isMobile) isPaused1Ref.current = false;
+    }, [isMobile]);
+
+    const minDrag = useMemo(() => {
         const itemWidth = isMobile ? 280 : 520;
         const gap = isMobile ? 12 : 20;
         const totalWidth = (itemWidth + gap) * finalExtendedItems.length;
@@ -268,7 +277,7 @@ export default function ReviewCarousel({
                 open={open}
                 currentIndex={current}
                 items={displayItems}
-                dispatch={dispatch as any}
+                dispatch={dispatch}
                 isMobile={isMobile}
             />
         </>

@@ -109,9 +109,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
         <link rel="preconnect" href="https://fonts.gstatic.com"/>
         <link
-            href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap"
-            rel="stylesheet"/>
-        <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
             integrity="sha512-bugJ3+Pp4+AoHdbI0W1RCaTq1AdK+/kDKK3S9f+VwIle5Xj2YjGy0sT2BcpQx9L4F0T2tHMWPyClPoHZTLMK7Q=="
