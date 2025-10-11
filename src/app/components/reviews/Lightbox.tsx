@@ -66,8 +66,22 @@ export function Lightbox({
         const body = document.body;
         const prevHtmlOverflow = html.style.overflow;
         const prevBodyOverflow = body.style.overflow;
+        const prevHtmlPosition = html.style.position;
+        const prevBodyPosition = body.style.position;
+        const prevBodyTouchAction = body.style.touchAction;
+
+        // Store scroll position
+        const scrollY = window.scrollY;
+
+        // Prevent scrolling on iOS and other mobile browsers
         html.style.overflow = "hidden";
+        html.style.position = "fixed";
         body.style.overflow = "hidden";
+        body.style.position = "fixed";
+        body.style.touchAction = "none";
+        body.style.top = `-${scrollY}px`;
+        body.style.width = "100%";
+
         const onKey = (e: KeyboardEvent) => {
             if (e.key === "Escape") dispatch({ type: "CLOSE_LIGHTBOX" });
             if (e.key === "ArrowRight") dispatch({ type: "NEXT_ITEM", payload: { count: items.length } });
@@ -76,8 +90,18 @@ export function Lightbox({
         window.addEventListener("keydown", onKey);
         closeBtnRef.current?.focus();
         return () => {
+            // Restore styles
             html.style.overflow = prevHtmlOverflow;
+            html.style.position = prevHtmlPosition;
             body.style.overflow = prevBodyOverflow;
+            body.style.position = prevBodyPosition;
+            body.style.touchAction = prevBodyTouchAction;
+            body.style.top = "";
+            body.style.width = "";
+
+            // Restore scroll position
+            window.scrollTo(0, scrollY);
+
             window.removeEventListener("keydown", onKey);
         };
     }, [open, items.length, dispatch]);
