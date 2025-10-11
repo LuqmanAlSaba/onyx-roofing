@@ -102,130 +102,141 @@ export default function RootLayout({
   return (
     <html lang="en">
     <head>
-      <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
-      <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
-      <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
-      <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+        <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com"/>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap"
+            rel="stylesheet"/>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+            integrity="sha512-bugJ3+Pp4+AoHdbI0W1RCaTq1AdK+/kDKK3S9f+VwIle5Xj2YjGy0sT2BcpQx9L4F0T2tHMWPyClPoHZTLMK7Q=="
+            crossOrigin="anonymous"
+            referrerPolicy="no-referrer"
+        />
+        {/* Preconnect hints for external resources */}
+        <link rel="preconnect" href="https://api.openweathermap.org"/>
 
-      {/* Preconnect hints for external resources */}
-      <link rel="preconnect" href="https://api.openweathermap.org"/>
+        {/* DNS prefetch for additional performance */}
+        <link rel="dns-prefetch" href="https://api.openweathermap.org"/>
 
-      {/* DNS prefetch for additional performance */}
-      <link rel="dns-prefetch" href="https://api.openweathermap.org"/>
-
-      {/* Structured Data for Local Business */}
-      <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "RoofingContractor",
-              "name": "Onyx Roofing",
-              "description": "Professional roofing services in Louisville, Kentucky. Specializing in roof replacement, repair, storm damage, and gutter installation.",
-              "url": "https://onyxroofingpro.com",
-              "telephone": "+1-502-207-3007",
-              "email": "info@onyxroofingpro.com",
-              "address": {
-                "@type": "PostalAddress",
-                "addressLocality": "Louisville",
-                "addressRegion": "KY",
-                "addressCountry": "US"
-              },
-              "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": 38.2527,
-                "longitude": -85.7585
-              },
-              "areaServed": [
-                "Louisville, KY",
-                "Lexington, KY",
-                "Bowling Green, KY",
-                "Owensboro, KY",
-                "Covington, KY",
-                "Kentucky"
-              ],
-              "serviceArea": {
-                "@type": "GeoCircle",
-                "geoMidpoint": {
-                  "@type": "GeoCoordinates",
-                  "latitude": 38.2527,
-                  "longitude": -85.7585
-                },
-                "geoRadius": "50000"
-              },
-              "hasOfferCatalog": {
-                "@type": "OfferCatalog",
-                "name": "Roofing Services",
-                "itemListElement": [
-                  {
-                    "@type": "Offer",
-                    "itemOffered": {
-                      "@type": "Service",
-                      "name": "Roof Replacement",
-                      "description": "Complete roof replacement services"
+        {/* Structured Data for Local Business */}
+        <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "RoofingContractor",
+                    "name": "Onyx Roofing",
+                    "description": "Professional roofing services in Louisville, Kentucky. Specializing in roof replacement, repair, storm damage, and gutter installation.",
+                    "url": "https://onyxroofingpro.com",
+                    "telephone": "+1-502-207-3007",
+                    "email": "info@onyxroofingpro.com",
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressLocality": "Louisville",
+                        "addressRegion": "KY",
+                        "addressCountry": "US"
+                    },
+                    "geo": {
+                        "@type": "GeoCoordinates",
+                        "latitude": 38.2527,
+                        "longitude": -85.7585
+                    },
+                    "areaServed": [
+                        "Louisville, KY",
+                        "Lexington, KY",
+                        "Bowling Green, KY",
+                        "Owensboro, KY",
+                        "Covington, KY",
+                        "Kentucky"
+                    ],
+                    "serviceArea": {
+                        "@type": "GeoCircle",
+                        "geoMidpoint": {
+                            "@type": "GeoCoordinates",
+                            "latitude": 38.2527,
+                            "longitude": -85.7585
+                        },
+                        "geoRadius": "50000"
+                    },
+                    "hasOfferCatalog": {
+                        "@type": "OfferCatalog",
+                        "name": "Roofing Services",
+                        "itemListElement": [
+                            {
+                                "@type": "Offer",
+                                "itemOffered": {
+                                    "@type": "Service",
+                                    "name": "Roof Replacement",
+                                    "description": "Complete roof replacement services"
+                                }
+                            },
+                            {
+                                "@type": "Offer",
+                                "itemOffered": {
+                                    "@type": "Service",
+                                    "name": "Roof Repair",
+                                    "description": "Emergency and scheduled roof repairs"
+                                }
+                            },
+                            {
+                                "@type": "Offer",
+                                "itemOffered": {
+                                    "@type": "Service",
+                                    "name": "Storm Damage Repair",
+                                    "description": "Storm damage assessment and repair"
+                                }
+                            },
+                            {
+                                "@type": "Offer",
+                                "itemOffered": {
+                                    "@type": "Service",
+                                    "name": "Gutter Installation",
+                                    "description": "Professional gutter installation services"
+                                }
+                            }
+                        ]
+                    },
+                    "priceRange": "$$",
+                    "paymentAccepted": ["Cash", "Check", "Credit Card"],
+                    "currenciesAccepted": "USD",
+                    "openingHours": "Mo-Su 08:00-18:00",
+                    "sameAs": [
+                        "https://www.facebook.com/profile.php?id=61578690514178",
+                        "https://www.instagram.com/onyxroofingpro/"
+                    ]
+                })
+            }}
+        />
+        {/* Structured Data for Organization */}
+        <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "Organization",
+                    "name": "Onyx Roofing",
+                    "url": "https://onyxroofingpro.com",
+                    "logo": "https://onyxroofingpro.com/onyx-roofing-logo-black.webp",
+                    "contactPoint": {
+                        "@type": "ContactPoint",
+                        "telephone": "+1-502-207-3007",
+                        "contactType": "customer service",
+                        "availableLanguage": "English"
                     }
-                  },
-                  {
-                    "@type": "Offer",
-                    "itemOffered": {
-                      "@type": "Service",
-                      "name": "Roof Repair",
-                      "description": "Emergency and scheduled roof repairs"
-                    }
-                  },
-                  {
-                    "@type": "Offer",
-                    "itemOffered": {
-                      "@type": "Service",
-                      "name": "Storm Damage Repair",
-                      "description": "Storm damage assessment and repair"
-                    }
-                  },
-                  {
-                    "@type": "Offer",
-                    "itemOffered": {
-                      "@type": "Service",
-                      "name": "Gutter Installation",
-                      "description": "Professional gutter installation services"
-                    }
-                  }
-                ]
-              },
-              "priceRange": "$$",
-              "paymentAccepted": ["Cash", "Check", "Credit Card"],
-              "currenciesAccepted": "USD",
-              "openingHours": "Mo-Su 08:00-18:00",
-              "sameAs": [
-                "https://www.facebook.com/profile.php?id=61578690514178",
-                "https://www.instagram.com/onyxroofingpro/"
-              ]
-            })
-          }}
-      />
-      {/* Structured Data for Organization */}
-      <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              "name": "Onyx Roofing",
-              "url": "https://onyxroofingpro.com",
-              "logo": "https://onyxroofingpro.com/onyx-roofing-logo-black.webp",
-              "contactPoint": {
-                "@type": "ContactPoint",
-                "telephone": "+1-502-207-3007",
-                "contactType": "customer service",
-                "availableLanguage": "English"
-              }
-            })
-          }}
-      />
-      <meta name="viewport" content="width=device-width, initial-scale=1"/>
-      <meta name="theme-color" content="#192119"/>
-      <meta property="og:type" content="website"/>
-      <meta property="og:locale" content="en_US"/>
-      <meta property="og:image:alt" content="Onyx Roofing - Professional Roofing Services"/>
+                })
+            }}
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="theme-color" content="#192119"/>
+        <meta property="og:type" content="website"/>
+        <meta property="og:locale" content="en_US"/>
+        <meta property="og:image:alt" content="Onyx Roofing - Professional Roofing Services"/>
     </head>
     <body
         className={`${inter.className} antialiased`}

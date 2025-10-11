@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+
 
 :root {
   --background: #192119;
@@ -112,4 +114,34 @@ body {
   --fade:200px;
   -webkit-mask-image:linear-gradient(to right,transparent 0,#000000 var(--fade),#000000 calc(100% - var(--fade)),transparent 100%);
   mask-image:linear-gradient(to right,transparent 0,#000000 var(--fade),#000000 calc(100% - var(--fade)),transparent 100%);
+}
+
+@keyframes shimmer5s {
+    /* idle off-screen (pause) */
+    0%   { transform: translateX(-150%); }
+    70%  { transform: translateX(-150%); }
+
+    /* quick sweep (~1.5s of the 5s total) */
+    85%  { transform: translateX(150%); }
+    100% { transform: translateX(150%); }
+}
+
+.shimmer-effect {
+    position: relative;
+    overflow: hidden;        /* keep it inside the rounded card */
+}
+
+.shimmer-effect::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.25), transparent);
+    transform: translateX(-150%);
+    animation: shimmer5s 6s ease-in-out infinite;
+    pointer-events: none;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .shimmer-effect::before { animation: none; }
 }
