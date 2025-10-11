@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     siteName: 'Onyx Roofing',
     images: [
       {
-        url: '/onyx-roofing-logo-black.webp',
+        url: '/onyx-roofing-thumbnail.png',
         width: 1200,
         height: 630,
         alt: 'Onyx Roofing - Professional Roofing Services',
