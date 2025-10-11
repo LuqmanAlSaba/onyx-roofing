@@ -57,6 +57,7 @@ export default function ReviewCarousel({
     const [state, dispatch] = useReducer(carouselReducer, initialState);
     const { selectedIndex, isUserPaused, isDragging, touchedItem } = state;
 
+    const didInitMobileLayout = React.useRef(false);
     const containerRef1 = useRef<HTMLDivElement>(null);
     const x1 = useMotionValue(0);
     const isPaused1Ref = useRef(false);
@@ -78,7 +79,8 @@ export default function ReviewCarousel({
 
     useEffect(() => {
         const update = () => {
-            if (typeof window !== "undefined") setDuplicateCount(Math.max(4, Math.ceil(window.innerWidth / 250) + 2));
+            if (typeof window !== "undefined")
+                setDuplicateCount(Math.max(4, Math.ceil(window.innerWidth / 250) + 2));
         };
         update();
         window.addEventListener("resize", update);
@@ -160,18 +162,27 @@ export default function ReviewCarousel({
         return -(index * itemWidth) + centerOffset;
     }, []);
 
-    const goToMobileIndex = useCallback((index: number, opts?: { immediate?: boolean }) => {
-        const clamped = Math.max(0, Math.min(finalExtendedItems.length - 1, index));
-        setMobileCarouselIndex(clamped);
-        const targetX = getMobileTargetX(clamped);
-        mobileAnimRef.current?.stop();
-        if (opts?.immediate) {
-            dragX.set(targetX);
-            return;
-        }
-        mobileAnimRef.current = animate(dragX, targetX, { type: "spring", stiffness: 750, damping: 150, mass: 2 });
-    }, [finalExtendedItems.length, getMobileTargetX, dragX]);
+    const goToMobileIndex = useCallback(
+        (index: number, opts?: { immediate?: boolean }) => {
+            const clamped = Math.max(0, Math.min(finalExtendedItems.length - 1, index));
+            setMobileCarouselIndex(clamped);
+            const targetX = getMobileTargetX(clamped);
+            mobileAnimRef.current?.stop();
+            if (opts?.immediate) {
+                dragX.set(targetX);
+                return;
+            }
+            mobileAnimRef.current = animate(dragX, targetX, {
+                type: "spring",
+                stiffness: 750,
+                damping: 150,
+                mass: 2,
+            });
+        },
+        [finalExtendedItems.length, getMobileTargetX, dragX]
+    );
 
+    // mobile autoplay
     useEffect(() => {
         if (!isMobile || displayItems.length === 0) return;
         if (isDragging || isUserPaused) return;
@@ -180,21 +191,40 @@ export default function ReviewCarousel({
             goToMobileIndex(nextIndex);
         }, 3000);
         return () => clearInterval(interval);
-    }, [isMobile, displayItems.length, isDragging, isUserPaused, finalExtendedItems.length, mobileCarouselIndex, goToMobileIndex]);
+    }, [
+        isMobile,
+        displayItems.length,
+        isDragging,
+        isUserPaused,
+        finalExtendedItems.length,
+        mobileCarouselIndex,
+        goToMobileIndex,
+    ]);
 
+    // FIX: only snap immediately when entering mobile layout (or on first mobile mount)
     useEffect(() => {
-        if (!isMobile) return;
-        goToMobileIndex(mobileCarouselIndex, { immediate: true });
-    }, [isMobile, mobileCarouselIndex, goToMobileIndex]);
-
-    const handleDrag = useCallback((_e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-        if (!isMobile) return;
-        const v = info.velocity.x;
-        if (Math.abs(v) > 500) {
-            const dir = v > 0 ? -1 : 1;
-            goToMobileIndex(mobileCarouselIndex + dir);
+        if (!isMobile) {
+            didInitMobileLayout.current = false;
+            return;
         }
-    }, [isMobile, mobileCarouselIndex, goToMobileIndex]);
+        if (!didInitMobileLayout.current) {
+            goToMobileIndex(mobileCarouselIndex, { immediate: true });
+            didInitMobileLayout.current = true;
+        }
+        // intentionally not depending on mobileCarouselIndex to avoid snapping on every index change
+    }, [isMobile, goToMobileIndex, mobileCarouselIndex]);
+
+    const handleDrag = useCallback(
+        (_e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+            if (!isMobile) return;
+            const v = info.velocity.x;
+            if (Math.abs(v) > 500) {
+                const dir = v > 0 ? -1 : 1;
+                goToMobileIndex(mobileCarouselIndex + dir);
+            }
+        },
+        [isMobile, mobileCarouselIndex, goToMobileIndex]
+    );
 
     const handleDragEnd = useCallback(() => {
         if (!isMobile) return;
@@ -230,7 +260,8 @@ export default function ReviewCarousel({
         const p = url.searchParams.get("review");
         if (p !== null) {
             const n = Number(p);
-            if (!Number.isNaN(n) && n >= 0 && n < displayItems.length) dispatch({ type: "OPEN_LIGHTBOX", payload: { index: n } });
+            if (!Number.isNaN(n) && n >= 0 && n < displayItems.length)
+                dispatch({ type: "OPEN_LIGHTBOX", payload: { index: n } });
         }
     }, [enableQueryParam, displayItems.length]);
 
@@ -260,7 +291,9 @@ export default function ReviewCarousel({
                     isMobile={isMobile}
                     mobileCarouselIndex={mobileCarouselIndex}
                     touchedItem={touchedItem}
-                    onTouchStartItem={(idx) => isMobile && !isDragging && dispatch({ type: "SET_TOUCHED", payload: { index: idx } })}
+                    onTouchStartItem={(idx) =>
+                        isMobile && !isDragging && dispatch({ type: "SET_TOUCHED", payload: { index: idx } })
+                    }
                     onOpenLightbox={(baseIndex) => dispatch({ type: "OPEN_LIGHTBOX", payload: { index: baseIndex } })}
                     dragX={dragX}
                     x1={x1}
@@ -273,13 +306,7 @@ export default function ReviewCarousel({
                 />
             </section>
 
-            <Lightbox
-                open={open}
-                currentIndex={current}
-                items={displayItems}
-                dispatch={dispatch}
-                isMobile={isMobile}
-            />
+            <Lightbox open={open} currentIndex={current} items={displayItems} dispatch={dispatch} isMobile={isMobile} />
         </>
     );
 }
