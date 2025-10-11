@@ -429,7 +429,7 @@ export function Lightbox({
                                                         exit={{ opacity: 1 }}
                                                     >
                                                         <div
-                                                            className="h-full w-full px-10"
+                                                            className="h-full w-full px-8"
                                                             style={{
                                                                 paddingTop: "calc(env(safe-area-inset-top, 0px) + 72px)",
                                                             }}

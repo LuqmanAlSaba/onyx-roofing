@@ -1530,7 +1530,30 @@ export default function Home() {
 
                                 {/* Caption area */}
                                 <div className="p-4 sm:p-5 sm:py-3 bg-gradient-to-t from-[#36363699] to-[#36363699]" style={{ zIndex: 10 }}>
-                                    <div className="flex items-center justify-between w-full gap-3">
+                                    {/* Mobile Layout */}
+                                    <div className="flex flex-col sm:hidden gap-3">
+                                        {/* Name and Title on same line */}
+                                        <div className="flex justify-between items-center">
+                                            <h3 className="text-xl font-semibold text-white">Ibrahim Al-Saba</h3>
+                                            <p className="text-white/70 text-sm">Owner, Onyx Roofing</p>
+                                        </div>
+
+                                        {/* Call button centered below */}
+                                        <a
+                                            href="tel:5022073007"
+                                            style={{borderRadius: '10px'}}
+                                            className="shimmer-effect w-full flex items-center justify-center gap-2 border border-white/15 bg-[#549956]/56 px-4 py-2 text-md text-white hover:bg-[#40d6d1] hover:text-[#192119] hover:border-[#40d6d1]/50 transition-colors"
+                                            aria-label="Call Ibrahim at (502) 207-3007"
+                                        >
+                                            <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-1C7.82 18 2 12.18 2 5V3z"/>
+                                            </svg>
+                                            <span className="whitespace-nowrap" style={{fontSize: "16px"}}>(502) 207-3007</span>
+                                        </a>
+                                    </div>
+
+                                    {/* Desktop/Tablet Layout - Keep original */}
+                                    <div className="hidden sm:flex items-center justify-between w-full gap-3">
                                         {/* Left side - Name and Title */}
                                         <div>
                                             <h3 className="text-2xl font-semibold text-white">Ibrahim Al-Saba</h3>
