@@ -29,7 +29,7 @@ const LAY_TEXT = "places-label";
 
 export default function ServiceAreaMap({
                                            places = DEFAULT_PLACES,
-                                           interactive = true,
+                                           interactive = false,
                                            className = "h-[420px] md:h-[450px]",
                                            center = [-85.736, 38.26] as LngLatLike,
                                        }: {

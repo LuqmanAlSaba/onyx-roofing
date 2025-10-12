@@ -71,7 +71,7 @@ export function CarouselTrack({
                             return (
                                 <motion.div
                                     key={`${item.imageSrc}-${idx}`}
-                                    className="relative flex-shrink-0 w-[280px] sm:w-[400px] md:w-[500px] h-[180px] sm:h-[240px] md:h-[300px] rounded-xl overflow-hidden group cursor-pointer"
+                                    className="relative flex-shrink-0 w-[280px] sm:w-[400px] md:w-[500px] h-[180px] sm:h-[240px] md:h-[300px] rounded-lg overflow-hidden group cursor-pointer"
                                     whileHover={!isMobile ? { scale: 1.05, zIndex: 10 } : {}}
                                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                                     style={{ originX: 0.5, originY: 0.5, touchAction: isMobile ? "pan-y" : "auto", scale }}

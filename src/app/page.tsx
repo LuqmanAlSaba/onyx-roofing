@@ -1,9 +1,9 @@
 "use client";
-import { motion, AnimatePresence, useAnimationControls, Variants } from "framer-motion";
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import {motion, AnimatePresence, useAnimationControls, Variants} from "framer-motion";
+import React, {useState, useEffect, useRef, useCallback} from "react";
 import Image from 'next/image';
 import ReviewCarousel from './components/reviews/ReviewCarousel';
-import type { ReviewItem } from './components/reviews/common';
+import type {ReviewItem} from './components/reviews/common';
 import ServiceAreaMap from "@/app/components/ServiceAreaMap";
 
 type WorkItem = ReviewItem;
@@ -13,16 +13,17 @@ interface HamburgerProps {
     isOpen: boolean;
     onToggle: () => void;
 }
-function Hamburger({ isOpen, onToggle }: HamburgerProps) {
+
+function Hamburger({isOpen, onToggle}: HamburgerProps) {
     return (
         <motion.svg
             onClick={onToggle}
             viewBox="0 0 100 100"
             width="40"
             height="40"
-            style={{ originX: "50%", originY: "50%", cursor: "pointer" }}
-            animate={{ rotate: isOpen ? 45 : 0 }}
-            transition={{ rotate: { duration: 0.4, ease: "easeInOut" } }}
+            style={{originX: "50%", originY: "50%", cursor: "pointer"}}
+            animate={{rotate: isOpen ? 45 : 0}}
+            transition={{rotate: {duration: 0.4, ease: "easeInOut"}}}
         >
             {/* Top line */}
             <motion.path
@@ -32,8 +33,8 @@ function Hamburger({ isOpen, onToggle }: HamburgerProps) {
                 strokeWidth="5.5"
                 strokeLinecap="round"
                 strokeDasharray="40 160"
-                animate={{ strokeDashoffset: isOpen ? -64 : 0 }}
-                transition={{ strokeDashoffset: { duration: 0.4, ease: "easeInOut" } }}
+                animate={{strokeDashoffset: isOpen ? -64 : 0}}
+                transition={{strokeDashoffset: {duration: 0.4, ease: "easeInOut"}}}
             />
             {/* Middle line */}
             <motion.path
@@ -42,9 +43,9 @@ function Hamburger({ isOpen, onToggle }: HamburgerProps) {
                 stroke="#fff"
                 strokeWidth="5.5"
                 strokeLinecap="round"
-                style={{ originX: "50%", originY: "50%" }}
-                animate={{ rotate: isOpen ? 90 : 0 }}
-                transition={{ rotate: { duration: 0.4, ease: "easeInOut" } }}
+                style={{originX: "50%", originY: "50%"}}
+                animate={{rotate: isOpen ? 90 : 0}}
+                transition={{rotate: {duration: 0.4, ease: "easeInOut"}}}
             />
             {/* Bottom line */}
             <motion.path
@@ -54,8 +55,8 @@ function Hamburger({ isOpen, onToggle }: HamburgerProps) {
                 strokeWidth="5.5"
                 strokeLinecap="round"
                 strokeDasharray="40 85"
-                animate={{ strokeDashoffset: isOpen ? -64 : 0 }}
-                transition={{ strokeDashoffset: { duration: 0.4, ease: "easeInOut" } }}
+                animate={{strokeDashoffset: isOpen ? -64 : 0}}
+                transition={{strokeDashoffset: {duration: 0.4, ease: "easeInOut"}}}
             />
         </motion.svg>
     );
@@ -550,12 +551,14 @@ export default function Home() {
                     background: "#1a1f1a",
                     borderRadius: "0px",
                     maxWidth: "100vw",
-                    minHeight:"100vh",
+                    minHeight: "100vh",
                     touchAction: "auto", // Allow normal touch scrolling
                 }}
             >
-                <div className="relative h-full overflow-hidden" style={{borderRadius: "32px 32px 0 0", minHeight: '100vh', maxWidth: "100%"}}>
-                    <canvas id="confetti-canvas" className="absolute inset-0 pointer-events-none h-full" style={{zIndex: 100}}/>
+                <div className="relative h-full overflow-hidden"
+                     style={{borderRadius: "32px 32px 0 0", minHeight: '100vh', maxWidth: "100%"}}>
+                    <canvas id="confetti-canvas" className="absolute inset-0 pointer-events-none h-full"
+                            style={{zIndex: 100}}/>
                     <motion.div className="absolute inset-0 h-full overflow-hidden" style={{backgroundColor: "#192119"}}
                                 animate={{scale: scrolled ? 1.02 : 1}} transition={{duration: 0.52, ease: "easeOut"}}>
                         <motion.video
@@ -644,9 +647,13 @@ export default function Home() {
                                                 href={`#${targetId}`} // Keep href for accessibility/SEO
                                                 onClick={(e) => handleNavClick(e, targetId)} // Add onClick handler
                                                 className="text-white/80 hover:text-white text-md font-normal transition-all duration-300"
-                                                initial={{ opacity: 0, y: -20 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                transition={{ delay: 0.1 * index, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+                                                initial={{opacity: 0, y: -20}}
+                                                animate={{opacity: 1, y: 0}}
+                                                transition={{
+                                                    delay: 0.1 * index,
+                                                    duration: 0.6,
+                                                    ease: [0.25, 0.1, 0.25, 1]
+                                                }}
                                             >
                                                 {item}
                                             </motion.a>
@@ -674,7 +681,8 @@ export default function Home() {
                                             opacity: {duration: 0.4, ease: "easeOut"},
                                         }}
                                     >
-                                        <div className="h-full flex flex-col items-center justify-center space-y-6 px-6">
+                                        <div
+                                            className="h-full flex flex-col items-center justify-center space-y-6 px-6">
                                             {/* Modified Mobile Nav */}
                                             {["Services", "Projects", "About", "Contact"].map((item, i) => {
                                                 const targetId = item.toLowerCase(); // Get the ID (e.g., 'services')
@@ -684,9 +692,9 @@ export default function Home() {
                                                         href={`#${targetId}`} // Keep href for accessibility/SEO
                                                         onClick={(e) => handleNavClick(e, targetId)} // Use the new handler
                                                         className="text-white text-2xl font-medium"
-                                                        initial={{ opacity: 0, y: 20 }}
-                                                        animate={{ opacity: 1, y: 0 }}
-                                                        transition={{ delay: 0.1 + i * 0.05, duration: 0.4 }}
+                                                        initial={{opacity: 0, y: 20}}
+                                                        animate={{opacity: 1, y: 0}}
+                                                        transition={{delay: 0.1 + i * 0.05, duration: 0.4}}
                                                     >
                                                         {item}
                                                     </motion.a>
@@ -710,13 +718,17 @@ export default function Home() {
                                         <motion.div initial={{opacity: 0, y: 60}} animate={{opacity: 1, y: 0}}
                                                     transition={{duration: 0.8, ease: [0.25, 0.1, 0.25, 1]}}>
                                             <h1 className="text-2xl sm:text-2xl md:text-4xl lg:text-6xl font-light leading-tight"
-                                                style={{textAlign: "left", textShadow: "-0px 0px 3px rgba(0,0,0, .32)"}}>
+                                                style={{
+                                                    textAlign: "left",
+                                                    textShadow: "-0px 0px 3px rgba(0,0,0, .32)"
+                                                }}>
                         <span className="block text-white mb-1 sm:mb-3 tracking-wide"
                               style={{mixBlendMode: "difference"}}>
                           Built to <span className="font-normal"
                                          style={{mixBlendMode: "difference", color: "#40d6d1"}}>Withstand.</span>
                         </span>
-                                                <span className="block text-white tracking-wide" style={{mixBlendMode: "difference"}}>
+                                                <span className="block text-white tracking-wide"
+                                                      style={{mixBlendMode: "difference"}}>
                           Designed to <span className="font-normal"
                                             style={{mixBlendMode: "difference", color: "#40d6d1"}}>Impress.</span>
                         </span>
@@ -742,8 +754,9 @@ export default function Home() {
                                                 className="group relative px-6 sm:px-8 md:px-10 py-3 sm:py-4 bg-[#13a19c] hover:bg-[#0f7a76] text-white font-normal rounded-full transition-all duration-300 flex items-center cursor-pointer text-sm sm:text-base transform-gpu"
                                             >
                                                 <span className="mr-3">Schedule Free Inspection</span>
-                                                <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
-                                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <svg
+                                                    className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
+                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                                                           d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                                                 </svg>
@@ -773,8 +786,15 @@ export default function Home() {
                                                         className="inline-flex items-center gap-2 text-white/90 font-light px-2 sm:px-3 py-1 sm:py-2 bg-[#474747]/30 backdrop-blur-md h-full transform-gpu"
                                                         initial={{opacity: 0, y: 20}}
                                                         animate={{opacity: 1, y: 0}}
-                                                        transition={{delay: 0.7 + index * 0.1, duration: 0.5, ease: [0.25, 0.1, 0.25, 1]}}
-                                                        style={{borderRadius: "16px", border: "2px solid rgba(200,200,200,0.04)"}}
+                                                        transition={{
+                                                            delay: 0.7 + index * 0.1,
+                                                            duration: 0.5,
+                                                            ease: [0.25, 0.1, 0.25, 1]
+                                                        }}
+                                                        style={{
+                                                            borderRadius: "16px",
+                                                            border: "2px solid rgba(200,200,200,0.04)"
+                                                        }}
                                                     >
                                                         <span className="text-sm">✓</span>
                                                         <span>{item}</span>
@@ -886,29 +906,37 @@ export default function Home() {
                                     {submitStage !== "complete" ? (
                                         <motion.div key="form-content" className="relative" exit={{opacity: 0, y: -20}}
                                                     transition={{duration: 0.3}}>
-                                            <motion.div className="mb-4" initial={{y: 20, opacity: 0}} animate={{y: 0, opacity: 1}}
+                                            <motion.div className="mb-4" initial={{y: 20, opacity: 0}}
+                                                        animate={{y: 0, opacity: 1}}
                                                         transition={{delay: 0.4, duration: 0.5}}>
-                                                <h2 className="text-xl sm:text-2xl font-semibold text-white mb-1">Schedule Your
+                                                <h2 className="text-xl sm:text-2xl font-semibold text-white mb-1">Schedule
+                                                    Your
                                                     Consultation</h2>
                                                 <p className="text-xs sm:text-sm text-gray-400">
-                                                    Step {formStep} of 2: {formStep === 1 ? "Your Information" : "Services & Details"}
+                                                    Step {formStep} of
+                                                    2: {formStep === 1 ? "Your Information" : "Services & Details"}
                                                 </p>
                                             </motion.div>
-                                            <motion.div className="space-y-4" initial={{opacity: 0}} animate={{opacity: 1}}
+                                            <motion.div className="space-y-4" initial={{opacity: 0}}
+                                                        animate={{opacity: 1}}
                                                         transition={{delay: 0.5, duration: 0.5}}>
-                                                <motion.div className="w-full bg-[#3a3f45] rounded-full h-1 mb-5" initial="hidden"
+                                                <motion.div className="w-full bg-[#3a3f45] rounded-full h-1 mb-5"
+                                                            initial="hidden"
                                                             animate="visible">
-                                                    <motion.div className="h-1 bg-[#13a19c] rounded-full" variants={progressBarVariants}
+                                                    <motion.div className="h-1 bg-[#13a19c] rounded-full"
+                                                                variants={progressBarVariants}
                                                                 initial="hidden" animate="visible"/>
                                                 </motion.div>
                                                 <AnimatePresence mode="wait">
                                                     {formStep === 1 ? (
-                                                        <motion.div key="step1" initial={{x: 50, opacity: 0}} animate={{x: 0, opacity: 1}}
+                                                        <motion.div key="step1" initial={{x: 50, opacity: 0}}
+                                                                    animate={{x: 0, opacity: 1}}
                                                                     exit={{x: -50, opacity: 0}}
                                                                     transition={{duration: 0.3, ease: "easeOut"}}>
                                                             <div className="space-y-4">
                                                                 <motion.div animate={fullNameControls}>
-                                                                    <label className="block text-xs font-medium text-gray-300 mb-1">Name</label>
+                                                                    <label
+                                                                        className="block text-xs font-medium text-gray-300 mb-1">Name</label>
                                                                     <input
                                                                         type="text"
                                                                         name="fullName"
@@ -920,12 +948,15 @@ export default function Home() {
                                                                         aria-describedby={errors.fullName ? "fullName-error" : undefined}
                                                                     />
                                                                     <div className="h-1">{errors.fullName &&
-                                                                        <p id="fullName-error" className="text-xs text-red-400">Please enter your
+                                                                        <p id="fullName-error"
+                                                                           className="text-xs text-red-400">Please enter
+                                                                            your
                                                                             full name</p>}</div>
                                                                 </motion.div>
                                                                 <div className="grid grid-cols-2 gap-3">
                                                                     <motion.div animate={phoneControls}>
-                                                                        <label className="block text-xs font-medium text-gray-300 mb-1">Phone
+                                                                        <label
+                                                                            className="block text-xs font-medium text-gray-300 mb-1">Phone
                                                                             Number</label>
                                                                         <input
                                                                             type="tel"
@@ -938,11 +969,14 @@ export default function Home() {
                                                                             aria-describedby={errors.phone ? "phone-error" : undefined}
                                                                         />
                                                                         <div className="h-1">{errors.phone &&
-                                                                            <p id="phone-error" className="text-xs text-red-400">Please enter your
+                                                                            <p id="phone-error"
+                                                                               className="text-xs text-red-400">Please
+                                                                                enter your
                                                                                 phone number</p>}</div>
                                                                     </motion.div>
                                                                     <motion.div animate={emailControls}>
-                                                                        <label className="block text-xs font-medium text-gray-300 mb-1">Email
+                                                                        <label
+                                                                            className="block text-xs font-medium text-gray-300 mb-1">Email
                                                                             Address</label>
                                                                         <input
                                                                             type="email"
@@ -954,15 +988,20 @@ export default function Home() {
                                                                             aria-invalid={errors.email ? "true" : "false"}
                                                                             aria-describedby={errors.email ? "email-error" : undefined}
                                                                         />
-                                                                        <div className="h-1">{errors.email && <p id="email-error"
-                                                                                                                 className="text-xs text-red-400">{!formData.email ? "Please enter your email address" : "Please enter a valid email address"}</p>}</div>
+                                                                        <div className="h-1">{errors.email &&
+                                                                            <p id="email-error"
+                                                                               className="text-xs text-red-400">{!formData.email ? "Please enter your email address" : "Please enter a valid email address"}</p>}</div>
                                                                     </motion.div>
                                                                 </div>
                                                                 {/* --- Service Address Input (Modified) --- */}
                                                                 <motion.div animate={serviceAddressControls}>
-                                                                    <label className="block text-xs font-medium text-gray-300 mb-1">Service
+                                                                    <label
+                                                                        className="block text-xs font-medium text-gray-300 mb-1">Service
                                                                         Address</label>
-                                                                    <div style={{position: "relative", overflow: "visible"}}>
+                                                                    <div style={{
+                                                                        position: "relative",
+                                                                        overflow: "visible"
+                                                                    }}>
                                                                         {/* Removed ref={autocompleteRef} */}
                                                                         <input
                                                                             type="text"
@@ -976,7 +1015,8 @@ export default function Home() {
                                                                         />
                                                                         <div className="h-1">
                                                                             {errors.serviceAddress &&
-                                                                                <p id="serviceAddress-error" className="text-xs text-red-400">Please
+                                                                                <p id="serviceAddress-error"
+                                                                                   className="text-xs text-red-400">Please
                                                                                     enter a service address</p>}
                                                                             {/* Removed googleMapsError display */}
                                                                         </div>
@@ -986,11 +1026,13 @@ export default function Home() {
                                                         </motion.div>
                                                     ) : (
                                                         // --- Step 2 (Unchanged) ---
-                                                        <motion.div key="step2" initial={{x: 50, opacity: 0}} animate={{x: 0, opacity: 1}}
+                                                        <motion.div key="step2" initial={{x: 50, opacity: 0}}
+                                                                    animate={{x: 0, opacity: 1}}
                                                                     exit={{x: -50, opacity: 0}}
                                                                     transition={{duration: 0.3, ease: "easeOut"}}>
                                                             <div>
-                                                                <label className="block text-xs font-medium text-gray-300 mb-4">Services
+                                                                <label
+                                                                    className="block text-xs font-medium text-gray-300 mb-4">Services
                                                                     Needed</label>
                                                                 <motion.div layout className="grid grid-cols-2 gap-2"
                                                                             style={{textAlign: "left"}}>
@@ -1021,20 +1063,42 @@ export default function Home() {
                                           </span>
                                                                                 )}
                                                                                 <span>{service}</span>
-                                                                                <AnimatePresence initial={false} mode="wait">
+                                                                                <AnimatePresence initial={false}
+                                                                                                 mode="wait">
                                                                                     {selected && (
                                                                                         <motion.span
                                                                                             key="check"
-                                                                                            initial={{scale: 0.5, opacity: 0, rotate: -64}}
-                                                                                            animate={{scale: 1, opacity: 1, rotate: 0}}
-                                                                                            exit={{scale: 0.5, opacity: 0, rotate: 32}}
-                                                                                            transition={{duration: 0.25, ease: "easeOut"}}
+                                                                                            initial={{
+                                                                                                scale: 0.5,
+                                                                                                opacity: 0,
+                                                                                                rotate: -64
+                                                                                            }}
+                                                                                            animate={{
+                                                                                                scale: 1,
+                                                                                                opacity: 1,
+                                                                                                rotate: 0
+                                                                                            }}
+                                                                                            exit={{
+                                                                                                scale: 0.5,
+                                                                                                opacity: 0,
+                                                                                                rotate: 32
+                                                                                            }}
+                                                                                            transition={{
+                                                                                                duration: 0.25,
+                                                                                                ease: "easeOut"
+                                                                                            }}
                                                                                             className="ml-2 w-5 h-5 flex items-center justify-center rounded-full bg-[#3f8c42]"
                                                                                         >
-                                                                                            <svg className="w-3 h-3 text-[#fefefe]" fill="none"
-                                                                                                 stroke="currentColor" viewBox="0 0 24 24">
-                                                                                                <path strokeLinecap="round" strokeLinejoin="round"
-                                                                                                      strokeWidth={3} d="M5 13l4 4L19 7"/>
+                                                                                            <svg
+                                                                                                className="w-3 h-3 text-[#fefefe]"
+                                                                                                fill="none"
+                                                                                                stroke="currentColor"
+                                                                                                viewBox="0 0 24 24">
+                                                                                                <path
+                                                                                                    strokeLinecap="round"
+                                                                                                    strokeLinejoin="round"
+                                                                                                    strokeWidth={3}
+                                                                                                    d="M5 13l4 4L19 7"/>
                                                                                             </svg>
                                                                                         </motion.span>
                                                                                     )}
@@ -1051,11 +1115,14 @@ export default function Home() {
                                                                     className="w-full flex items-center justify-between p-2 bg-[#3a3f45] border border-[#4a4f55] rounded-lg hover:bg-[#404550] transition-colors duration-200"
                                                                 >
                                                                     <span className="text-xs font-medium text-gray-300">Additional Details</span>
-                                                                    <motion.svg className="w-4 h-4 text-gray-400" fill="none"
-                                                                                stroke="currentColor" viewBox="0 0 24 24"
+                                                                    <motion.svg className="w-4 h-4 text-gray-400"
+                                                                                fill="none"
+                                                                                stroke="currentColor"
+                                                                                viewBox="0 0 24 24"
                                                                                 animate={{rotate: showDetails ? 180 : 0}}
                                                                                 transition={{duration: 0.2}}>
-                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                                        <path strokeLinecap="round"
+                                                                              strokeLinejoin="round" strokeWidth={2}
                                                                               d="M19 9l-7 7-7-7"/>
                                                                     </motion.svg>
                                                                 </motion.button>
@@ -1067,7 +1134,10 @@ export default function Home() {
                                                                             initial={{opacity: 0, height: 0}}
                                                                             animate={{opacity: 1, height: "auto"}}
                                                                             exit={{opacity: 0, height: 0}}
-                                                                            transition={{duration: 0.3, ease: "easeInOut"}}
+                                                                            transition={{
+                                                                                duration: 0.3,
+                                                                                ease: "easeInOut"
+                                                                            }}
                                                                             className="overflow-hidden mt-2"
                                                                         >
                                       <textarea
@@ -1090,8 +1160,10 @@ export default function Home() {
                                                         onClick={formStep === 1 ? handleCloseForm : handlePreviousStep}
                                                         className="w-1/3 px-4 py-2 bg-[#3a3f45] hover:bg-[#4a4f55] cursor-pointer text-white rounded-lg transition-all duration-200 font-medium text-sm flex items-center justify-center"
                                                     >
-                                                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor"
+                                                             viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round"
+                                                                  strokeWidth={2}
                                                                   d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                                                         </svg>
                                                         {formStep === 1 ? "Back" : "Previous"}
@@ -1125,7 +1197,10 @@ export default function Home() {
                                                                         animate={{
                                                                             scale: 20,
                                                                             opacity: 0,
-                                                                            transition: {duration: 0.52, ease: [0.4, 0.0, 0.2, 1]}
+                                                                            transition: {
+                                                                                duration: 0.52,
+                                                                                ease: [0.4, 0.0, 0.2, 1]
+                                                                            }
                                                                         }}
                                                                         exit={{opacity: 0}}
                                                                     />
@@ -1133,21 +1208,31 @@ export default function Home() {
                                                             </AnimatePresence>
                                                             <AnimatePresence mode="wait">
                                                                 {submitStage === "idle" && (
-                                                                    <motion.span key="idle" initial={{opacity: 0, y: 20}}
-                                                                                 animate={{opacity: 1, y: 0}} exit={{opacity: 0, y: -20}}
-                                                                                 transition={{duration: 0.2}} className="relative z-10">
+                                                                    <motion.span key="idle"
+                                                                                 initial={{opacity: 0, y: 20}}
+                                                                                 animate={{opacity: 1, y: 0}}
+                                                                                 exit={{opacity: 0, y: -20}}
+                                                                                 transition={{duration: 0.2}}
+                                                                                 className="relative z-10">
                                                                         Submit Request
                                                                     </motion.span>
                                                                 )}
                                                                 {(submitStage === "loading" || submitStage === "success") && (
-                                                                    <motion.div key="loading" initial={{scale: 0, opacity: 0}}
-                                                                                animate={{scale: 1, opacity: 1}} exit={{scale: 0, opacity: 0}}
-                                                                                transition={{duration: 0.2, ease: "easeOut"}}
+                                                                    <motion.div key="loading"
+                                                                                initial={{scale: 0, opacity: 0}}
+                                                                                animate={{scale: 1, opacity: 1}}
+                                                                                exit={{scale: 0, opacity: 0}}
+                                                                                transition={{
+                                                                                    duration: 0.2,
+                                                                                    ease: "easeOut"
+                                                                                }}
                                                                                 className="absolute inset-0 flex items-center justify-center">
                                                                         <AnimatePresence mode="wait">
                                                                             {submitStage === "loading" &&
-                                                                                <motion.div key="spinner" initial={{opacity: 0}}
-                                                                                            animate={{opacity: 1}} exit={{opacity: 0}}
+                                                                                <motion.div key="spinner"
+                                                                                            initial={{opacity: 0}}
+                                                                                            animate={{opacity: 1}}
+                                                                                            exit={{opacity: 0}}
                                                                                             className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"/>}
                                                                             {submitStage === "success" && (
                                                                                 <motion.svg
@@ -1156,17 +1241,32 @@ export default function Home() {
                                                                                     fill="none"
                                                                                     stroke="currentColor"
                                                                                     viewBox="0 0 24 24"
-                                                                                    initial={{pathLength: 0, opacity: 0}}
-                                                                                    animate={{pathLength: 1, opacity: 1}}
+                                                                                    initial={{
+                                                                                        pathLength: 0,
+                                                                                        opacity: 0
+                                                                                    }}
+                                                                                    animate={{
+                                                                                        pathLength: 1,
+                                                                                        opacity: 1
+                                                                                    }}
                                                                                     transition={{
-                                                                                        pathLength: {duration: 0.3, ease: "easeInOut"},
+                                                                                        pathLength: {
+                                                                                            duration: 0.3,
+                                                                                            ease: "easeInOut"
+                                                                                        },
                                                                                         opacity: {duration: 0.1}
                                                                                     }}
                                                                                 >
-                                                                                    <motion.path strokeLinecap="round" strokeLinejoin="round"
-                                                                                                 strokeWidth={3} d="M5 13l4 4L19 7"
-                                                                                                 initial={{pathLength: 0}} animate={{pathLength: 1}}
-                                                                                                 transition={{duration: 0.3, ease: "easeInOut"}}/>
+                                                                                    <motion.path strokeLinecap="round"
+                                                                                                 strokeLinejoin="round"
+                                                                                                 strokeWidth={3}
+                                                                                                 d="M5 13l4 4L19 7"
+                                                                                                 initial={{pathLength: 0}}
+                                                                                                 animate={{pathLength: 1}}
+                                                                                                 transition={{
+                                                                                                     duration: 0.3,
+                                                                                                     ease: "easeInOut"
+                                                                                                 }}/>
                                                                                 </motion.svg>
                                                                             )}
                                                                         </AnimatePresence>
@@ -1199,18 +1299,28 @@ export default function Home() {
                                                 transition: {type: "spring", stiffness: 300, damping: 20, delay: 0.2}
                                             }}
                                                         className="w-16 h-16 bg-[#13a19c]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                                                <svg className="w-8 h-8 text-[#13a19c]" fill="none" stroke="currentColor"
+                                                <svg className="w-8 h-8 text-[#13a19c]" fill="none"
+                                                     stroke="currentColor"
                                                      viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"/>
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                          d="M5 13l4 4L19 7"/>
                                                 </svg>
                                             </motion.div>
                                             <motion.h3 initial={{y: 20, opacity: 0}}
-                                                       animate={{y: 0, opacity: 1, transition: {duration: 0.3, delay: 0.3}}}
+                                                       animate={{
+                                                           y: 0,
+                                                           opacity: 1,
+                                                           transition: {duration: 0.3, delay: 0.3}
+                                                       }}
                                                        className="text-xl sm:text-2xl font-semibold text-white mb-2">
                                                 Request Booked!
                                             </motion.h3>
                                             <motion.p initial={{y: 20, opacity: 0}}
-                                                      animate={{y: 0, opacity: 1, transition: {duration: 0.3, delay: 0.4}}}
+                                                      animate={{
+                                                          y: 0,
+                                                          opacity: 1,
+                                                          transition: {duration: 0.3, delay: 0.4}
+                                                      }}
                                                       className="text-gray-400 mb-6 text-sm sm:text-base">
                                                 We'll be in touch shortly to confirm your consultation details.
                                             </motion.p>
@@ -1219,7 +1329,12 @@ export default function Home() {
                                                 animate={{
                                                     y: 0,
                                                     opacity: 1,
-                                                    transition: {type: "spring", stiffness: 300, damping: 25, delay: 0.5}
+                                                    transition: {
+                                                        type: "spring",
+                                                        stiffness: 300,
+                                                        damping: 25,
+                                                        delay: 0.5
+                                                    }
                                                 }}
                                                 onClick={handleViewRequests}
                                                 className="w-full px-6 py-3 bg-[#13a19c] hover:bg-[#0f7a76] text-white rounded-lg transition-colors duration-200 font-medium text-sm sm:text-base"
@@ -1335,28 +1450,38 @@ export default function Home() {
                             <motion.div
                                 key={service.title}
                                 initial={{opacity: 0, y: 20}}
-                                whileInView={{opacity: 1, y: 0}}
                                 viewport={{once: true, margin: "-50px"}}
+                                whileInView={{opacity: 1, y: 0}}
                                 transition={{duration: 0.3, delay: index * 0.05, ease: [0.25, 0.1, 0.25, 1]}}
-                                className={`group relative overflow-hidden rounded-xl transition-all duration-300 ${
+                                className={`
+                                            group relative rounded-lg overflow-hidden
+                                            bg-white/5 ring-1 ring-white/10
+                                            transform-gpu will-change-transform will-change-opacity
+                                            transition-transform transition-opacity transition-shadow transition-colors
+                                            duration-200 ease-out
+                                            hover:shadow-lg hover:bg-white/[0.07]
+                                            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400
+                                          ${
                                     service.highlight
                                         ? 'bg-gradient-to-br from-[#40d6d1]/20 to-[#13938f]/20 border border-[#40d6d1]/30 hover:border-[#40d6d1]/50'
                                         : 'bg-[#2a2d31]/30 backdrop-blur-sm border border-white/5 hover:border-[#40d6d1]/20 hover:bg-[#2a2d31]/50'
                                 }`}
-                                whileHover={{scale: 1.02, transition: {duration: 0.2}}}
                             >
                                 {service.highlight && (
-                                    <div className="absolute top-0 right-0 px-2 py-0.5 bg-[#40d6d1] text-[#192119] text-[10px] font-semibold rounded-bl-lg">
+                                    <div
+                                        className="absolute top-0 right-0 px-2 py-0.5 bg-[#40d6d1] text-[#192119] text-[10px] font-semibold rounded-bl-lg">
                                         FREE
                                     </div>
                                 )}
                                 <div className="p-5 flex items-start space-x-4">
-                                    <div className={`flex-shrink-0 w-11 h-11 rounded-lg flex items-center justify-center transition-all duration-300 ${
-                                        service.highlight
-                                            ? 'bg-[#40d6d1]/20 group-hover:bg-[#40d6d1]/30'
-                                            : 'bg-[#40d6d1]/10 group-hover:bg-[#40d6d1]/20'
-                                    }`}>
-                                        <div className="text-[#40d6d1] group-hover:scale-110 transition-transform duration-300">
+                                    <div
+                                        className={`flex-shrink-0 w-11 h-11 rounded-lg flex items-center justify-center transition-all duration-300 ${
+                                            service.highlight
+                                                ? 'bg-[#40d6d1]/20 group-hover:bg-[#40d6d1]/30'
+                                                : 'bg-[#40d6d1]/10 group-hover:bg-[#40d6d1]/20'
+                                        }`}>
+                                        <div
+                                            className="text-[#40d6d1] group-hover:scale-110 transition-transform duration-300">
                                             {service.icon}
                                         </div>
                                     </div>
@@ -1370,7 +1495,8 @@ export default function Home() {
                                     </div>
                                 </div>
                                 {/* Animated gradient overlay on hover */}
-                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-800 ease-out pointer-events-none"/>
+                                <div
+                                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-800 ease-out pointer-events-none"/>
                             </motion.div>
                         ))}
                     </div>
@@ -1420,9 +1546,12 @@ export default function Home() {
                                 className="shimmer-effect inline-flex items-center px-6 py-3 bg-[#40d6d1] hover:bg-[#13a19c] text-white font-medium rounded-full transition-all duration-300 group transform-gpu"
                             >
                                 Schedule Free Inspection
-                                <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none"
-                                     stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                                <svg
+                                    className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300"
+                                    fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                          d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                                 </svg>
                             </button>
                             <a
@@ -1441,13 +1570,14 @@ export default function Home() {
             </section>
 
             {/* About Us Section */}
-            <section id="about" className="relative py-12 sm:py-16 px-4 sm:px-8 bg-gradient-to-br from-[#192119] to-[#1a1f1a]">
+            <section id="about"
+                     className="relative py-12 sm:py-16 px-4 sm:px-8 bg-gradient-to-br from-[#192119] to-[#1a1f1a]">
                 <div className="relative z-10 max-w-6xl mx-auto">
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+                        initial={{opacity: 0, y: 20}}
+                        whileInView={{opacity: 1, y: 0}}
+                        viewport={{once: true, margin: "-100px"}}
+                        transition={{duration: 0.6, ease: [0.25, 0.1, 0.25, 1]}}
                         className="text-center mb-10"
                     >
                         <h2 className="text-2xl sm:text-3xl md:text-4xl font-light text-white mb-2">
@@ -1461,10 +1591,10 @@ export default function Home() {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-1 lg:gap-10 items-center">
                         {/* Mobile: Owner Image First, Desktop: Left side - Company Info */}
                         <motion.div
-                            initial={{ opacity: 0, x: -30 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+                            initial={{opacity: 0, x: -30}}
+                            whileInView={{opacity: 1, x: 0}}
+                            viewport={{once: true}}
+                            transition={{duration: 0.7, ease: [0.25, 0.1, 0.25, 1]}}
                             className="order-2 lg:order-1"
                         >
                             <div className="space-y-4">
@@ -1474,33 +1604,38 @@ export default function Home() {
                                     </h3>
                                     <div className="space-y-4 text-xl text-white/80 leading-relaxed">
                                         <p>
-                                            Onyx Roofing is a family-owned business serving Louisville and all of Kentucky.
-                                            We've built our reputation on exceptional craftsmanship, honest pricing, and unparalleled service.
+                                            Onyx Roofing is a family-owned business serving Louisville and all of
+                                            Kentucky.
+                                            We've built our reputation on exceptional craftsmanship, honest pricing, and
+                                            unparalleled service.
                                         </p>
                                         <p>
-                                            We use only premium materials and employ skilled professionals who take pride in every project.
-                                            As your neighbors, we treat every home as if it were our own. Our 24/7 emergency service ensures
+                                            We use only premium materials and employ skilled professionals who take
+                                            pride in every project.
+                                            As your neighbors, we treat every home as if it were our own. Our 24/7
+                                            emergency service ensures
                                             we're always here when you need us most.
                                         </p>
                                     </div>
                                 </div>
 
 
-                            {/* Key Values - More compact */}
+                                {/* Key Values - More compact */}
                                 <div className="grid grid-cols-2 gap-3 mt-6">
                                     {[
-                                        { number: "100%", label: "Satisfaction" },
-                                        { number: "24/7", label: "Emergency" }
+                                        {number: "100%", label: "Satisfaction"},
+                                        {number: "24/7", label: "Emergency"}
                                     ].map((stat, index) => (
                                         <motion.div
                                             key={stat.label}
-                                            initial={{ opacity: 0, y: 20 }}
-                                            whileInView={{ opacity: 1, y: 0 }}
-                                            viewport={{ once: true }}
-                                            transition={{ duration: 0.5, delay: 0.1 + index * 0.05 }}
+                                            initial={{opacity: 0, y: 20}}
+                                            whileInView={{opacity: 1, y: 0}}
+                                            viewport={{once: true}}
+                                            transition={{duration: 0.5, delay: 0.1 + index * 0.05}}
                                             className="text-center p-3 bg-white/5 rounded-lg border border-white/10"
                                         >
-                                            <div className="text-3xl font-semibold text-[#40d6d1]" style={{marginBottom: '0px'}}>{stat.number}</div>
+                                            <div className="text-3xl font-semibold text-[#40d6d1]"
+                                                 style={{marginBottom: '0px'}}>{stat.number}</div>
                                             <div className="text-md text-white/60">{stat.label}</div>
                                         </motion.div>
                                     ))}
@@ -1510,13 +1645,14 @@ export default function Home() {
 
                         {/* Mobile: Show First, Desktop: Right side - Owner Image */}
                         <motion.div
-                            initial={{ opacity: 0, x: 30 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+                            initial={{opacity: 0, x: 30}}
+                            whileInView={{opacity: 1, x: 0}}
+                            viewport={{once: true}}
+                            transition={{duration: 0.7, delay: 0.2, ease: [0.25, 0.1, 0.25, 1]}}
                             className="relative order-1 lg:order-2 mb-6 lg:mb-0 flex items-center justify-center"
                         >
-                            <div style={{zIndex: 1}} className="relative rounded-md overflow-hidden bg-[#2a2d31]/50 backdrop-blur-sm border border-white/10 w-full max-w-[500px] lg:max-w-[500px]">
+                            <div style={{zIndex: 1}}
+                                 className="relative rounded-md overflow-hidden bg-[#2a2d31]/50 backdrop-blur-sm border border-white/10 w-full max-w-[500px] lg:max-w-[500px]">
                                 {/* Landscape aspect ratio: shallower on mobile */}
                                 <div className="relative aspect-[5/4]" style={{zIndex: 1}}>
                                     <Image
@@ -1529,7 +1665,8 @@ export default function Home() {
                                 </div>
 
                                 {/* Caption area */}
-                                <div className="p-4 sm:p-5 sm:py-3 bg-gradient-to-t from-[#36363699] to-[#36363699]" style={{ zIndex: 10 }}>
+                                <div className="p-4 sm:p-5 sm:py-3 bg-gradient-to-t from-[#36363699] to-[#36363699]"
+                                     style={{zIndex: 10}}>
                                     {/* Mobile Layout */}
                                     <div className="flex flex-col sm:hidden gap-3">
                                         {/* Name and Title on same line */}
@@ -1545,8 +1682,10 @@ export default function Home() {
                                             className="shimmer-effect w-full flex items-center justify-center gap-2 border border-white/15 bg-[#549956]/56 px-4 py-2 text-md text-white hover:bg-[#40d6d1] hover:text-[#192119] hover:border-[#40d6d1]/50 transition-colors"
                                             aria-label="Call Ibrahim at (502) 207-3007"
                                         >
-                                            <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-1C7.82 18 2 12.18 2 5V3z"/>
+                                            <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor"
+                                                 aria-hidden="true">
+                                                <path
+                                                    d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-1C7.82 18 2 12.18 2 5V3z"/>
                                             </svg>
                                             <span className="whitespace-nowrap" style={{fontSize: "16px"}}>(502) 207-3007</span>
                                         </a>
@@ -1567,8 +1706,10 @@ export default function Home() {
                                             className="shimmer-effect shrink-0 inline-flex items-center gap-2 border border-white/15 bg-[#549956]/56 px-4 py-2 text-md text-white hover:bg-[#40d6d1] hover:text-[#192119] hover:border-[#40d6d1]/50 transition-colors"
                                             aria-label="Call Ibrahim at (502) 207-3007"
                                         >
-                                            <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-1C7.82 18 2 12.18 2 5V3z"/>
+                                            <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor"
+                                                 aria-hidden="true">
+                                                <path
+                                                    d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-1C7.82 18 2 12.18 2 5V3z"/>
                                             </svg>
                                             <span className="whitespace-nowrap" style={{fontSize: "18px"}}>(502) 207-3007</span>
                                         </a>
@@ -1578,17 +1719,21 @@ export default function Home() {
                             </div>
 
                             {/* Decorative elements */}
-                            <div className="absolute -top-4 -right-4 w-20 h-20 bg-[#40d6d1]/10 rounded-full blur-xl hidden lg:block" style={{zIndex: -1}} />
-                            <div className="absolute -bottom-0 -left-0 w-16 h-16 bg-[#13938f]/10 rounded-full blur-xl hidden lg:block" style={{zIndex: -1}} />
+                            <div
+                                className="absolute -top-4 -right-4 w-20 h-20 bg-[#40d6d1]/10 rounded-full blur-xl hidden lg:block"
+                                style={{zIndex: -1}}/>
+                            <div
+                                className="absolute -bottom-0 -left-0 w-16 h-16 bg-[#13938f]/10 rounded-full blur-xl hidden lg:block"
+                                style={{zIndex: -1}}/>
                         </motion.div>
                     </div>
 
                     {/* Certifications/Trust Badges - More compact */}
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.7, delay: 0.3 }}
+                        initial={{opacity: 0, y: 20}}
+                        whileInView={{opacity: 1, y: 0}}
+                        viewport={{once: true}}
+                        transition={{duration: 0.7, delay: 0.3}}
                         className="text-center"
                         style={{marginTop: '2.5rem'}}
                     >
@@ -1596,14 +1741,16 @@ export default function Home() {
                             {["Licensed & Insured", "BBB Accredited", "GAF Certified", "5-Star Rated"].map((badge, index) => (
                                 <motion.div
                                     key={badge}
-                                    initial={{ opacity: 0, scale: 0.8 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.4, delay: 0.4 + index * 0.05 }}
+                                    initial={{opacity: 0, scale: 0.8}}
+                                    whileInView={{opacity: 1, scale: 1}}
+                                    viewport={{once: true}}
+                                    transition={{duration: 0.4, delay: 0.4 + index * 0.05}}
                                     className="flex items-center gap-2 px-3 py-1.5 bg-[#40d6d1]/10 rounded-full border border-[#40d6d1]/20"
                                 >
                                     <svg className="w-5 h-5 text-[#40d6d1]" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                        <path fillRule="evenodd"
+                                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                              clipRule="evenodd"/>
                                     </svg>
                                     <span className="text-md text-white/80">{badge}</span>
                                 </motion.div>
@@ -1612,7 +1759,12 @@ export default function Home() {
                     </motion.div>
                 </div>
             </section>
-
+            <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+            >
             <section
                 id="coverage"
                 className="relative py-16 px-6 sm:px-12 bg-gradient-to-br from-[#1a1f1a] to-[#1a1f1a]"
@@ -1624,7 +1776,7 @@ export default function Home() {
 
                     {/* Map */}
                     <div className="rounded-2xl shadow-lg w-full mx-auto mb-8">
-                        <ServiceAreaMap />
+                        <ServiceAreaMap/>
                     </div>
 
                     {/* Text + Call Button */}
@@ -1639,6 +1791,7 @@ export default function Home() {
                     </a>
                 </div>
             </section>
+            </motion.div>
 
             {/* Footer Section */}
             <footer id="contact" className="relative bg-[#0f1611] text-white overflow-hidden">
@@ -1733,7 +1886,11 @@ export default function Home() {
                                         initial={{opacity: 0, x: -20}}
                                         whileInView={{opacity: 1, x: 0}}
                                         viewport={{once: true}}
-                                        transition={{duration: 0.4, delay: 0.1 + index * 0.05, ease: [0.25, 0.1, 0.25, 1]}}
+                                        transition={{
+                                            duration: 0.4,
+                                            delay: 0.1 + index * 0.05,
+                                            ease: [0.25, 0.1, 0.25, 1]
+                                        }}
                                     >
                                         <a
                                             href="#services" // Note: This anchor link will now point to a non-existent section
@@ -1767,7 +1924,11 @@ export default function Home() {
                                         initial={{opacity: 0, x: -20}}
                                         whileInView={{opacity: 1, x: 0}}
                                         viewport={{once: true}}
-                                        transition={{duration: 0.4, delay: 0.2 + index * 0.05, ease: [0.25, 0.1, 0.25, 1]}}
+                                        transition={{
+                                            duration: 0.4,
+                                            delay: 0.2 + index * 0.05,
+                                            ease: [0.25, 0.1, 0.25, 1]
+                                        }}
                                     >
                                         {item.action ? (
                                             <button
@@ -1852,13 +2013,25 @@ export default function Home() {
                         <div className="flex items-center space-x-4">
                             <div className="flex gap-5 text-2xl">
                                 {[
-                                    { name: "Facebook", icon: "facebook-f", href: "https://www.facebook.com/profile.php?id=61578690514178" },
-                                    { name: "Instagram", icon: "instagram", href: "https://www.instagram.com/OnyxRoofingPro" },
-                                    { name: "Threads", icon: "threads", href: "https://www.threads.net/@OnyxRoofingPro" },
-                                    { name: "Twitter", icon: "x-twitter", href: "https://x.com/OnyxRoofingPro" },
-                                    { name: "YouTube", icon: "youtube", href: "https://www.youtube.com/@OnyxRoofingPro" },
-                                    { name: "LinkedIn", icon: "linkedin-in", href: "https://www.linkedin.com/in/onyx-roofing-331b3b383/" },
-                                ].map(({ name, icon, href }) => (
+                                    {
+                                        name: "Facebook",
+                                        icon: "facebook-f",
+                                        href: "https://www.facebook.com/profile.php?id=61578690514178"
+                                    },
+                                    {
+                                        name: "Instagram",
+                                        icon: "instagram",
+                                        href: "https://www.instagram.com/OnyxRoofingPro"
+                                    },
+                                    {name: "Threads", icon: "threads", href: "https://www.threads.net/@OnyxRoofingPro"},
+                                    {name: "Twitter", icon: "x-twitter", href: "https://x.com/OnyxRoofingPro"},
+                                    {name: "YouTube", icon: "youtube", href: "https://www.youtube.com/@OnyxRoofingPro"},
+                                    {
+                                        name: "LinkedIn",
+                                        icon: "linkedin-in",
+                                        href: "https://www.linkedin.com/in/onyx-roofing-331b3b383/"
+                                    },
+                                ].map(({name, icon, href}) => (
                                     <motion.a
                                         key={name}
                                         href={href}
@@ -1866,8 +2039,8 @@ export default function Home() {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="w-10 h-10 bg-white/5 hover:bg-[#40d6d1]/20 text-white/40 hover:text-[#40d6d1] rounded-lg flex items-center justify-center transition-all duration-300 border border-white/10 hover:border-[#40d6d1]/30"
-                                        whileHover={{ scale: 1.1, rotate: 5 }}
-                                        whileTap={{ scale: 1 }}
+                                        whileHover={{scale: 1.1, rotate: 5}}
+                                        whileTap={{scale: 1}}
                                     >
                                         <i className={`fab fa-${icon}`}></i>
                                     </motion.a>
@@ -1879,24 +2052,36 @@ export default function Home() {
                 </div>
             </footer>
             <style jsx>{`
-              /* Marquee */
-              @keyframes marquee {
-                  0% { transform: translateX(0); }
-                  100% { transform: translateX(-50%); }
-              }
-              .marquee-track {
-                  width: 200%;
-                  animation: marquee linear infinite;
-                  /* the duration is derived from content width, but we keep it running; speed is controlled by translate rate via width trick */
-              }
-              .marquee-paused:hover .marquee-track {
-                  animation-play-state: paused;
-              }
+                /* Marquee */
+                @keyframes marquee {
+                    0% {
+                        transform: translateX(0);
+                    }
+                    100% {
+                        transform: translateX(-50%);
+                    }
+                }
 
-              /* Small utilities */
-              .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-              .scrollbar-hide::-webkit-scrollbar { display: none; }
-          `}</style>
+                .marquee-track {
+                    width: 200%;
+                    animation: marquee linear infinite;
+                    /* the duration is derived from content width, but we keep it running; speed is controlled by translate rate via width trick */
+                }
+
+                .marquee-paused:hover .marquee-track {
+                    animation-play-state: paused;
+                }
+
+                /* Small utilities */
+                .scrollbar-hide {
+                    -ms-overflow-style: none;
+                    scrollbar-width: none;
+                }
+
+                .scrollbar-hide::-webkit-scrollbar {
+                    display: none;
+                }
+            `}</style>
 
         </div>
     );
