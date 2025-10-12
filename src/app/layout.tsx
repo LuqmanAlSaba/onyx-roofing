@@ -13,7 +13,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Onyx Roofing - Professional Roofing Services Louisville, KY | Free Inspection",
+  title: "Onyx Roofing - Roofing Services Louisville, KY | Free Inspection",
   description: "Professional roofing services in Louisville, Kentucky. Roof replacement, repair, storm damage, and gutter installation. Licensed & insured. Free inspection. Call (502) 207-3007.",
   keywords: [
     "roofing services Louisville KY",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: "Onyx Roofing - Professional Roofing Services Louisville, KY",
+    title: "Onyx Roofing - Roofing Services Louisville, KY",
     description: "Professional roofing services in Louisville, Kentucky. Roof replacement, repair, storm damage, and gutter installation. Licensed & insured. Free inspection.",
     url: 'https://onyxroofingpro.com',
     siteName: 'Onyx Roofing',
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
         url: '/onyx-roofing-open-graph.png',
         width: 1200,
         height: 630,
-        alt: 'Onyx Roofing - Professional Roofing Services',
+        alt: 'Onyx Roofing - Roofing Services',
       },
     ],
     locale: 'en_US',
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Onyx Roofing - Professional Roofing Services Louisville, KY",
+    title: "Onyx Roofing - Roofing Services Louisville, KY",
     description: "Professional roofing services in Louisville, Kentucky. Roof replacement, repair, storm damage, and gutter installation. Licensed & insured. Free inspection.",
     images: ['/onyx-roofing-logo-black.webp'],
     site: '@OnyxRoofingPro',
@@ -233,7 +233,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#192119"/>
         <meta property="og:type" content="website"/>
         <meta property="og:locale" content="en_US"/>
-        <meta property="og:image:alt" content="Onyx Roofing - Professional Roofing Services"/>
+        <meta property="og:image:alt" content="Onyx Roofing - Roofing Services"/>
     </head>
     <body
         className={`${inter.className} antialiased`}
