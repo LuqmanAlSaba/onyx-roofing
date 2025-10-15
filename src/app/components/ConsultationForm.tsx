@@ -5,6 +5,16 @@ import {motion, AnimatePresence, useAnimationControls, Variants, easeInOut} from
 import dynamic from "next/dynamic";
 const AddressAutofill = dynamic(() => import("@mapbox/search-js-react").then(m => m.AddressAutofill), { ssr: false });
 
+type MapboxRetrieveResponse = {
+    features?: Array<{
+        properties?: {
+            full_address?: string;
+            name?: string;
+            place_name?: string;
+        };
+    }>;
+};
+
 type Props = {
     open: boolean;
     onClose: () => void;
@@ -335,14 +345,16 @@ export default function ConsultationForm({ open, onClose }: Props) {
                                                                         // optional: bias toward Louisville
                                                                         // proximity: [-85.7585, 38.2527],
                                                                     }}
-                                                                    onRetrieve={(res) => {
+                                                                    onRetrieve={(res: MapboxRetrieveResponse) => {
                                                                         try {
-                                                                            const anyRes = res as any;
-                                                                            const feat = anyRes?.features?.[0];
+                                                                            const feature = res.features?.[0];
+                                                                            const props = feature && "properties" in feature ? (feature as { properties?: Record<string, unknown> }).properties : undefined;
+
                                                                             const full =
-                                                                                feat?.properties?.full_address ||
-                                                                                feat?.properties?.name ||
-                                                                                feat?.place_name;
+                                                                                (props?.["full_address"] as string | undefined) ??
+                                                                                (props?.["name"] as string | undefined) ??
+                                                                                (props?.["place_name"] as string | undefined);
+
                                                                             if (full) {
                                                                                 setFormData((prev) => ({ ...prev, serviceAddress: full }));
                                                                             }
