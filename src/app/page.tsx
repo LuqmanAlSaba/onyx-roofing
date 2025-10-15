@@ -167,8 +167,7 @@ export default function Home() {
         return () => clearInterval(interval);
     }, []);
 
-// Updated pickAndTransitionVideo function to use the API route
-
+    // Updated pickAndTransitionVideo function to use the API route
     const pickAndTransitionVideo = useCallback(async () => {
         try {
             // Get current time info first
@@ -203,8 +202,13 @@ export default function Home() {
                 console.warn("Weather API failed, using time-based selection only:", error);
             }
 
-            // Select video based on weather and time
-            if (isRaining) {
+            // Check if it's October for Halloween video
+            const currentMonth = new Date().getMonth();
+
+            // Select video based on month, weather and time
+            if (currentMonth === 9) { // October
+                newVideo = "/house-halloween.mp4";
+            } else if (isRaining) {
                 newVideo = "/house-rainy.mp4";
             } else if (now >= sunset - 3600 && now < sunset) {
                 newVideo = "/house-sunset.mp4";
@@ -234,7 +238,7 @@ export default function Home() {
         return () => clearInterval(intervalId);
     }, [pickAndTransitionVideo]);
 
-// Preload next video (Unchanged)
+    // Preload next video (Unchanged)
     useEffect(() => {
         if (!videoQueue) return;
         const nextVidElement = document.createElement("video");
@@ -249,7 +253,7 @@ export default function Home() {
         nextVidElement.load();
     }, [videoQueue]);
 
-// Transition to next video (Unchanged)
+    // Transition to next video (Unchanged)
     useEffect(() => {
         if (!isTransitioning || !nextVideo) return;
         const transitionTimer = setTimeout(() => {
@@ -261,7 +265,7 @@ export default function Home() {
         return () => clearTimeout(transitionTimer);
     }, [isTransitioning, nextVideo]);
 
-// Handle scroll detection for call banner
+    // Handle scroll detection for call banner
     useEffect(() => {
         let ticking = false;
         const handleScroll = () => {
@@ -280,12 +284,9 @@ export default function Home() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-// Mouse movement for parallax effect (Unchanged)
+    // Mouse movement for parallax effect (Unchanged)
     useEffect(() => {
-        let targetX = 0,
-            targetY = 0,
-            currentX = 0,
-            currentY = 0;
+        let targetX = 0, targetY = 0, currentX = 0, currentY = 0;
         let animationId: number;
         const lerpFactor = 0.08;
         const handleMouseMove = (e: MouseEvent) => {
@@ -311,23 +312,21 @@ export default function Home() {
         };
     }, []);
 
-// Email validation helper function (Unchanged)
+    // Email validation helper function (Unchanged)
     const isValidEmail = (email: string): boolean => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     };
 
-// Handle input changes (Simplified - removed Google Maps specific logic)
+    // Handle input changes (Simplified - removed Google Maps specific logic)
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const {name, value} = e.target;
         setFormData((prev) => ({...prev, [name]: value}));
         // Clear errors when user starts typing, but validate email format in real-time
         if (name === "email") {
-            // Ensure we always return a boolean: show error if value exists and is invalid
             const hasError = value.trim().length > 0 && !isValidEmail(value);
             setErrors((prev) => ({...prev, email: hasError}));
         } else {
-            // For other fields (including serviceAddress), clear error on input
             setErrors((prev) => ({...prev, [name]: false}));
         }
     };
@@ -377,37 +376,18 @@ export default function Home() {
     };
 
     const handleNextStep = async () => {
-        // --- Updated validation logic ---
-        // Check for errors including serviceAddress
         const newErrors = {
-            fullName: !formData.fullName.trim(), // Add trim check
+            fullName: !formData.fullName.trim(),
             phone: !formData.phone.trim(),
             email: !formData.email.trim() || !isValidEmail(formData.email),
-            serviceAddress: !formData.serviceAddress.trim(), // Add trim check
+            serviceAddress: !formData.serviceAddress.trim(),
         };
         if (Object.values(newErrors).some((error) => error)) {
             setErrors(newErrors);
-            // --- Animation triggers (Unchanged) ---
-            if (newErrors.fullName)
-                fullNameControls.start({
-                    x: [0, -3, 3, -3, 3, -1.5, 1.5, 0],
-                    transition: {duration: 0.52, times: [0, 0.15, 0.3, 0.45, 0.55, 0.7, 0.85, 1], ease: "easeInOut"},
-                });
-            if (newErrors.phone)
-                phoneControls.start({
-                    x: [0, -3, 3, -3, 3, -1.5, 1.5, 0],
-                    transition: {duration: 0.52, times: [0, 0.15, 0.3, 0.45, 0.55, 0.7, 0.85, 1], ease: "easeInOut"},
-                });
-            if (newErrors.email)
-                emailControls.start({
-                    x: [0, -3, 3, -3, 3, -1.5, 1.5, 0],
-                    transition: {duration: 0.52, times: [0, 0.15, 0.3, 0.45, 0.55, 0.7, 0.85, 1], ease: "easeInOut"},
-                });
-            if (newErrors.serviceAddress) // Trigger animation for address
-                serviceAddressControls.start({
-                    x: [0, -3, 3, -3, 3, -1.5, 1.5, 0],
-                    transition: {duration: 0.52, times: [0, 0.15, 0.3, 0.45, 0.55, 0.7, 0.85, 1], ease: "easeInOut"},
-                });
+            if (newErrors.fullName) fullNameControls.start({x: [0, -3, 3, -3, 3, -1.5, 1.5, 0], transition: {duration: 0.52, times: [0, .15, .3, .45, .55, .7, .85, 1], ease: "easeInOut"}});
+            if (newErrors.phone) phoneControls.start({x: [0, -3, 3, -3, 3, -1.5, 1.5, 0], transition: {duration: 0.52, times: [0, .15, .3, .45, .55, .7, .85, 1], ease: "easeInOut"}});
+            if (newErrors.email) emailControls.start({x: [0, -3, 3, -3, 3, -1.5, 1.5, 0], transition: {duration: 0.52, times: [0, .15, .3, .45, .55, .7, .85, 1], ease: "easeInOut"}});
+            if (newErrors.serviceAddress) serviceAddressControls.start({x: [0, -3, 3, -3, 3, -1.5, 1.5, 0], transition: {duration: 0.52, times: [0, .15, .3, .45, .55, .7, .85, 1], ease: "easeInOut"}});
             return;
         }
         setFormStep(2);
@@ -421,29 +401,21 @@ export default function Home() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setSubmitStage("loading");
-        // Capture ripple effect origin for button animation
         if (submitBtnRef.current) {
             const rect = submitBtnRef.current.getBoundingClientRect();
-            setRippleOrigin({
-                x: rect.width / 2,
-                y: rect.height / 2
-            });
+            setRippleOrigin({x: rect.width / 2, y: rect.height / 2});
         }
         try {
             const res = await fetch("https://formspree.io/f/xdkdapno", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                },
+                headers: {"Content-Type": "application/json", "Accept": "application/json"},
                 body: JSON.stringify({
                     fullName: formData.fullName,
                     phone: formData.phone,
                     email: formData.email,
-                    serviceAddress: formData.serviceAddress, // Include address in submission
+                    serviceAddress: formData.serviceAddress,
                     services: formData.services.join(", "),
                     message: formData.message,
-                    // Additional metadata for the email
                     _subject: "New Consultation Request - Onyx Roofing",
                     _replyto: formData.email,
                     _format: "plain"
@@ -453,10 +425,8 @@ export default function Home() {
                 const errorData = await res.json();
                 throw new Error(errorData.error || "Failed to submit form");
             }
-            // Success! Fire confetti and transition to success state
             setSubmitStage("success");
             await ejectConfetti();
-            // Small delay before showing completion screen
             setTimeout(() => {
                 setSubmitStage("complete");
                 setIsSubmitted(true);
@@ -464,7 +434,6 @@ export default function Home() {
         } catch (err) {
             console.error("Form submission error:", err);
             setSubmitStage("idle");
-            // User-friendly error handling
             alert("Sorry, there was an error submitting your request. Please try again or call us directly at 502-207-3007.");
         }
     };
@@ -486,63 +455,46 @@ export default function Home() {
         hidden: {width: "0%"},
         visible: {
             width: isSubmitted ? "100%" : formStep === 2 ? "50%" : "0%",
-            transition: {
-                duration: 0.3,
-                ease: "easeOut",
-            },
+            transition: {duration: 0.3, ease: "easeOut"},
         },
     };
 
-// --- New function for smooth scrolling with custom duration ---
+    // --- Smooth scroll helper (Unchanged) ---
     const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
         e.preventDefault();
-
-        // Map nav items to their actual section IDs
-        const idMapping: { [key: string]: string } = {
-            'services': 'services',
-            'projects': 'portfolio',
-            'about': 'about',
-            'contact': 'contact'
-        };
-
+        const idMapping: { [key: string]: string } = { 'services': 'services', 'projects': 'portfolio', 'about': 'about', 'contact': 'contact' };
         const actualTargetId = idMapping[targetId] || targetId;
         const targetElement = document.getElementById(actualTargetId);
-
         if (targetElement) {
             const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
             const startPosition = window.pageYOffset;
             const distance = targetPosition - startPosition;
-            const duration = 800; // Adjust this value (in milliseconds) to control scroll speed
+            const duration = 800;
             let start: number | null = null;
-
-            const easeInOutCubic = (t: number): number => {
-                return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
-            };
-
+            const easeInOutCubic = (t: number) => t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
             const animation = (currentTime: number) => {
                 if (start === null) start = currentTime;
                 const timeElapsed = currentTime - start;
                 const progress = Math.min(timeElapsed / duration, 1);
                 const ease = easeInOutCubic(progress);
-
                 window.scrollTo(0, startPosition + distance * ease);
-
-                if (timeElapsed < duration) {
-                    requestAnimationFrame(animation);
-                }
+                if (timeElapsed < duration) requestAnimationFrame(animation);
             };
-
             requestAnimationFrame(animation);
-
-            if (isMenuOpen) {
-                setIsMenuOpen(false);
-            }
+            if (isMenuOpen) setIsMenuOpen(false);
         }
     };
 
+    // ===== NEW: position helper for videos (spread operator) =====
+    const getVideoPositionStyles = (src: string | null) => {
+        const isHalloween = src === "/house-halloween.mp4";
+        return isHalloween
+            ? { bottom: 0 as const, top: '-100px' as const, objectPosition: 'center bottom' as const }
+            : { top: '-125px' as const, bottom: 'auto' as const };
+    };
+
     return (
-        <div className="font-inter antialiased overflow-x-hidden"
-             style={{fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"}}>
+        <div className="font-inter antialiased overflow-x-hidden" style={{fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"}}>
             <main
                 ref={videoSectionRef}
                 className="h-full text-white relative overflow-hidden"
@@ -552,15 +504,13 @@ export default function Home() {
                     borderRadius: "0px",
                     maxWidth: "100vw",
                     minHeight: "100vh",
-                    touchAction: "auto", // Allow normal touch scrolling
+                    touchAction: "auto",
                 }}
             >
-                <div className="relative h-full overflow-hidden"
-                     style={{borderRadius: "32px 32px 0 0", minHeight: '100vh', maxWidth: "100%"}}>
-                    <canvas id="confetti-canvas" className="absolute inset-0 pointer-events-none h-full"
-                            style={{zIndex: 100}}/>
-                    <motion.div className="absolute inset-0 h-full overflow-hidden" style={{backgroundColor: "#192119"}}
-                                animate={{scale: scrolled ? 1.02 : 1}} transition={{duration: 0.52, ease: "easeOut"}}>
+                <div className="relative h-full overflow-hidden" style={{borderRadius: "32px 32px 0 0", minHeight: '100vh', maxWidth: "100%"}}>
+                    <canvas id="confetti-canvas" className="absolute inset-0 pointer-events-none h-full" style={{zIndex: 100}}/>
+                    <motion.div className="absolute inset-0 h-full overflow-hidden" style={{backgroundColor: "#192119"}} animate={{scale: scrolled ? 1.02 : 1}} transition={{duration: 0.52, ease: "easeOut"}}>
+                        {/* CURRENT VIDEO */}
                         <motion.video
                             key={`current-${currentVideo}`}
                             ref={videoRef}
@@ -571,9 +521,9 @@ export default function Home() {
                                 maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)",
                                 WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)",
                                 left: 0,
-                                top: 0,
                                 width: "100%",
                                 height: "100%",
+                                ...getVideoPositionStyles(currentVideo), // <-- conditional bottom/top + objectPosition
                             }}
                             initial={{opacity: 0}}
                             animate={{opacity: isTransitioning ? 0 : 1}}
@@ -585,6 +535,8 @@ export default function Home() {
                         >
                             <source src={currentVideo} type="video/mp4"/>
                         </motion.video>
+
+                        {/* NEXT VIDEO (cross-fade target) */}
                         <motion.video
                             key={`next-${nextVideo || currentVideo}`}
                             ref={nextVideoRef}
@@ -595,9 +547,9 @@ export default function Home() {
                                 maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)",
                                 WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)",
                                 left: 0,
-                                top: 0,
                                 width: "100%",
                                 height: "100%",
+                                ...getVideoPositionStyles(nextVideo || currentVideo), // <-- same conditional logic
                             }}
                             initial={{opacity: 0}}
                             animate={{opacity: isTransitioning ? 1 : 0}}
@@ -609,10 +561,9 @@ export default function Home() {
                         >
                             <source src={nextVideo || currentVideo} type="video/mp4"/>
                         </motion.video>
-                        <div
-                            className="hidden md:block absolute top-1/3 left-1/4 w-96 h-96 bg-[#13938f]/3 rounded-full blur-[120px] animate-pulse-slow will-change-[opacity]"/>
-                        <div
-                            className="hidden md:block absolute bottom-1/3 right-1/3 w-96 h-96 bg-white/3 rounded-full blur-[100px] animate-pulse-slower will-change-[opacity]"/>
+
+                        <div className="hidden md:block absolute top-1/3 left-1/4 w-96 h-96 bg-[#13938f]/3 rounded-full blur-[120px] animate-pulse-slow will-change-[opacity]"/>
+                        <div className="hidden md:block absolute bottom-1/3 right-1/3 w-96 h-96 bg-white/3 rounded-full blur-[100px] animate-pulse-slower will-change-[opacity]"/>
                     </motion.div>
                     <div className="relative z-100 pb-16 md:pb-0">
                         {/* Static Navigation - only visible in hero section */}
