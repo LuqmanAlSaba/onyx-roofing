@@ -4,6 +4,8 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useEdgeSelectedVideo } from "@/hooks/useEdgeSelectedVideo";
 
+import Hamburger from "./Hamburger";
+
 interface HeroProps {
     isFormOpen?: boolean;
     onOpenForm: () => void;
@@ -226,19 +228,11 @@ export default function Hero({ isFormOpen = false, onOpenForm }: HeroProps) {
                             </div>
 
                             <div className="md:hidden z-100">
-                                <motion.svg
-                                    onClick={() => setIsMenuOpen((o) => !o)}
-                                    viewBox="0 0 100 100"
-                                    width="40"
-                                    height="40"
-                                    style={{ originX: "50%", originY: "50%", cursor: "pointer" }}
-                                    animate={{ rotate: isMenuOpen ? 45 : 0 }}
-                                    transition={{ rotate: { duration: 0.4, ease: "easeInOut" } }}
-                                >
-                                    <motion.path d="m 30,33 h 40" fill="none" stroke="#fff" strokeWidth="5.5" strokeLinecap="round" animate={{ x: isMenuOpen ? 8 : 0 }} />
-                                    <motion.path d="m 30,50 h 40" fill="none" stroke="#fff" strokeWidth="5.5" strokeLinecap="round" animate={{ rotate: isMenuOpen ? 90 : 0 }} />
-                                    <motion.path d="m 30,67 h 40" fill="none" stroke="#fff" strokeWidth="5.5" strokeLinecap="round" animate={{ x: isMenuOpen ? -8 : 0 }} />
-                                </motion.svg>
+                                <Hamburger
+                                  isOpen={isMenuOpen}
+                                  onToggle={() => setIsMenuOpen(o => !o)}
+                                  size={40}
+                                />
                             </div>
                         </div>
 
