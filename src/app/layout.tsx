@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import DeferredFontAwesome from '@/app/components/DeferredFontAwesome';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -109,7 +108,6 @@ export default function RootLayout({
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
         <link rel="preconnect" href="https://fonts.gstatic.com"/>
-        {/* Font Awesome loaded via client component for deferred loading */}
         {/* Preconnect hints for external resources */}
         <link rel="preconnect" href="https://api.openweathermap.org"/>
 
@@ -233,7 +231,6 @@ export default function RootLayout({
     <body
         className={`${inter.className} antialiased`}
     >
-    <DeferredFontAwesome />
     {children}
     <Analytics/>
     <SpeedInsights/>
