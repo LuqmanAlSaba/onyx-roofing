@@ -153,10 +153,11 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
     };
 
     // Convert video path to image path (WebP format)
+    // Mobile uses pre-blurred images for better performance
     const getImagePathFromVideo = React.useCallback((videoPath: string) => {
-        // /videos/house-afternoon.mp4 -> /images/hero/house-afternoon.webp
+        // /videos/house-afternoon.mp4 -> /images/hero-blurred/house-afternoon.webp (mobile)
         const filename = videoPath.split('/').pop()?.replace('.mp4', '.webp');
-        return `/images/hero/${filename}`;
+        return `/images/hero-blurred/${filename}`;
     }, []);
 
     return (
@@ -192,7 +193,7 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                             quality={85}
                             className="house-background object-cover"
                             style={{
-                                filter: "blur(5px) brightness(1) saturate(0.75)",
+                                filter: "brightness(1) saturate(0.75)",
                                 transform: "scale(1.05)",
                                 maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)",
                                 WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)",
