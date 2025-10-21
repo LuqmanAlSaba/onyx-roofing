@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "Onyx Roofing - Roofing Services Louisville, KY",
     description: "Professional roofing services in Louisville, Kentucky. Roof replacement, repair, storm damage, and gutter installation. Licensed & insured. Free inspection.",
-    images: ['/onyx-roofing-logo-black.webp'],
+    images: ['/onyx-roofing-og.png'],
     site: '@OnyxRoofingPro',
     creator: '@OnyxRoofingPro',
   },
@@ -214,7 +214,7 @@ export default function RootLayout({
                     "@type": "Organization",
                     "name": "Onyx Roofing",
                     "url": "https://onyxroofingpro.com",
-                    "logo": "https://onyxroofingpro.com/onyx-roofing-logo-black.webp",
+                    "logo": "onyx-roofing-og.png",
                     "contactPoint": {
                         "@type": "ContactPoint",
                         "telephone": "+1-502-207-3007",
