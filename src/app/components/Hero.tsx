@@ -347,8 +347,8 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                                         <motion.a
                                             href="#portfolio"
                                             onClick={(e) => handleNavClick(e, "portfolio")}
-                                            className="shimmer-effect px-6 sm:px-8 md:px-10 py-3 sm:py-4 border border-white/50 text-white hover:bg-white hover:text-gray-900 font-normal rounded-full transition-all duration-300 cursor-pointer text-sm sm:text-base transform-gpu"
-                                            style={{ backdropFilter: "blur(20px)" }}
+                                            className="shimmer-effect px-6 sm:px-8 md:px-10 py-3 sm:py-4 border-2 border-white/90 text-white hover:bg-white hover:text-gray-900 font-normal rounded-full transition-all duration-300 cursor-pointer text-sm sm:text-base transform-gpu"
+                                            style={{ backdropFilter: "blur(20px)", backgroundColor: "rgba(0, 0, 0, 0.4)" }}
                                         >
                                             View Our Work
                                         </motion.a>

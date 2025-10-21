@@ -98,7 +98,7 @@ export default function HomeClient({ initialVideo }: HomeClientProps) {
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-light text-white mb-2">
               Our <span className="font-normal text-[#40d6d1]">Services</span>
             </h2>
-            <p className="text-sm sm:text-base text-white/60 max-w-xl mx-auto">
+            <p className="text-sm sm:text-base text-white/95 max-w-xl mx-auto">
               Premium roofing solutions to protect your investment
             </p>
           </motion.div>
@@ -245,7 +245,7 @@ ${
                     <h3 className="text-base font-medium text-white mb-1 group-hover:text-[#40d6d1] transition-colors duration-300">
                       {service.title}
                     </h3>
-                    <p className="text-white/50 text-sm leading-relaxed line-clamp-2">
+                    <p className="text-white/90 text-sm leading-relaxed line-clamp-2">
                       {service.description}
                     </p>
                   </div>
@@ -277,7 +277,7 @@ ${
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-light text-white mb-4">
               View Our <span className="font-normal text-[#40d6d1]">Work</span>
             </h2>
-            <p className="text-base text-white/70 max-w-xl mx-auto">
+            <p className="text-base text-white/95 max-w-xl mx-auto">
               Quality craftsmanship that speaks for itself
             </p>
           </motion.div>
@@ -293,7 +293,7 @@ ${
             className="text-center mt-4"
           >
             <h3 className="text-xl text-white mb-4">Ready to Start Your Project?</h3>
-            <p className="text-white/70 mb-6 max-w-md mx-auto">
+            <p className="text-white/95 mb-6 max-w-md mx-auto">
               Proudly Kentucky-based roofers. Schedule your free inspection today.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -341,7 +341,7 @@ ${
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-light text-white mb-2">
               About <span className="font-normal text-[#40d6d1]">Us</span>
             </h2>
-            <p className="text-sm sm:text-base text-white/60 max-w-xl mx-auto">
+            <p className="text-sm sm:text-base text-white/95 max-w-xl mx-auto">
               Your trusted partner in premium roofing solutions
             </p>
           </motion.div>
@@ -360,7 +360,7 @@ ${
                   <h3 className="text-2xl sm:text-2xl font-semibold text-white mb-4">
                     Built on Trust, Delivered with Excellence
                   </h3>
-                  <div className="space-y-4 text-xl text-white/80 leading-relaxed">
+                  <div className="space-y-4 text-xl text-white/95 leading-relaxed">
                     <p>
                       Onyx Roofing is a family-owned business serving Louisville and all of Kentucky. We've built our
                       reputation on exceptional craftsmanship, honest pricing, and unparalleled service.
@@ -389,7 +389,7 @@ ${
                       <div className="text-3xl font-semibold text-[#40d6d1]" style={{ marginBottom: "0px" }}>
                         {stat.number}
                       </div>
-                      <div className="text-md text-white/60">{stat.label}</div>
+                      <div className="text-md text-white/90">{stat.label}</div>
                     </motion.div>
                   ))}
                 </div>
