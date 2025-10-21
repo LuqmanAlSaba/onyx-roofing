@@ -233,7 +233,7 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                                             key={item}
                                             href={`#${targetId}`}
                                             onClick={(e) => handleNavClick(e, targetId)}
-                                            className="text-white/80 hover:text-white text-md font-normal transition-all duration-300"
+                                            className="text-white hover:text-white/95 text-md font-normal transition-all duration-300"
                                             initial={{ opacity: 0, y: -20 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: 0.1 * index, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
@@ -300,17 +300,17 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                                     <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}>
                                         <h1
                                             className="text-2xl sm:text-2xl md:text-4xl lg:text-6xl font-light leading-tight"
-                                            style={{ textAlign: "left", textShadow: "-0px 0px 3px rgba(0,0,0,.32)" }}
+                                            style={{ textAlign: "left", textShadow: "0px 2px 8px rgba(0,0,0,0.8)" }}
                                         >
-                      <span className="block text-white mb-1 sm:mb-3 tracking-wide" style={{ mixBlendMode: "difference" }}>
+                      <span className="block text-white mb-1 sm:mb-3 tracking-wide">
                         Built to{" "}
-                          <span className="font-normal" style={{ mixBlendMode: "difference", color: "#40d6d1" }}>
+                          <span className="font-normal" style={{ color: "#4de8e3" }}>
                           Withstand.
                         </span>
                       </span>
-                                            <span className="block text-white tracking-wide" style={{ mixBlendMode: "difference" }}>
+                                            <span className="block text-white tracking-wide">
                         Designed to{" "}
-                                                <span className="font-normal" style={{ mixBlendMode: "difference", color: "#40d6d1" }}>
+                                                <span className="font-normal" style={{ color: "#4de8e3" }}>
                           Impress.
                         </span>
                       </span>
@@ -318,7 +318,8 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                                     </motion.div>
 
                                     <motion.p
-                                        className="mt-6 sm:mt-10 text-sm sm:text-base md:text-lg text-white/80 max-w-md sm:max-w-lg md:max-w-2xl leading-relaxed font-light"
+                                        className="mt-6 sm:mt-10 text-sm sm:text-base md:text-lg text-white max-w-md sm:max-w-lg md:max-w-2xl leading-relaxed font-light"
+                                        style={{ textShadow: "0px 2px 6px rgba(0,0,0,0.7)" }}
                                         initial={{ opacity: 0, y: 40 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: 0.2, duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
@@ -364,11 +365,11 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                                             .map((item, index) => (
                                                 <motion.span
                                                     key={item}
-                                                    className="inline-flex items-center gap-2 text-white/90 font-light px-2 sm:px-3 py-1 sm:py-2 bg-[#474747]/30 backdrop-blur-md h-full transform-gpu"
+                                                    className="inline-flex items-center gap-2 text-white font-light px-2 sm:px-3 py-1 sm:py-2 bg-[#2d2d2d]/90 backdrop-blur-md h-full transform-gpu"
                                                     initial={{ opacity: 0, y: 20 }}
                                                     animate={{ opacity: 1, y: 0 }}
                                                     transition={{ delay: 0.7 + index * 0.1, duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-                                                    style={{ borderRadius: 16, border: "2px solid rgba(200,200,200,0.04)" }}
+                                                    style={{ borderRadius: 16, border: "1px solid rgba(255,255,255,0.15)" }}
                                                 >
                                                     <span className="text-sm">✓</span>
                                                     <span>{item}</span>
@@ -385,8 +386,8 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
             {/* Call banner */}
             <motion.a
                 href="tel:5022073007"
-                className="fixed bottom-0 inset-x-0 bg-[#192119] text-white text-center py-4 z-20 flex items-center justify-center"
-                style={{ borderRadius: 0, background: "#192119", textShadow: "0 1px 2px rgba(0,0,0,0.3)", maxWidth: "100vw" }}
+                className="fixed bottom-0 inset-x-0 bg-[#0f150f] text-white text-center py-4 z-20 flex items-center justify-center"
+                style={{ borderRadius: 0, background: "#0f150f", maxWidth: "100vw" }}
                 initial={{ y: 0, opacity: 1 }}
                 animate={{ y: pastVideoSection ? 100 : 0, opacity: pastVideoSection ? 0 : 1 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
@@ -394,7 +395,7 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                 <svg ref={phoneIconRef} className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-1C7.82 18 2 12.18 2 5V3z" />
                 </svg>
-                <span className="font-semibold text-lg sm:text-xl" style={{ backgroundColor: "#192119" }}>
+                <span className="font-semibold text-lg sm:text-xl">
           Call us at 502-207-3007
         </span>
             </motion.a>
