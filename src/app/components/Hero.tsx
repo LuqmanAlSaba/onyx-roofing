@@ -233,7 +233,7 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                                             key={item}
                                             href={`#${targetId}`}
                                             onClick={(e) => handleNavClick(e, targetId)}
-                                            className="text-white/80 hover:text-white text-md font-normal transition-all duration-300"
+                                            className="text-white/100 hover:text-white text-md font-normal transition-all duration-300"
                                             initial={{ opacity: 0, y: -20 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: 0.1 * index, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
@@ -318,7 +318,7 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                                     </motion.div>
 
                                     <motion.p
-                                        className="mt-6 sm:mt-10 text-sm sm:text-base md:text-lg text-white/80 max-w-md sm:max-w-lg md:max-w-2xl leading-relaxed font-light"
+                                        className="mt-6 sm:mt-10 text-sm sm:text-base md:text-lg text-white/100 max-w-md sm:max-w-lg md:max-w-2xl leading-relaxed font-light"
                                         initial={{ opacity: 0, y: 40 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: 0.2, duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
