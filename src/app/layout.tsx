@@ -122,7 +122,10 @@ export default function RootLayout({
             crossOrigin="anonymous"
             referrerPolicy="no-referrer"
             media="print"
-            onLoad={(e: any) => { if (e.target) e.target.media = 'all'; }}
+            onLoad={(e: React.SyntheticEvent<HTMLLinkElement>) => {
+              const target = e.target as HTMLLinkElement;
+              target.media = 'all';
+            }}
         />
         {/* Preconnect hints for external resources */}
         <link rel="preconnect" href="https://api.openweathermap.org"/>

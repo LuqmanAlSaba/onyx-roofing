@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Hero from "@/app/components/Hero";
 import ServiceAreaMap from "@/app/components/ServiceAreaMap";
 import ReviewCarousel from "@/app/components/reviews/ReviewCarousel";
@@ -408,7 +409,13 @@ ${
                 className="relative rounded-md overflow-hidden bg-[#2a2d31]/50 backdrop-blur-sm border border-white/10 w-full max-w-[500px] lg:max-w-[500px]"
               >
                 <div className="relative aspect-[5/4]" style={{ zIndex: 1 }}>
-                  <img src="/ibrahim-maddie.webp" alt="Ibrahim Al-Saba, Founder of Onyx Roofing" className="object-cover" />
+                  <Image
+                    src="/ibrahim-maddie.webp"
+                    alt="Ibrahim Al-Saba, Founder of Onyx Roofing"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 500px"
+                  />
                 </div>
 
                 <div className="p-4 sm:p-5 sm:py-3 bg-gradient-to-t from-[#36363699] to-[#36363699]" style={{ zIndex: 10 }}>
@@ -553,7 +560,7 @@ ${
               className="lg:col-span-2"
             >
               <div className="mb-6">
-                <img
+                <Image
                   src="/onyx-roofing-logo-black.png"
                   alt="Onyx Roofing"
                   width={120}
