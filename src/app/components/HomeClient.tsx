@@ -299,7 +299,7 @@ ${
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <button
                 onClick={() => setIsFormOpen(true)}
-                className="shimmer-effect inline-flex items-center px-6 py-3 bg-[#40d6d1] hover:bg-[#13a19c] text-white font-medium rounded-full transition-all duration-300 group transform-gpu"
+                className="shimmer-effect inline-flex items-center px-6 py-3 bg-[#13a19c] hover:bg-[#0f7a76] text-white font-medium rounded-full cursor-pointer transition-all duration-300 group transform-gpu"
               >
                 Schedule Free Inspection
                 <svg
