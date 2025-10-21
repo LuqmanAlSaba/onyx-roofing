@@ -95,6 +95,12 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#192119',
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -224,11 +230,6 @@ export default function RootLayout({
                 })
             }}
         />
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <meta name="theme-color" content="#192119"/>
-        <meta property="og:type" content="website"/>
-        <meta property="og:locale" content="en_US"/>
-        <meta property="og:image:alt" content="Onyx Roofing - Roofing Services"/>
     </head>
     <body
         className={`${inter.className} antialiased`}
