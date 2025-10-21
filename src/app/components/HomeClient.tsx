@@ -11,8 +11,27 @@ interface HomeClientProps {
   initialVideo: string;
 }
 
+// Service mapping from homepage to form
+const mapServiceToForm = (serviceTitle: string): string | undefined => {
+  const mapping: Record<string, string> = {
+    "Roof Replacement": "Complete Replacement",
+    "Roof Repair": "Leak Repair",
+    "Storm Damage": "Storm Damage",
+    "Free Inspection": "Roof Inspection",
+    "24/7 Emergency": "Emergency Service",
+  };
+  return mapping[serviceTitle];
+};
+
 export default function HomeClient({ initialVideo }: HomeClientProps) {
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState<string | undefined>(undefined);
+
+  const handleServiceClick = (serviceTitle: string) => {
+    const formService = mapServiceToForm(serviceTitle);
+    setSelectedService(formService);
+    setIsFormOpen(true);
+  };
 
   // --- Portfolio Items (Unchanged) ---
   const portfolioItems: ReviewItem[] = [
@@ -49,7 +68,14 @@ export default function HomeClient({ initialVideo }: HomeClientProps) {
       />
 
       {/* Consultation Form Overlay (now separate component) */}
-      <ConsultationForm open={isFormOpen} onClose={() => setIsFormOpen(false)} />
+      <ConsultationForm
+        open={isFormOpen}
+        onClose={() => {
+          setIsFormOpen(false);
+          setSelectedService(undefined);
+        }}
+        initialService={selectedService}
+      />
 
       {/* Services Section */}
       <section
@@ -175,12 +201,13 @@ export default function HomeClient({ initialVideo }: HomeClientProps) {
                 highlight: false,
               },
             ].map((service, index) => (
-              <motion.div
+              <motion.button
                 key={service.title}
                 initial={{ opacity: 0, y: 20 }}
                 viewport={{ once: true, margin: "-50px" }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.05, ease: [0.25, 0.1, 0.25, 1] }}
+                onClick={() => handleServiceClick(service.title)}
                 className={`
 group relative rounded-lg overflow-hidden
 bg-white/5 ring-1 ring-white/10
@@ -189,6 +216,7 @@ transition-transform transition-opacity transition-shadow transition-colors
 duration-200 ease-out
 hover:shadow-lg hover:bg-white/[0.07]
 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400
+cursor-pointer text-left w-full
 ${
     service.highlight
         ? "bg-gradient-to-br from-[#40d6d1]/20 to-[#13938f]/20 border border-[#40d6d1]/30 hover:border-[#40d6d1]/50"
@@ -222,7 +250,7 @@ ${
                   </div>
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-800 ease-out pointer-events-none" />
-              </motion.div>
+              </motion.button>
             ))}
           </div>
         </div>

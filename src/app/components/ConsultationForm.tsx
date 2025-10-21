@@ -18,9 +18,10 @@ type MapboxRetrieveResponse = {
 type Props = {
     open: boolean;
     onClose: () => void;
+    initialService?: string;
 };
 
-export default function ConsultationForm({ open, onClose }: Props) {
+export default function ConsultationForm({ open, onClose, initialService }: Props) {
     const [isFormClosing, setIsFormClosing] = useState(false);
     const [formStep, setFormStep] = useState(1);
     const [showDetails, setShowDetails] = useState(false);
@@ -65,6 +66,16 @@ export default function ConsultationForm({ open, onClose }: Props) {
             window.scrollTo(0, top ? -parseInt(top, 10) : 0); // restore position
         };
     }, [open]);
+
+    // Set initial service when form opens
+    useEffect(() => {
+        if (open && initialService) {
+            setFormData((prev) => ({
+                ...prev,
+                services: [initialService],
+            }));
+        }
+    }, [open, initialService]);
 
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [submitStage, setSubmitStage] = useState<"idle" | "loading" | "success" | "complete">("idle");
