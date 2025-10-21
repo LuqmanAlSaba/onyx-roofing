@@ -28,6 +28,21 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
     const currentVideo = useEdgeSelectedVideo(initialVideo);
 
     // --- Effects
+    // Handle video playback when src changes
+    useEffect(() => {
+        const video = videoRef.current;
+        if (video && currentVideo) {
+            // When video src changes (e.g., time-based update), restart playback
+            const handleLoadedData = () => {
+                video.play().catch(() => {
+                    // Autoplay might be blocked, ignore error
+                });
+            };
+
+            video.addEventListener('loadeddata', handleLoadedData);
+            return () => video.removeEventListener('loadeddata', handleLoadedData);
+        }
+    }, [currentVideo]);
     useEffect(() => {
         const setVh = () => {
             const vh = window.innerHeight * 0.01;
@@ -160,10 +175,11 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                     animate={{ scale: scrolled ? 1.02 : 1 }}
                     transition={{ duration: 0.52, ease: "easeOut" }}
                 >
-                    {/* Single video: src is controlled by useEdgeSelectedVideo via #heroVideo */}
+                    {/* Single video: src is set from server-side selection */}
                     <motion.video
                         id="heroVideo"
                         ref={videoRef}
+                        src={currentVideo}
                         className="house-background absolute w-full h-full will-change-transform object-cover"
                         style={{
                             filter: "blur(5px) brightness(1) saturate(0.75)",

@@ -15,14 +15,7 @@ export function useEdgeSelectedVideo(initialSrc: string, intervalMs = 5 * 60 * 1
 
                 if (src !== current.current) {
                     current.current = src;
-                    setSrc(src); // expose it to the component
-
-                    const v = document.querySelector<HTMLVideoElement>('#heroVideo');
-                    if (v) {
-                        const wasPaused = v.paused;
-                        v.src = src;
-                        if (!wasPaused) await v.play().catch(() => {});
-                    }
+                    setSrc(src);
                 }
             } catch {
                 // silent fail
