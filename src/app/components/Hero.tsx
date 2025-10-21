@@ -185,8 +185,6 @@ export default function Hero({ isFormOpen = false, onOpenForm }: HeroProps) {
                         playsInline
                         preload="metadata"
                         poster=""
-                        // Fallback src so there's something immediately:
-                        src="/videos/house-night.mp4"
                     />
 
                     {/* Soft glows */}
