@@ -4,6 +4,7 @@ import "./globals.css";
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import DeferredFontAwesome from '@/app/components/DeferredFontAwesome';
+import DeferredNonCriticalCSS from '@/app/components/DeferredNonCriticalCSS';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -234,6 +235,7 @@ export default function RootLayout({
         className={`${inter.className} antialiased`}
     >
     <DeferredFontAwesome />
+    <DeferredNonCriticalCSS />
     {children}
     <Analytics/>
     <SpeedInsights/>

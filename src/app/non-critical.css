@@ -1,0 +1,88 @@
+/* Non-critical CSS - Animations and Custom Effects */
+/* This file is loaded asynchronously to avoid render-blocking */
+
+@keyframes tiny-spin {
+  from   { transform: rotate(0deg); }
+  to     { transform: rotate(10deg); }
+}
+
+@keyframes phone-wiggle {
+  0%, 20%, 100% { transform: rotate(0deg); }
+  2% { transform: rotate(-15deg); }
+  4% { transform: rotate(15deg); }
+  6% { transform: rotate(-15deg); }
+  8% { transform: rotate(15deg); }
+  10% { transform: rotate(-10deg); }
+  12% { transform: rotate(10deg); }
+  14% { transform: rotate(-5deg); }
+  16% { transform: rotate(5deg); }
+  18% { transform: rotate(0deg); }
+}
+
+@keyframes shimmer5s {
+    /* idle off-screen (pause) */
+    0%   { transform: translateX(-150%); }
+    70%  { transform: translateX(-150%); }
+
+    /* quick sweep (~1.5s of the 5s total) */
+    85%  { transform: translateX(150%); }
+    100% { transform: translateX(150%); }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 6s ease-in-out infinite;
+}
+
+.animate-pulse-slower {
+  animation: pulse-slower 8s ease-in-out infinite;
+}
+
+.phone-wiggle {
+  animation: phone-wiggle 7.5s ease-in-out infinite;
+}
+
+.hero-blur-edges::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 10;
+  background: radial-gradient(
+          ellipse at center,
+          rgba(0, 0, 0, 0) 50%,
+          rgba(0, 0, 0, 0.2) 80%,
+          rgba(0, 0, 0, 0.4) 100%
+  );
+  mix-blend-mode: soft-light;
+  filter: blur(16px);
+}
+
+.edge-fades{
+  --fade:200px;
+  -webkit-mask-image:linear-gradient(to right,transparent 0,#000000 var(--fade),#000000 calc(100% - var(--fade)),transparent 100%);
+  mask-image:linear-gradient(to right,transparent 0,#000000 var(--fade),#000000 calc(100% - var(--fade)),transparent 100%);
+}
+
+.shimmer-effect {
+    position: relative;
+    overflow: hidden;        /* keep it inside the rounded card */
+}
+
+.shimmer-effect::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.25), transparent);
+    transform: translateX(-150%);
+    animation: shimmer5s 6s ease-in-out infinite;
+    pointer-events: none;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .shimmer-effect::before { animation: none; }
+    .phone-wiggle { animation: none; }
+    .animate-pulse-slow { animation: none; }
+    .animate-pulse-slower { animation: none; }
+}

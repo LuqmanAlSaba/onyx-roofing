@@ -2,11 +2,17 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import Hero from "@/app/components/Hero";
-import ServiceAreaMap from "@/app/components/ServiceAreaMap";
 import ReviewCarousel from "@/app/components/reviews/ReviewCarousel";
 import { ReviewItem } from "@/app/components/reviews/common";
 import ConsultationForm from "@/app/components/ConsultationForm";
+
+// Lazy load ServiceAreaMap to defer Mapbox GL CSS loading
+const ServiceAreaMap = dynamic(() => import("@/app/components/ServiceAreaMap"), {
+  ssr: false,
+  loading: () => <div className="h-[420px] md:h-[450px] rounded-2xl bg-[#0f1410] border border-white/5 animate-pulse" />
+});
 
 interface HomeClientProps {
   initialVideo: string;
