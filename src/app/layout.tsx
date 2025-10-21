@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import DeferredFontAwesome from '@/app/components/DeferredFontAwesome';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -108,25 +109,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
         <link rel="preconnect" href="https://fonts.gstatic.com"/>
-        <link
-            rel="preload"
-            as="style"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-            integrity="sha512-bugJ3+Pp4+AoHdbI0W1RCaTq1AdK+/kDKK3S9f+VwIle5Xj2YjGy0sT2BcpQx9L4F0T2tHMWPyClPoHZTLMK7Q=="
-            crossOrigin="anonymous"
-        />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-            integrity="sha512-bugJ3+Pp4+AoHdbI0W1RCaTq1AdK+/kDKK3S9f+VwIle5Xj2YjGy0sT2BcpQx9L4F0T2tHMWPyClPoHZTLMK7Q=="
-            crossOrigin="anonymous"
-            referrerPolicy="no-referrer"
-            media="print"
-            onLoad={(e: React.SyntheticEvent<HTMLLinkElement>) => {
-              const target = e.target as HTMLLinkElement;
-              target.media = 'all';
-            }}
-        />
+        {/* Font Awesome loaded via client component for deferred loading */}
         {/* Preconnect hints for external resources */}
         <link rel="preconnect" href="https://api.openweathermap.org"/>
 
@@ -250,6 +233,7 @@ export default function RootLayout({
     <body
         className={`${inter.className} antialiased`}
     >
+    <DeferredFontAwesome />
     {children}
     <Analytics/>
     <SpeedInsights/>
