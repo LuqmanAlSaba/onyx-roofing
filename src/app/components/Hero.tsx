@@ -364,7 +364,7 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                                             .map((item, index) => (
                                                 <motion.span
                                                     key={item}
-                                                    className="inline-flex items-center gap-2 text-white/90 font-light px-2 sm:px-3 py-1 sm:py-2 bg-[#474747]/30 backdrop-blur-md h-full transform-gpu"
+                                                    className="inline-flex items-center gap-2 text-white/100 font-light px-2 sm:px-3 py-1 sm:py-2 bg-[#474747]/75 backdrop-blur-md h-full transform-gpu"
                                                     initial={{ opacity: 0, y: 20 }}
                                                     animate={{ opacity: 1, y: 0 }}
                                                     transition={{ delay: 0.7 + index * 0.1, duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
