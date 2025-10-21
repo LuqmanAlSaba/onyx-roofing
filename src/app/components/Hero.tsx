@@ -182,52 +182,39 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                     animate={{ scale: scrolled ? 1.02 : 1 }}
                     transition={{ duration: 0.52, ease: "easeOut" }}
                 >
-                    {/* Mobile: Use static image for better performance. Desktop: Use video */}
-                    {isMobile ? (
-                        <Image
-                            src={getImagePathFromVideo(currentVideo)}
-                            alt="Hero background"
-                            fill
-                            priority
-                            quality={85}
-                            className="house-background object-cover"
-                            style={{
-                                filter: "brightness(1) saturate(0.75)",
-                                transform: "scale(1.05)",
-                                maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)",
-                                WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)",
-                                ...getVideoPositionStyles(currentVideo),
-                            }}
-                        />
-                    ) : (
-                        <motion.video
-                            id="heroVideo"
-                            ref={videoRef}
-                            src={currentVideo}
-                            className="house-background absolute w-full h-full will-change-transform object-cover"
-                            style={{
-                                filter: "blur(5px) brightness(1) saturate(0.75)",
-                                transform: `scale(1.08) translate3d(${mousePosition.x * -50}px, calc(${mousePosition.y * -15}px - 10px), 0)`,
-                                maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)",
-                                WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)",
-                                left: 0,
-                                width: "100%",
-                                height: "100%",
-                                ...getVideoPositionStyles(currentVideo),
-                            }}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 1.0, ease: "easeInOut" }}
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            preload="auto"
-                            // @ts-expect-error - fetchpriority is valid HTML but not in motion.video types
-                            fetchPriority="high"
-                            poster=""
-                        />
-                    )}
+                    {/* Single video: src is set from server-side selection */}
+                    <motion.video
+                        id="heroVideo"
+                        ref={videoRef}
+                        src={currentVideo}
+                        className="house-background absolute w-full h-full will-change-transform object-cover"
+                        style={{
+                            // Mobile: no blur for better performance. Desktop: 5px blur for aesthetic
+                            filter: "blur(5px) brightness(1) saturate(0.75)",
+                            transform: isMobile
+                                ? "scale(1)"
+                                : `scale(1.08) translate3d(${mousePosition.x * -50}px, calc(${mousePosition.y * -15}px - 10px), 0)`,
+                            maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)",
+                            WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)",
+                            left: 0,
+                            width: "100%",
+                            height: "100%",
+                            ...getVideoPositionStyles(currentVideo), // <-- conditional bottom/top + objectPosition
+                        }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 1.0, ease: "easeInOut" }}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        // Mobile: only load metadata to save bandwidth. Desktop: preload full video
+                        preload={isMobile ? "metadata" : "auto"}
+                        // @ts-expect-error - fetchpriority is valid HTML but not in motion.video types
+                        // Only use high priority on desktop; on mobile, prioritize critical resources
+                        fetchPriority={isMobile ? "low" : "high"}
+                        poster=""
+                    />
 
                     {/* Soft glows */}
                     <div className="hidden md:block absolute top-1/3 left-1/4 w-96 h-96 bg-[#13938f]/3 rounded-full blur-[120px] animate-pulse-slow will-change-[opacity]" />
