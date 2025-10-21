@@ -182,7 +182,10 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                         src={currentVideo}
                         className="house-background absolute w-full h-full will-change-transform object-cover"
                         style={{
-                            filter: "blur(5px) brightness(1) saturate(0.75)",
+                            // Mobile: no blur for better performance. Desktop: 5px blur for aesthetic
+                            filter: isMobile
+                                ? "brightness(1) saturate(0.75)"
+                                : "blur(5px) brightness(1) saturate(0.75)",
                             transform: isMobile
                                 ? "scale(1.05)"
                                 : `scale(1.08) translate3d(${mousePosition.x * -50}px, calc(${mousePosition.y * -15}px - 10px), 0)`,
@@ -200,9 +203,11 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                         loop
                         muted
                         playsInline
-                        preload="auto"
+                        // Mobile: only load metadata to save bandwidth. Desktop: preload full video
+                        preload={isMobile ? "metadata" : "auto"}
                         // @ts-expect-error - fetchpriority is valid HTML but not in motion.video types
-                        fetchPriority="high"
+                        // Only use high priority on desktop; on mobile, prioritize critical resources
+                        fetchPriority={isMobile ? "low" : "high"}
                         poster=""
                     />
 
