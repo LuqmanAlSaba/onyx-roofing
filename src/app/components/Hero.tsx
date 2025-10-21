@@ -153,11 +153,11 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
     };
 
     // Convert video path to image path (WebP format)
-    const getImagePathFromVideo = (videoPath: string) => {
+    const getImagePathFromVideo = React.useCallback((videoPath: string) => {
         // /videos/house-afternoon.mp4 -> /images/hero/house-afternoon.webp
         const filename = videoPath.split('/').pop()?.replace('.mp4', '.webp');
         return `/images/hero/${filename}`;
-    };
+    }, []);
 
     return (
         <main
