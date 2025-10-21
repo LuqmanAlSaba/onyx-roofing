@@ -109,11 +109,20 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
         <link rel="preconnect" href="https://fonts.gstatic.com"/>
         <link
+            rel="preload"
+            as="style"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+            integrity="sha512-bugJ3+Pp4+AoHdbI0W1RCaTq1AdK+/kDKK3S9f+VwIle5Xj2YjGy0sT2BcpQx9L4F0T2tHMWPyClPoHZTLMK7Q=="
+            crossOrigin="anonymous"
+        />
+        <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
             integrity="sha512-bugJ3+Pp4+AoHdbI0W1RCaTq1AdK+/kDKK3S9f+VwIle5Xj2YjGy0sT2BcpQx9L4F0T2tHMWPyClPoHZTLMK7Q=="
             crossOrigin="anonymous"
             referrerPolicy="no-referrer"
+            media="print"
+            onLoad={(e: any) => { if (e.target) e.target.media = 'all'; }}
         />
         {/* Preconnect hints for external resources */}
         <link rel="preconnect" href="https://api.openweathermap.org"/>
