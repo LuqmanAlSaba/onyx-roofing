@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
-export function useEdgeSelectedVideo(intervalMs = 5 * 60 * 1000) {
-    const [src, setSrc] = useState<string | null>(null);
-    const current = useRef<string | null>(null);
+export function useEdgeSelectedVideo(initialSrc: string, intervalMs = 5 * 60 * 1000) {
+    const [src, setSrc] = useState<string>(initialSrc);
+    const current = useRef<string>(initialSrc);
 
     useEffect(() => {
         let stop = false;

@@ -9,9 +9,10 @@ import Hamburger from "./Hamburger";
 interface HeroProps {
     isFormOpen?: boolean;
     onOpenForm: () => void;
+    initialVideo: string;
 }
 
-export default function Hero({ isFormOpen = false, onOpenForm }: HeroProps) {
+export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: HeroProps) {
     // Local UI state
     const [scrolled, setScrolled] = useState(false);
     const [pastVideoSection, setPastVideoSection] = useState(false);
@@ -23,8 +24,8 @@ export default function Hero({ isFormOpen = false, onOpenForm }: HeroProps) {
     const phoneIconRef = useRef<SVGSVGElement>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
 
-    // Use the Edge-selected video (fetches on mount + every 5 min by default)
-    const currentVideo = useEdgeSelectedVideo(); // if you want hourly, pass 60 * 60 * 1000
+    // Use the Edge-selected video with server-provided initial value
+    const currentVideo = useEdgeSelectedVideo(initialVideo);
 
     // --- Effects
     useEffect(() => {
