@@ -183,9 +183,7 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                         className="house-background absolute w-full h-full will-change-transform object-cover"
                         style={{
                             // Mobile: no blur for better performance. Desktop: 5px blur for aesthetic
-                            filter: isMobile
-                                ? "brightness(1) saturate(0.75)"
-                                : "blur(5px) brightness(1) saturate(0.75)",
+                            filter: "blur(5px) brightness(1) saturate(0.75)",
                             transform: isMobile
                                 ? "scale(1.05)"
                                 : `scale(1.08) translate3d(${mousePosition.x * -50}px, calc(${mousePosition.y * -15}px - 10px), 0)`,
