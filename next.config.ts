@@ -14,6 +14,9 @@ const nextConfig: NextConfig = {
     optimizeCss: true,
     // Note: Next.js 15.4.2 still requires 'critters' internally
     // 'beasties' is the modern fork but not yet supported by Next.js
+
+    // Enable CSS chunking for better caching and loading
+    cssChunking: 'strict',
   },
   headers: async () => {
     return [
@@ -35,6 +38,15 @@ const nextConfig: NextConfig = {
           {
             key: 'Permissions-Policy',
             value: 'geolocation=(), microphone=(), camera=()',
+          },
+        ],
+      },
+      {
+        source: '/_next/static/css/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
           },
         ],
       },
