@@ -35,21 +35,22 @@ export function useFormScrollLock(isLocked: boolean) {
             const top = document.body.style.top;
             const scrollPosition = top ? -parseInt(top, 10) : 0;
 
-            // Remove all scroll lock styles
-            document.body.style.position = "";
-            document.body.style.top = "";
-            document.body.style.left = "";
-            document.body.style.right = "";
-            document.body.style.width = "";
-            document.body.style.paddingRight = "";
-            document.body.style.overflow = "";
-            document.documentElement.style.overscrollBehavior = "";
+            // Keep the body locked in place during the form's exit animation
+            // Only restore scroll after the animation completes (450ms matches the form's exit animation)
+            setTimeout(() => {
+                // Remove all scroll lock styles
+                document.body.style.position = "";
+                document.body.style.top = "";
+                document.body.style.left = "";
+                document.body.style.right = "";
+                document.body.style.width = "";
+                document.body.style.paddingRight = "";
+                document.body.style.overflow = "";
+                document.documentElement.style.overscrollBehavior = "";
 
-            // Use requestAnimationFrame to restore scroll position after browser repaint
-            // This prevents the visible jump where the page briefly shows the top before scrolling
-            requestAnimationFrame(() => {
+                // Restore scroll position immediately after unlocking
                 window.scrollTo(0, scrollPosition);
-            });
+            }, 450);
         };
     }, [isLocked]);
 }
