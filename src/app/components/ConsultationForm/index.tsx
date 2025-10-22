@@ -139,7 +139,7 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
             setIsFormClosing(false);
             resetForm();
             onClose();
-        }, 500);
+        }, 420);
     };
 
     const handleNextStep = () => {
@@ -248,24 +248,19 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
                     }}
                     exit={{ y: "100%", scale: 0.95, opacity: 0 }}
                     transition={{
-                        y: { duration: 0.52, ease: [0.32, 0.72, 0, 1] },
-                        scale: { duration: 0.5, ease: [0.32, 0.72, 0, 1] },
-                        opacity: { duration: 0.4, ease: "easeOut" },
+                        y: { duration: 0.4, ease: [0.32, 0.72, 0, 1] },
+                        scale: { duration: 0.38, ease: [0.32, 0.72, 0, 1] },
+                        opacity: { duration: 0.32, ease: "easeOut" },
                     }}
                     style={{
                         borderRadius: "0 0 0 0",
                         bottom: "env(safe-area-inset-bottom)",
                         maxWidth: "100vw",
                         height: "100dvh",
-                        overscrollBehavior: "contain"
+                        overscrollBehavior: "contain",
+                        willChange: "transform, opacity"
                     }}
                 >
-                    <motion.div
-                        className="absolute inset-0 bg-[#2a2d31]/92 backdrop-blur-2xl"
-                        initial={{ backdropFilter: "blur(0px)" }}
-                        animate={{ backdropFilter: "blur(24px)" }}
-                        transition={{ duration: 0.52, ease: "easeOut" }}
-                    />
                     <motion.div
                         className="relative h-full flex items-center justify-center p-4 sm:p-8 mt-3 overflow-y-auto"
                         style={{
@@ -275,7 +270,7 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
                         }}
                         initial={{ y: 20, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.3, duration: 0.5, ease: "easeOut" }}
+                        transition={{ delay: 0.15, duration: 0.35, ease: "easeOut" }}
                     >
                         <motion.div className="w-full max-w-lg mx-auto">
                             <AnimatePresence mode="wait">
@@ -290,7 +285,7 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
                                             className="mb-4"
                                             initial={{ y: 20, opacity: 0 }}
                                             animate={{ y: 0, opacity: 1 }}
-                                            transition={{ delay: 0.4, duration: 0.5 }}
+                                            transition={{ delay: 0.22, duration: 0.35 }}
                                         >
                                             <h2 className="text-xl sm:text-2xl font-semibold text-white mb-1">
                                                 Schedule Your Consultation
@@ -304,7 +299,7 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
                                             className="space-y-4"
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}
-                                            transition={{ delay: 0.5, duration: 0.5 }}
+                                            transition={{ delay: 0.28, duration: 0.35 }}
                                         >
                                             {/* Error notification */}
                                             <ErrorNotification
