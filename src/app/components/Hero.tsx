@@ -245,8 +245,8 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                         transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
                     >
                         <div className="max-w-7xl mx-auto px-12 pt-0 sm:px-8 flex items-center justify-between">
-                            <motion.div className="h-10 sm:h-13 w-auto brightness-0 invert z-100 relative" whileHover={{ scale: 1.03 }} transition={{ duration: 0.2 }}>
-                                <Image src="/onyx-roofing-logo-black.png" alt="Onyx Roofing" width={120} height={40} className="h-10 sm:h-13 w-auto brightness-0 invert" priority />
+                            <motion.div className="h-10 sm:h-13 w-auto z-100 relative" whileHover={{ scale: 1.03 }} transition={{ duration: 0.2 }}>
+                                <Image src="/onyx-roofing-logo-white-and-cyan.png" alt="Onyx Roofing" width={120} height={40} className="h-10 sm:h-13 w-auto" priority />
                             </motion.div>
 
                             <div className="hidden md:flex items-center gap-8">
