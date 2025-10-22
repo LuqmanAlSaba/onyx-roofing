@@ -23,23 +23,10 @@ html {
   }
 }
 
-/* Performance optimizations - GPU acceleration for animated elements only */
-[class*="animate-"],
-.will-change-transform,
-video,
-.house-background {
+/* Performance optimizations - GPU acceleration for video only */
+video.house-background {
   transform: translateZ(0);
   backface-visibility: hidden;
-}
-
-/* Optimize Framer Motion animations */
-[data-projection-id] {
-  will-change: transform, opacity;
-}
-
-/* Optimize scroll performance with CSS containment */
-section {
-  content-visibility: auto;
 }
 
 @theme inline {
