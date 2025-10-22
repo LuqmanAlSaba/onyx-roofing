@@ -108,6 +108,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+    <head>
+        <meta name="description" content="Professional roofing services in Louisville, Kentucky. Roof replacement, repair, storm damage, and gutter installation. Licensed &amp; insured. Free inspection. Call (502) 207-3007."/>
+        <title>Onyx Roofing - Roofing Services Louisville, KY | Free Inspection</title>
+    </head>
     <body
         className={`${inter.className} antialiased`}
     >
