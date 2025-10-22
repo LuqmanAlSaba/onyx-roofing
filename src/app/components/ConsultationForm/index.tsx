@@ -7,7 +7,6 @@ import AddressInput from "./AddressInput";
 import ServiceSelector from "./ServiceSelector";
 import ErrorNotification from "./ErrorNotification";
 import SuccessScreen from "./SuccessScreen";
-import { useFormScrollLock } from "./useFormScrollLock";
 
 type Props = {
     open: boolean;
@@ -36,9 +35,6 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
         email: false,
         serviceAddress: false,
     });
-
-    // Use improved scroll lock hook
-    useFormScrollLock(open);
 
     // Set initial service when form opens
     useEffect(() => {
