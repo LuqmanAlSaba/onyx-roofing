@@ -46,6 +46,21 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
         }
     }, [open, initialService]);
 
+    // Prevent body scroll when form is open
+    useEffect(() => {
+        if (open) {
+            // Store original overflow value
+            const originalOverflow = document.body.style.overflow;
+            // Prevent scrolling
+            document.body.style.overflow = 'hidden';
+
+            // Restore original overflow when form closes
+            return () => {
+                document.body.style.overflow = originalOverflow;
+            };
+        }
+    }, [open]);
+
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [submitStage, setSubmitStage] = useState<"idle" | "loading" | "success" | "complete">("idle");
     const [rippleOrigin, setRippleOrigin] = useState({ x: 0, y: 0 });
