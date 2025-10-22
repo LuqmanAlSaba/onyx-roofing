@@ -70,15 +70,26 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
         return () => clearInterval(interval);
     }, []);
 
-    // Scroll effects for nav scaling + call banner visibility
+    // Optimized scroll effects - batched state updates, fewer re-renders
     useEffect(() => {
         let ticking = false;
+        let lastScrolled = false;
+        let lastPastVideo = false;
+
         const onScroll = () => {
             if (!ticking) {
                 window.requestAnimationFrame(() => {
                     const y = window.scrollY;
-                    setScrolled(y > 20);
-                    setPastVideoSection(y > 30);
+                    const newScrolled = y > 20;
+                    const newPastVideo = y > 30;
+
+                    // Only update state if values actually changed
+                    if (newScrolled !== lastScrolled || newPastVideo !== lastPastVideo) {
+                        lastScrolled = newScrolled;
+                        lastPastVideo = newPastVideo;
+                        setScrolled(newScrolled);
+                        setPastVideoSection(newPastVideo);
+                    }
                     ticking = false;
                 });
                 ticking = true;
@@ -88,7 +99,7 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
         return () => window.removeEventListener("scroll", onScroll);
     }, []);
 
-    // Subtle parallax from mouse movement
+    // Optimized parallax - only update when change is significant
     useEffect(() => {
         let targetX = 0,
             targetY = 0,
@@ -96,6 +107,8 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
             currentY = 0,
             raf = 0;
         const k = 0.08;
+        const threshold = 0.003; // Increased threshold to reduce updates
+
         const onMove = (e: MouseEvent) => {
             const { clientX, clientY } = e;
             const cx = window.innerWidth / 2;
@@ -103,14 +116,20 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
             targetX = (clientX - cx) / cx;
             targetY = (clientY - cy) / cy;
         };
+
         const loop = () => {
-            currentX += (targetX - currentX) * k;
-            currentY += (targetY - currentY) * k;
-            if (Math.abs(targetX - currentX) > 0.001 || Math.abs(targetY - currentY) > 0.001) {
+            const dx = (targetX - currentX) * k;
+            const dy = (targetY - currentY) * k;
+            currentX += dx;
+            currentY += dy;
+
+            // Only update state when change is significant
+            if (Math.abs(dx) > threshold || Math.abs(dy) > threshold) {
                 setMousePosition({ x: currentX, y: currentY });
             }
             raf = requestAnimationFrame(loop);
         };
+
         window.addEventListener("mousemove", onMove, { passive: true });
         raf = requestAnimationFrame(loop);
         return () => {
@@ -119,28 +138,20 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
         };
     }, []);
 
-    // Smooth scroll helper
+    // Optimized smooth scroll using native scrollIntoView (hardware-accelerated)
     const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
         e.preventDefault();
         const idMap: Record<string, string> = { services: "services", projects: "portfolio", about: "about", contact: "contact", coverage: "coverage" };
         const actualId = idMap[targetId] || targetId;
         const el = document.getElementById(actualId);
         if (!el) return;
-        const target = el.getBoundingClientRect().top + window.pageYOffset;
-        const start = window.pageYOffset;
-        const dist = target - start;
-        const duration = 800;
-        let begin: number | null = null;
-        const easeInOutCubic = (t: number) => (t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1);
-        const step = (now: number) => {
-            if (begin === null) begin = now;
-            const elapsed = now - begin;
-            const p = Math.min(elapsed / duration, 1);
-            const ease = easeInOutCubic(p);
-            window.scrollTo(0, start + dist * ease);
-            if (elapsed < duration) requestAnimationFrame(step);
-        };
-        requestAnimationFrame(step);
+
+        // Use native scrollIntoView for optimal performance
+        el.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+
         if (isMenuOpen) setIsMenuOpen(false);
     };
 
