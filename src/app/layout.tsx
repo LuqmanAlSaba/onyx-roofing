@@ -108,133 +108,117 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-    <head>
-        <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
-        <link rel="preconnect" href="https://fonts.googleapis.com"/>
-        <link rel="preconnect" href="https://fonts.gstatic.com"/>
-        {/* Font Awesome loaded via client component for deferred loading */}
-        {/* Preconnect hints for external resources */}
-        <link rel="preconnect" href="https://cdnjs.cloudflare.com"/>
-        <link rel="preconnect" href="https://api.openweathermap.org"/>
-
-        {/* DNS prefetch for additional performance */}
-        <link rel="dns-prefetch" href="https://api.openweathermap.org"/>
-
-        {/* Structured Data for Local Business */}
-        <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-                __html: JSON.stringify({
-                    "@context": "https://schema.org",
-                    "@type": "RoofingContractor",
-                    "name": "Onyx Roofing",
-                    "description": "Professional roofing services in Louisville, Kentucky. Specializing in roof replacement, repair, storm damage, and gutter installation.",
-                    "url": "https://onyxroofingpro.com",
-                    "telephone": "+1-502-207-3007",
-                    "email": "info@onyxroofingpro.com",
-                    "address": {
-                        "@type": "PostalAddress",
-                        "addressLocality": "Louisville",
-                        "addressRegion": "KY",
-                        "addressCountry": "US"
-                    },
-                    "geo": {
+    <body
+        className={`${inter.className} antialiased`}
+    >
+    {/* Structured Data for Local Business */}
+    <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "RoofingContractor",
+                "name": "Onyx Roofing",
+                "description": "Professional roofing services in Louisville, Kentucky. Specializing in roof replacement, repair, storm damage, and gutter installation.",
+                "url": "https://onyxroofingpro.com",
+                "telephone": "+1-502-207-3007",
+                "email": "info@onyxroofingpro.com",
+                "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Louisville",
+                    "addressRegion": "KY",
+                    "addressCountry": "US"
+                },
+                "geo": {
+                    "@type": "GeoCoordinates",
+                    "latitude": 38.2527,
+                    "longitude": -85.7585
+                },
+                "areaServed": [
+                    "Louisville, KY",
+                    "Lexington, KY",
+                    "Bowling Green, KY",
+                    "Owensboro, KY",
+                    "Covington, KY",
+                    "Kentucky"
+                ],
+                "serviceArea": {
+                    "@type": "GeoCircle",
+                    "geoMidpoint": {
                         "@type": "GeoCoordinates",
                         "latitude": 38.2527,
                         "longitude": -85.7585
                     },
-                    "areaServed": [
-                        "Louisville, KY",
-                        "Lexington, KY",
-                        "Bowling Green, KY",
-                        "Owensboro, KY",
-                        "Covington, KY",
-                        "Kentucky"
-                    ],
-                    "serviceArea": {
-                        "@type": "GeoCircle",
-                        "geoMidpoint": {
-                            "@type": "GeoCoordinates",
-                            "latitude": 38.2527,
-                            "longitude": -85.7585
-                        },
-                        "geoRadius": "50000"
-                    },
-                    "hasOfferCatalog": {
-                        "@type": "OfferCatalog",
-                        "name": "Roofing Services",
-                        "itemListElement": [
-                            {
-                                "@type": "Offer",
-                                "itemOffered": {
-                                    "@type": "Service",
-                                    "name": "Roof Replacement",
-                                    "description": "Complete roof replacement services"
-                                }
-                            },
-                            {
-                                "@type": "Offer",
-                                "itemOffered": {
-                                    "@type": "Service",
-                                    "name": "Roof Repair",
-                                    "description": "Emergency and scheduled roof repairs"
-                                }
-                            },
-                            {
-                                "@type": "Offer",
-                                "itemOffered": {
-                                    "@type": "Service",
-                                    "name": "Storm Damage Repair",
-                                    "description": "Storm damage assessment and repair"
-                                }
-                            },
-                            {
-                                "@type": "Offer",
-                                "itemOffered": {
-                                    "@type": "Service",
-                                    "name": "Gutter Installation",
-                                    "description": "Professional gutter installation services"
-                                }
+                    "geoRadius": "50000"
+                },
+                "hasOfferCatalog": {
+                    "@type": "OfferCatalog",
+                    "name": "Roofing Services",
+                    "itemListElement": [
+                        {
+                            "@type": "Offer",
+                            "itemOffered": {
+                                "@type": "Service",
+                                "name": "Roof Replacement",
+                                "description": "Complete roof replacement services"
                             }
-                        ]
-                    },
-                    "priceRange": "$$",
-                    "paymentAccepted": ["Cash", "Check", "Credit Card"],
-                    "currenciesAccepted": "USD",
-                    "openingHours": "Mo-Su 08:00-18:00",
-                    "sameAs": [
-                        "https://www.facebook.com/profile.php?id=61578690514178",
-                        "https://www.instagram.com/onyxroofingpro/"
+                        },
+                        {
+                            "@type": "Offer",
+                            "itemOffered": {
+                                "@type": "Service",
+                                "name": "Roof Repair",
+                                "description": "Emergency and scheduled roof repairs"
+                            }
+                        },
+                        {
+                            "@type": "Offer",
+                            "itemOffered": {
+                                "@type": "Service",
+                                "name": "Storm Damage Repair",
+                                "description": "Storm damage assessment and repair"
+                            }
+                        },
+                        {
+                            "@type": "Offer",
+                            "itemOffered": {
+                                "@type": "Service",
+                                "name": "Gutter Installation",
+                                "description": "Professional gutter installation services"
+                            }
+                        }
                     ]
-                })
-            }}
-        />
-        {/* Structured Data for Organization */}
-        <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-                __html: JSON.stringify({
-                    "@context": "https://schema.org",
-                    "@type": "Organization",
-                    "name": "Onyx Roofing",
-                    "url": "https://onyxroofingpro.com",
-                    "logo": "onyx-roofing-og.png",
-                    "contactPoint": {
-                        "@type": "ContactPoint",
-                        "telephone": "+1-502-207-3007",
-                        "contactType": "customer service",
-                        "availableLanguage": "English"
-                    }
-                })
-            }}
-        />
-    </head>
-    <body
-        className={`${inter.className} antialiased`}
-    >
+                },
+                "priceRange": "$$",
+                "paymentAccepted": ["Cash", "Check", "Credit Card"],
+                "currenciesAccepted": "USD",
+                "openingHours": "Mo-Su 08:00-18:00",
+                "sameAs": [
+                    "https://www.facebook.com/profile.php?id=61578690514178",
+                    "https://www.instagram.com/onyxroofingpro/"
+                ]
+            })
+        }}
+    />
+    {/* Structured Data for Organization */}
+    <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "name": "Onyx Roofing",
+                "url": "https://onyxroofingpro.com",
+                "logo": "onyx-roofing-og.png",
+                "contactPoint": {
+                    "@type": "ContactPoint",
+                    "telephone": "+1-502-207-3007",
+                    "contactType": "customer service",
+                    "availableLanguage": "English"
+                }
+            })
+        }}
+    />
     <DeferredFontAwesome />
     {children}
     <Analytics/>
