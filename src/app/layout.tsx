@@ -198,7 +198,7 @@ export default function RootLayout({
                 "currenciesAccepted": "USD",
                 "openingHours": "Mo-Su 08:00-18:00",
                 "sameAs": [
-                    "https://www.facebook.com/profile.php?id=61578690514178",
+                    "https://www.facebook.com/OnyxRoofing/",
                     "https://www.instagram.com/onyxroofingpro/"
                 ]
             })
