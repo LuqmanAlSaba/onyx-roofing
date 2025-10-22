@@ -561,7 +561,7 @@ ${
             >
               <div className="mb-6">
                 <Image
-                  src="/onyx-roofing-logo-white-cyan.png"
+                  src="/onyx-roofing-logo-white-and-cyan.png"
                   alt="Onyx Roofing"
                   width={120}
                   height={48}
