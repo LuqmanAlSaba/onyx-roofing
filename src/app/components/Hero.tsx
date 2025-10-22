@@ -207,7 +207,7 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                             src={currentVideo}
                             className="house-background absolute w-full h-full will-change-transform object-cover"
                             style={{
-                                filter: "blur(5px) brightness(1) saturate(0.75)",
+                                filter: "blur(8px) brightness(1) saturate(0.75)",
                                 transform: `scale(1.08) translate3d(${mousePosition.x * -50}px, calc(${mousePosition.y * -15}px - 10px), 0)`,
                                 maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)",
                                 WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)",
