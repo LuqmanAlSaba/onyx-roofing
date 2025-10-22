@@ -1,17 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import DeferredFontAwesome from '@/app/components/DeferredFontAwesome';
-
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600"],
-  display: "swap",
-  preload: true,
-  fallback: ["-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
-});
 
 export const metadata: Metadata = {
   title: "Onyx Roofing - Roofing Services Louisville, KY | Free Inspection",
@@ -109,7 +100,8 @@ export default function RootLayout({
   return (
     <html lang="en">
     <body
-        className={`${inter.className} antialiased`}
+        className="antialiased"
+        style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif' }}
     >
     {/* Structured Data for Local Business */}
     <script
