@@ -45,8 +45,11 @@ export function useFormScrollLock(isLocked: boolean) {
             document.body.style.overflow = "";
             document.documentElement.style.overscrollBehavior = "";
 
-            // Restore scroll position
-            window.scrollTo(0, scrollPosition);
+            // Use requestAnimationFrame to restore scroll position after browser repaint
+            // This prevents the visible jump where the page briefly shows the top before scrolling
+            requestAnimationFrame(() => {
+                window.scrollTo(0, scrollPosition);
+            });
         };
     }, [isLocked]);
 }
