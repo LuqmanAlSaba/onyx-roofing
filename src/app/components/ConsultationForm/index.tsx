@@ -138,7 +138,6 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
         setTimeout(() => {
             setIsFormClosing(false);
             resetForm();
-            onClose();
         }, 420);
     };
 
@@ -235,17 +234,13 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
     };
 
     return (
-        <AnimatePresence mode="wait">
-            {open && (
+        <AnimatePresence mode="wait" onExitComplete={onClose}>
+            {!isFormClosing && open && (
                 <motion.div
                     key="form-overlay"
                     className="fixed inset-0 z-50 pointer-events-auto bg-[#2a2d31] overflow-hidden"
                     initial={{ y: "100%", scale: 0.95, opacity: 0 }}
-                    animate={{
-                        y: isFormClosing ? "100%" : 0,
-                        scale: isFormClosing ? 0.95 : 1,
-                        opacity: isFormClosing ? 0 : 1
-                    }}
+                    animate={{ y: 0, scale: 1, opacity: 1 }}
                     exit={{ y: "100%", scale: 0.95, opacity: 0 }}
                     transition={{
                         y: { duration: 0.4, ease: [0.32, 0.72, 0, 1] },
