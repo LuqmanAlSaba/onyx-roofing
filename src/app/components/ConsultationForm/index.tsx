@@ -261,10 +261,6 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
                         willChange: "transform, opacity"
                     }}
                 >
-                    <div
-                        className="absolute inset-0 bg-[#2a2d31]/92 backdrop-blur-2xl"
-                        style={{ willChange: "auto" }}
-                    />
                     <motion.div
                         className="relative h-full flex items-center justify-center p-4 sm:p-8 mt-3 overflow-y-auto"
                         style={{
