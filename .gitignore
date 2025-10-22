@@ -37,8 +37,8 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
-# Allow .env.example to be committed
-!.env.example
+# Allow .env.local to be committed
+!.env.local
 
 # vercel
 .vercel

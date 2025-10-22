@@ -102,7 +102,7 @@ export default function AddressInput({
                     accessToken={mapboxToken}
                     options={{
                         country: 'US',
-                        limit: 3,
+                        limit: 2,
                         // Optional: bias toward Louisville
                         // proximity: [-85.7585, 38.2527],
                     }}
