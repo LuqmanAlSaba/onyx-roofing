@@ -4,8 +4,12 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
     try {
-        // Use environment variable if available, otherwise use the hardcoded key
-        const API_KEY = process.env.OPENWEATHER_API_KEY || 'cd8280ddbfb7da4c7d8d21c92d0b165b';
+        const API_KEY = process.env.OPENWEATHER_API_KEY;
+
+        if (!API_KEY) {
+            console.error('OPENWEATHER_API_KEY is not set in environment variables');
+            throw new Error('Weather API configuration error');
+        }
 
         const response = await fetch(
             `https://api.openweathermap.org/data/2.5/weather?q=Louisville,KY,US&appid=${API_KEY}&units=imperial`,

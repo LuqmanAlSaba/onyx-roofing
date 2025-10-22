@@ -200,7 +200,13 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
             setRippleOrigin({ x: rect.width / 2, y: rect.height / 2 });
         }
         try {
-            const res = await fetch("https://formspree.io/f/xdkdapno", {
+            const formspreeEndpoint = process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT;
+
+            if (!formspreeEndpoint) {
+                throw new Error('Formspree endpoint not configured');
+            }
+
+            const res = await fetch(formspreeEndpoint, {
                 method: "POST",
                 headers: { "Content-Type": "application/json", Accept: "application/json" },
                 body: JSON.stringify({
