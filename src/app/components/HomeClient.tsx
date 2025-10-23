@@ -1,12 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Hero from "@/app/components/Hero";
-import ServiceAreaMap from "@/app/components/ServiceAreaMap";
-import ReviewCarousel from "@/app/components/reviews/ReviewCarousel";
-import { ReviewItem } from "@/app/components/reviews/common";
 import ConsultationForm from "@/app/components/ConsultationForm";
+import { ReviewItem } from "@/app/components/reviews/common";
 import {
   FaFacebookF,
   FaInstagram,
@@ -16,9 +15,56 @@ import {
   FaLinkedinIn,
 } from "react-icons/fa6";
 
+function MapSkeleton() {
+  return (
+    <div className="flex h-[420px] w-full items-center justify-center rounded-2xl border border-white/5 bg-[#0f1410] text-white/60 md:h-[450px]">
+      <div className="flex flex-col items-center gap-3">
+        <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#40d6d1]/40 border-t-transparent" />
+        <p className="text-xs uppercase tracking-[0.3em] text-white/40">Loading service area</p>
+      </div>
+    </div>
+  );
+}
+
+function ReviewSkeleton() {
+  return (
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      {[0, 1].map((card) => (
+        <div
+          key={card}
+          className="rounded-2xl border border-white/5 bg-white/5 p-6 backdrop-blur-sm"
+        >
+          <div className="mb-4 h-40 w-full rounded-xl bg-gradient-to-br from-white/5 to-white/10" />
+          <div className="mb-2 h-4 w-2/3 rounded bg-white/20" />
+          <div className="mb-4 h-3 w-full rounded bg-white/10" />
+          <div className="mb-4 h-3 w-5/6 rounded bg-white/10" />
+          <div className="mt-auto flex items-center justify-between">
+            <div className="h-3 w-1/3 rounded bg-white/15" />
+            <div className="flex gap-1">
+              {[0, 1, 2, 3, 4].map((star) => (
+                <div key={star} className="h-3 w-3 rounded bg-[#40d6d1]/40" />
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 interface HomeClientProps {
   initialVideo: string;
 }
+
+const LazyServiceAreaMap = dynamic(() => import("@/app/components/ServiceAreaMap"), {
+  ssr: false,
+  loading: MapSkeleton,
+});
+
+const LazyReviewCarousel = dynamic(() => import("@/app/components/reviews/ReviewCarousel"), {
+  ssr: false,
+  loading: ReviewSkeleton,
+});
 
 // Service mapping from homepage to form
 const mapServiceToForm = (serviceTitle: string): string | undefined => {
@@ -35,6 +81,66 @@ const mapServiceToForm = (serviceTitle: string): string | undefined => {
 export default function HomeClient({ initialVideo }: HomeClientProps) {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<string | undefined>(undefined);
+  const [shouldRenderMap, setShouldRenderMap] = useState(false);
+  const [shouldRenderReviews, setShouldRenderReviews] = useState(false);
+  const mapSectionRef = useRef<HTMLDivElement | null>(null);
+  const reviewSectionRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const section = mapSectionRef.current;
+    if (!section || shouldRenderMap) return;
+
+    if (typeof window === "undefined") {
+      setShouldRenderMap(true);
+      return;
+    }
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setShouldRenderMap(true);
+              observer.disconnect();
+            }
+          });
+        },
+        { rootMargin: "200px" }
+      );
+      observer.observe(section);
+      return () => observer.disconnect();
+    }
+
+    setShouldRenderMap(true);
+  }, [shouldRenderMap]);
+
+  useEffect(() => {
+    const section = reviewSectionRef.current;
+    if (!section || shouldRenderReviews) return;
+
+    if (typeof window === "undefined") {
+      setShouldRenderReviews(true);
+      return;
+    }
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setShouldRenderReviews(true);
+              observer.disconnect();
+            }
+          });
+        },
+        { rootMargin: "200px" }
+      );
+      observer.observe(section);
+      return () => observer.disconnect();
+    }
+
+    setShouldRenderReviews(true);
+  }, [shouldRenderReviews]);
 
   const socialLinks = [
     {
@@ -323,7 +429,13 @@ ${
             </p>
           </motion.div>
 
-          <ReviewCarousel items={portfolioItems} />
+          <div ref={reviewSectionRef}>
+            {shouldRenderReviews ? (
+              <LazyReviewCarousel items={portfolioItems} />
+            ) : (
+              <ReviewSkeleton />
+            )}
+          </div>
 
           {/* Call to Action */}
           <motion.div
@@ -566,8 +678,8 @@ ${
                     </h2>
 
                     {/* Map */}
-                    <div className="rounded-2xl shadow-lg w-full mx-auto mb-8">
-                        <ServiceAreaMap />
+                    <div ref={mapSectionRef} className="rounded-2xl shadow-lg w-full mx-auto mb-8">
+                        {shouldRenderMap ? <LazyServiceAreaMap /> : <MapSkeleton />}
                     </div>
 
                     {/* Text + Call Button */}
