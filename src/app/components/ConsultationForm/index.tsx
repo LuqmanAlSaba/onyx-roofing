@@ -49,18 +49,35 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
     // Prevent body scroll when form is open
     useEffect(() => {
         if (open) {
-            // Store original overflow values for both body and html
+            // Store original values
             const originalBodyOverflow = document.body.style.overflow;
             const originalHtmlOverflow = document.documentElement.style.overflow;
+            const originalBodyPosition = document.body.style.position;
+            const originalBodyTop = document.body.style.top;
+            const originalBodyWidth = document.body.style.width;
+            
+            // Get current scroll position
+            const scrollY = window.scrollY;
 
             // Prevent scrolling on both body and html (for mobile browsers, especially iOS Safari)
             document.body.style.overflow = 'hidden';
             document.documentElement.style.overflow = 'hidden';
+            
+            // Additional fix for iOS Safari - lock body position
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${scrollY}px`;
+            document.body.style.width = '100%';
 
-            // Restore original overflow when form closes
+            // Restore original overflow and scroll position when form closes
             return () => {
                 document.body.style.overflow = originalBodyOverflow;
                 document.documentElement.style.overflow = originalHtmlOverflow;
+                document.body.style.position = originalBodyPosition;
+                document.body.style.top = originalBodyTop;
+                document.body.style.width = originalBodyWidth;
+                
+                // Restore scroll position
+                window.scrollTo(0, scrollY);
             };
         }
     }, [open]);
@@ -253,7 +270,7 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
             {!isFormClosing && open && (
                 <motion.div
                     key="form-overlay"
-                    className="fixed inset-0 z-[2147483646] pointer-events-auto bg-[#2a2d31] overflow-hidden"
+                    className="fixed inset-0 z-[2147483646] pointer-events-auto bg-[#2a2d31]"
                     initial={{ y: "100%", scale: 0.95, opacity: 0 }}
                     animate={{ y: 0, scale: 1, opacity: 1 }}
                     exit={{ y: "100%", scale: 0.95, opacity: 0 }}
@@ -265,8 +282,8 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
                     style={{
                         borderRadius: "0 0 0 0",
                         maxWidth: "100vw",
-                        overscrollBehavior: "contain",
-                        touchAction: "none",
+                        height: "100dvh",
+                        overflow: "hidden",
                         willChange: "transform, opacity",
                         paddingTop: "env(safe-area-inset-top)",
                         paddingBottom: "env(safe-area-inset-bottom)",
@@ -278,7 +295,6 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
                             maxHeight: "100dvh",
                             maxWidth: "100vw",
                             WebkitOverflowScrolling: "touch",
-                            touchAction: "pan-y",
                             overscrollBehavior: "contain"
                         }}
                         initial={{ y: 20, opacity: 0 }}
