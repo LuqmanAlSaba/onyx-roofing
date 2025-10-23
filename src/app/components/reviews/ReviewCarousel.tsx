@@ -87,36 +87,28 @@ export default function ReviewCarousel({
         return () => window.removeEventListener("resize", update);
     }, []);
 
-    const displayItems = useMemo<ReviewItem[]>(
-        () =>
-            items.length
-                ? items
-                : [
-                    {
-                        imageSrc: "https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?w=800&q=80",
-                        blurDataURL:
-                            "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAYAAAB/8oSNAAAAI0lEQVR42mN8//HLfwYgYGViZGZkgAlQZ2RiiDBYgGIpAGc+D31fnyixAAAAAElFTkSuQmCC",
-                        title: "Exceptional Roof Replacement Service",
-                        description: "The team did an amazing job replacing our roof... Highly recommend!",
-                        reviewerName: "Sarah Johnson",
-                        rating: 5,
-                        reviewDate: "2 weeks ago",
-                        serviceName: "Roof Replacement",
-                    },
-                    {
-                        imageSrc: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
-                        blurDataURL:
-                            "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAYAAAB/8oSNAAAAIklEQVR42mN8/2fhPwYgYGFgYPBgAlQZ2SAi2AADwYgFAM7gD31is7zPAAAAAElFTkSuQmCC",
-                        title: "Quick Storm Damage Response",
-                        description: "After the recent hailstorm, they responded within hours...",
-                        reviewerName: "Mike Chen",
-                        rating: 5,
-                        reviewDate: "1 month ago",
-                        serviceName: "Storm Damage Repair",
-                    },
-                ],
-        [items]
+    const fallbackItems = useMemo<ReviewItem[]>(
+        () => [
+            {
+                imageSrc: "/ibrahim-house.webp",
+                title: "Residential Roof Repair",
+                description: "Repaired damaged shingles and fixed leaking areas",
+                reviewerName: "Luqman Al-Saba",
+                rating: 5,
+            },
+            {
+                imageSrc: "/lynley-house.webp",
+                title: "Residential Roof Replacement",
+                description:
+                    "Onyx Roofing did a fantastic job for one of my clients who had just purchased a home that needed a new roof. The transformation was major — the look, quality, and workmanship really elevated the entire property.",
+                reviewerName: "Zach Fry, The Real Estate Guy!",
+                rating: 5,
+            },
+        ],
+        []
     );
+
+    const displayItems = useMemo<ReviewItem[]>(() => (items.length ? items : fallbackItems), [items, fallbackItems]);
 
     const finalExtendedItems = useMemo(() => {
         const extended: ReviewItem[] = [];
