@@ -3,8 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useEdgeSelectedVideo } from "@/hooks/useEdgeSelectedVideo";
-
-import Hamburger from "./Hamburger";
+import Navigation from "./Navigation";
 
 interface HeroProps {
     isFormOpen?: boolean;
@@ -18,7 +17,6 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
     const [pastVideoSection, setPastVideoSection] = useState(false);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [isMobile, setIsMobile] = useState(false);
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     // Refs
     const phoneIconRef = useRef<SVGSVGElement>(null);
@@ -138,22 +136,7 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
         };
     }, []);
 
-    // Optimized smooth scroll using native scrollIntoView (hardware-accelerated)
-    const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-        e.preventDefault();
-        const idMap: Record<string, string> = { services: "services", projects: "portfolio", about: "about", contact: "contact", coverage: "coverage" };
-        const actualId = idMap[targetId] || targetId;
-        const el = document.getElementById(actualId);
-        if (!el) return;
 
-        // Use native scrollIntoView for optimal performance
-        el.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
-
-        if (isMenuOpen) setIsMenuOpen(false);
-    };
 
     // ===== position helper for videos (spread operator) =====
     const getVideoPositionStyles = (src: string | null) => {
@@ -248,78 +231,8 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
 
                 {/* NAV + HERO CONTENT */}
                 <div className="relative z-100 pb-16 md:pb-0">
-                    {/* Static Navigation (only visible in hero) */}
-                    <motion.nav
-                        className="absolute top-0 left-0 right-0 z-40 py-6 md:py-10"
-                        initial={{ y: 0, opacity: 1 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-                    >
-                        <div className="max-w-7xl mx-auto px-12 pt-0 sm:px-8 flex items-center justify-between">
-                            <motion.div className="h-10 sm:h-13 w-auto z-100 relative" whileHover={{ scale: 1.03 }} transition={{ duration: 0.2 }}>
-                                <Image src="/onyx-roofing-logo-white-and-cyan.png" alt="Onyx Roofing" width={120} height={40} className="h-10 sm:h-13 w-auto" priority />
-                            </motion.div>
-
-                            <div className="hidden md:flex items-center gap-8">
-                                {["Services", "Projects", "About", "Coverage", "Contact"].map((item, index) => {
-                                    const targetId = item.toLowerCase();
-                                    return (
-                                        <motion.a
-                                            key={item}
-                                            href={`#${targetId}`}
-                                            onClick={(e) => handleNavClick(e, targetId)}
-                                            className="text-white/100 hover:text-white text-md font-normal transition-all duration-300"
-                                            initial={{ opacity: 1, y: 0 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: 0.1 * index, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-                                        >
-                                            {item}
-                                        </motion.a>
-                                    );
-                                })}
-                            </div>
-
-                            <div className="md:hidden z-100">
-                                <Hamburger
-                                  isOpen={isMenuOpen}
-                                  onToggle={() => setIsMenuOpen(o => !o)}
-                                  size={40}
-                                />
-                            </div>
-                        </div>
-
-                        <AnimatePresence>
-                            {isMenuOpen && (
-                                <motion.div
-                                    className="fixed inset-0 z-30 bg-[#2a2d31] overflow-hidden"
-                                    style={{ paddingTop: "env(safe-area-inset-top)" }}
-                                    initial={{ y: "100%", scale: 0.95, opacity: 0 }}
-                                    animate={{ y: 0, scale: 1, opacity: 1 }}
-                                    exit={{ y: "100%", scale: 0.95, opacity: 0 }}
-                                    transition={{ y: { duration: 0.52, ease: [0.32, 0.72, 0, 1] }, scale: { duration: 0.5, ease: [0.32, 0.72, 0, 1] }, opacity: { duration: 0.4, ease: "easeOut" } }}
-                                >
-                                    <div className="h-full flex flex-col items-center justify-center space-y-6 px-6">
-                                        {["Services", "Projects", "About", "Contact"].map((item, i) => {
-                                            const targetId = item.toLowerCase();
-                                            return (
-                                                <motion.a
-                                                    key={item}
-                                                    href={`#${targetId}`}
-                                                    onClick={(e) => handleNavClick(e, targetId)}
-                                                    className="text-white text-2xl font-medium"
-                                                    initial={{ opacity: 0, y: 20 }}
-                                                    animate={{ opacity: 1, y: 0 }}
-                                                    transition={{ delay: 0.1 + i * 0.05, duration: 0.4 }}
-                                                >
-                                                    {item}
-                                                </motion.a>
-                                            );
-                                        })}
-                                    </div>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </motion.nav>
+                    {/* Navigation */}
+                    <Navigation variant="hero" />
 
                     {/* HERO copy + CTAs */}
                     <section className="relative h-full flex items-center justify-center px-4 sm:px-8">
@@ -380,7 +293,11 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
 
                                         <motion.a
                                             href="#portfolio"
-                                            onClick={(e) => handleNavClick(e, "portfolio")}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                const el = document.getElementById("portfolio");
+                                                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                            }}
                                             className="shimmer-effect px-6 sm:px-8 md:px-10 py-3 sm:py-4 border border-white/50 text-white hover:bg-white hover:text-gray-900 font-normal rounded-full transition-all duration-300 cursor-pointer text-sm sm:text-base transform-gpu"
                                             style={{ backdropFilter: "blur(20px)" }}
                                         >
