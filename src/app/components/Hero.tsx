@@ -245,7 +245,7 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                                     exit={{ opacity: 0, scale: 0.95 }}
                                     transition={{ duration: 0.15, ease: "easeOut" }}
                                 >
-                                    <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}>
+                                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}>
                                         <h1
                                             className="text-2xl sm:text-2xl md:text-4xl lg:text-6xl font-light leading-tight"
                                             style={{ textAlign: "left", textShadow: "-0px 0px 3px rgba(0,0,0,.32)" }}
@@ -267,8 +267,8 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
 
                                     <motion.p
                                         className="mt-6 sm:mt-10 text-sm sm:text-base md:text-lg text-white/100 max-w-md sm:max-w-lg md:max-w-2xl leading-relaxed font-light"
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
                                         transition={{ delay: 0.2, duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
                                     >
                                         Your trusted roofing professionals serving Louisville and all of Kentucky.
@@ -277,8 +277,8 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
 
                                     <motion.div
                                         className="mt-8 sm:mt-12 flex flex-col sm:flex-row gap-3 sm:gap-5 justify-start items-start"
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
                                         transition={{ delay: 0.4, duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
                                     >
                                         <button
@@ -317,8 +317,8 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                                                 <motion.span
                                                     key={item}
                                                     className="inline-flex items-center gap-2 text-white/100 font-light px-2 sm:px-3 py-1 sm:py-2 bg-[#474747]/75 backdrop-blur-md h-full transform-gpu"
-                                                    initial={{ opacity: 0, y: 20 }}
-                                                    animate={{ opacity: 1, y: 0 }}
+                                                    initial={{ opacity: 0 }}
+                                                    animate={{ opacity: 1 }}
                                                     transition={{ delay: 0.7 + index * 0.1, duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
                                                     style={{ borderRadius: 16, border: "2px solid rgba(200,200,200,0.04)" }}
                                                 >
