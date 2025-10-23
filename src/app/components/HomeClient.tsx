@@ -602,11 +602,11 @@ ${
             >
               <div className="mb-6">
                 <Image
-                  src="/onyx-roofing-logo-white-and-cyan.png"
+                  src="/onyx-roofing-logo-black.webp"
                   alt="Onyx Roofing"
                   width={120}
                   height={48}
-                  className="h-12 w-auto mb-4"
+                  className="h-12 w-auto mb-4 invert brightness-0 invert"
                 />
                 <p className="text-white/70 text-sm leading-relaxed max-w-md">
                   Your trusted roofing professionals serving Louisville and all of Kentucky. We deliver premium
