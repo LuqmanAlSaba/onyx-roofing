@@ -253,7 +253,7 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
             {!isFormClosing && open && (
                 <motion.div
                     key="form-overlay"
-                    className="fixed inset-0 z-50 pointer-events-auto bg-[#2a2d31] overflow-hidden"
+                    className="fixed inset-0 z-[2147483646] pointer-events-auto bg-[#2a2d31] overflow-hidden"
                     initial={{ y: "100%", scale: 0.95, opacity: 0 }}
                     animate={{ y: 0, scale: 1, opacity: 1 }}
                     exit={{ y: "100%", scale: 0.95, opacity: 0 }}
@@ -264,12 +264,12 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
                     }}
                     style={{
                         borderRadius: "0 0 0 0",
-                        bottom: "env(safe-area-inset-bottom)",
                         maxWidth: "100vw",
-                        height: "100dvh",
                         overscrollBehavior: "contain",
                         touchAction: "none",
-                        willChange: "transform, opacity"
+                        willChange: "transform, opacity",
+                        paddingTop: "env(safe-area-inset-top)",
+                        paddingBottom: "env(safe-area-inset-bottom)",
                     }}
                 >
                     <motion.div
