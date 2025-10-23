@@ -236,7 +236,7 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                             playsInline
                             preload="auto"
                             // @ts-expect-error - fetchpriority is valid HTML but not in motion.video types
-                            fetchPriority="high"
+                            fetchpriority="high"
                             poster=""
                         />
                     )}
