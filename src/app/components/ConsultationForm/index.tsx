@@ -49,14 +49,18 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
     // Prevent body scroll when form is open
     useEffect(() => {
         if (open) {
-            // Store original overflow value
-            const originalOverflow = document.body.style.overflow;
-            // Prevent scrolling
+            // Store original overflow values for both body and html
+            const originalBodyOverflow = document.body.style.overflow;
+            const originalHtmlOverflow = document.documentElement.style.overflow;
+
+            // Prevent scrolling on both body and html (for mobile browsers, especially iOS Safari)
             document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
 
             // Restore original overflow when form closes
             return () => {
-                document.body.style.overflow = originalOverflow;
+                document.body.style.overflow = originalBodyOverflow;
+                document.documentElement.style.overflow = originalHtmlOverflow;
             };
         }
     }, [open]);
@@ -264,6 +268,7 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
                         maxWidth: "100vw",
                         height: "100dvh",
                         overscrollBehavior: "contain",
+                        touchAction: "none",
                         willChange: "transform, opacity"
                     }}
                 >
@@ -272,7 +277,9 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
                         style={{
                             maxHeight: "100dvh",
                             maxWidth: "100vw",
-                            WebkitOverflowScrolling: "touch"
+                            WebkitOverflowScrolling: "touch",
+                            touchAction: "pan-y",
+                            overscrollBehavior: "contain"
                         }}
                         initial={{ y: 20, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
