@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import DeferredFontAwesome from '@/app/components/DeferredFontAwesome';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -223,7 +222,6 @@ export default function RootLayout({
             })
         }}
     />
-    <DeferredFontAwesome />
     {children}
     <Analytics/>
     <SpeedInsights/>

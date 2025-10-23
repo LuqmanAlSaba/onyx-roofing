@@ -7,6 +7,14 @@ import ServiceAreaMap from "@/app/components/ServiceAreaMap";
 import ReviewCarousel from "@/app/components/reviews/ReviewCarousel";
 import { ReviewItem } from "@/app/components/reviews/common";
 import ConsultationForm from "@/app/components/ConsultationForm";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaThreads,
+  FaXTwitter,
+  FaYoutube,
+  FaLinkedinIn,
+} from "react-icons/fa6";
 
 interface HomeClientProps {
   initialVideo: string;
@@ -27,6 +35,39 @@ const mapServiceToForm = (serviceTitle: string): string | undefined => {
 export default function HomeClient({ initialVideo }: HomeClientProps) {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<string | undefined>(undefined);
+
+  const socialLinks = [
+    {
+      name: "Facebook",
+      Icon: FaFacebookF,
+      href: "https://www.facebook.com/OnyxRoofing/",
+    },
+    {
+      name: "Instagram",
+      Icon: FaInstagram,
+      href: "https://www.instagram.com/OnyxRoofingPro",
+    },
+    {
+      name: "Threads",
+      Icon: FaThreads,
+      href: "https://www.threads.net/@OnyxRoofingPro",
+    },
+    {
+      name: "Twitter",
+      Icon: FaXTwitter,
+      href: "https://x.com/OnyxRoofingPro",
+    },
+    {
+      name: "YouTube",
+      Icon: FaYoutube,
+      href: "https://www.youtube.com/@OnyxRoofingPro",
+    },
+    {
+      name: "LinkedIn",
+      Icon: FaLinkedinIn,
+      href: "https://www.linkedin.com/in/onyx-roofing-331b3b383/",
+    },
+  ];
 
   const handleServiceClick = (serviceTitle: string) => {
     const formService = mapServiceToForm(serviceTitle);
@@ -767,26 +808,7 @@ ${
 
             <div className="flex items-center space-x-4">
               <div className="flex gap-5 text-2xl">
-                {[
-                  {
-                    name: "Facebook",
-                    icon: "facebook-f",
-                    href: "https://www.facebook.com/OnyxRoofing/",
-                  },
-                  {
-                    name: "Instagram",
-                    icon: "instagram",
-                    href: "https://www.instagram.com/OnyxRoofingPro",
-                  },
-                  { name: "Threads", icon: "threads", href: "https://www.threads.net/@OnyxRoofingPro" },
-                  { name: "Twitter", icon: "x-twitter", href: "https://x.com/OnyxRoofingPro" },
-                  { name: "YouTube", icon: "youtube", href: "https://www.youtube.com/@OnyxRoofingPro" },
-                  {
-                    name: "LinkedIn",
-                    icon: "linkedin-in",
-                    href: "https://www.linkedin.com/in/onyx-roofing-331b3b383/",
-                  },
-                ].map(({ name, icon, href }) => (
+                {socialLinks.map(({ name, Icon, href }) => (
                   <motion.a
                     key={name}
                     href={href}
@@ -797,7 +819,8 @@ ${
                     whileHover={{ scale: 1.1, rotate: 5 }}
                     whileTap={{ scale: 1 }}
                   >
-                    <i className={`fab fa-${icon}`}></i>
+                    <Icon aria-hidden="true" />
+                    <span className="sr-only">{name}</span>
                   </motion.a>
                 ))}
               </div>
