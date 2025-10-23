@@ -264,12 +264,12 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
                     }}
                     style={{
                         borderRadius: "0 0 0 0",
-                        bottom: "env(safe-area-inset-bottom)",
                         maxWidth: "100vw",
-                        height: "100dvh",
                         overscrollBehavior: "contain",
                         touchAction: "none",
-                        willChange: "transform, opacity"
+                        willChange: "transform, opacity",
+                        paddingTop: "env(safe-area-inset-top)",
+                        paddingBottom: "env(safe-area-inset-bottom)",
                     }}
                 >
                     <motion.div
