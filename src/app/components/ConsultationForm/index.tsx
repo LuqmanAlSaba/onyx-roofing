@@ -279,26 +279,42 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
                             maxWidth: "100vw",
                             WebkitOverflowScrolling: "touch",
                             touchAction: "pan-y",
-                            overscrollBehavior: "contain"
+                            overscrollBehavior: "contain",
+                            willChange: "transform, opacity",
+                            backfaceVisibility: "hidden",
+                            perspective: 1000,
                         }}
                         initial={{ y: 20, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.15, duration: 0.35, ease: "easeOut" }}
+                        transition={{ delay: 0.12, duration: 0.3, ease: "easeOut" }}
                     >
-                        <motion.div className="w-full max-w-lg mx-auto">
+                        <motion.div
+                            className="w-full max-w-lg mx-auto"
+                            style={{
+                                backfaceVisibility: "hidden",
+                                contain: "layout style paint",
+                            }}
+                        >
                             <AnimatePresence mode="wait">
                                 {submitStage !== "complete" ? (
                                     <motion.div
                                         key="form-content"
                                         className="relative"
+                                        style={{
+                                            backfaceVisibility: "hidden",
+                                        }}
                                         exit={{ opacity: 0, y: -20 }}
                                         transition={{ duration: 0.3 }}
                                     >
                                         <motion.div
                                             className="mb-4"
+                                            style={{
+                                                willChange: "transform, opacity",
+                                                backfaceVisibility: "hidden",
+                                            }}
                                             initial={{ y: 20, opacity: 0 }}
                                             animate={{ y: 0, opacity: 1 }}
-                                            transition={{ delay: 0.22, duration: 0.35 }}
+                                            transition={{ delay: 0.18, duration: 0.3 }}
                                         >
                                             <h2 className="text-xl sm:text-2xl font-semibold text-white mb-1">
                                                 Schedule Your Consultation
@@ -310,9 +326,13 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
 
                                         <motion.div
                                             className="space-y-4"
+                                            style={{
+                                                willChange: "opacity",
+                                                backfaceVisibility: "hidden",
+                                            }}
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}
-                                            transition={{ delay: 0.28, duration: 0.35 }}
+                                            transition={{ delay: 0.22, duration: 0.3 }}
                                         >
                                             {/* Error notification */}
                                             <ErrorNotification
@@ -338,6 +358,10 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
                                                 {formStep === 1 ? (
                                                     <motion.div
                                                         key="step1"
+                                                        style={{
+                                                            willChange: "transform, opacity",
+                                                            backfaceVisibility: "hidden",
+                                                        }}
                                                         initial={{ x: 50, opacity: 0 }}
                                                         animate={{ x: 0, opacity: 1 }}
                                                         exit={{ x: -50, opacity: 0 }}
@@ -398,6 +422,10 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
                                                 ) : (
                                                     <motion.div
                                                         key="step2"
+                                                        style={{
+                                                            willChange: "transform, opacity",
+                                                            backfaceVisibility: "hidden",
+                                                        }}
                                                         initial={{ x: 50, opacity: 0 }}
                                                         animate={{ x: 0, opacity: 1 }}
                                                         exit={{ x: -50, opacity: 0 }}
