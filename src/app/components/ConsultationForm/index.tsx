@@ -49,18 +49,33 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
     // Prevent body scroll when form is open
     useEffect(() => {
         if (open) {
-            // Store original overflow values for both body and html
+            // Save current scroll position
+            const scrollY = window.scrollY;
+
+            // Store original styles
             const originalBodyOverflow = document.body.style.overflow;
+            const originalBodyPosition = document.body.style.position;
+            const originalBodyTop = document.body.style.top;
+            const originalBodyWidth = document.body.style.width;
             const originalHtmlOverflow = document.documentElement.style.overflow;
 
-            // Prevent scrolling on both body and html (for mobile browsers, especially iOS Safari)
+            // Lock scroll by fixing body position (works on all browsers including iOS Safari)
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${scrollY}px`;
+            document.body.style.width = '100%';
             document.body.style.overflow = 'hidden';
             document.documentElement.style.overflow = 'hidden';
 
-            // Restore original overflow when form closes
+            // Restore original styles and scroll position when form closes
             return () => {
+                document.body.style.position = originalBodyPosition;
+                document.body.style.top = originalBodyTop;
+                document.body.style.width = originalBodyWidth;
                 document.body.style.overflow = originalBodyOverflow;
                 document.documentElement.style.overflow = originalHtmlOverflow;
+
+                // Restore scroll position
+                window.scrollTo(0, scrollY);
             };
         }
     }, [open]);
