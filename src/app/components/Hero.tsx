@@ -370,10 +370,10 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                                     >
                                         <button
                                             onClick={onOpenForm}
-                                            className="group relative px-6 sm:px-8 md:px-10 py-3 sm:py-4 bg-[#13a19c] hover:bg-[#0f7a76] text-white font-normal rounded-full transition-all duration-300 flex items-center cursor-pointer text-sm sm:text-base transform-gpu"
+                                            className="group relative px-6 sm:px-8 md:px-10 py-3 sm:py-4 bg-[#13a19c] hover:bg-[#0f7a76] text-white font-normal rounded-full transition-all duration-300 flex items-center cursor-pointer text-base sm:text-lg md:text-xl transform-gpu"
                                         >
                                             <span className="mr-3">Schedule Free Inspection</span>
-                                            <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                             </svg>
                                         </button>
@@ -381,7 +381,7 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                                         <motion.a
                                             href="#portfolio"
                                             onClick={(e) => handleNavClick(e, "portfolio")}
-                                            className="shimmer-effect px-6 sm:px-8 md:px-10 py-3 sm:py-4 border border-white/50 text-white hover:bg-white hover:text-gray-900 font-normal rounded-full transition-all duration-300 cursor-pointer text-sm sm:text-base transform-gpu"
+                                            className="shimmer-effect px-6 sm:px-8 md:px-10 py-3 sm:py-4 border border-white/50 text-white hover:bg-white hover:text-gray-900 font-normal rounded-full transition-all duration-300 cursor-pointer text-base sm:text-lg md:text-xl transform-gpu"
                                             style={{ backdropFilter: "blur(20px)" }}
                                         >
                                             View Our Work
