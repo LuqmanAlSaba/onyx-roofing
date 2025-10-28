@@ -268,7 +268,7 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                                             key={item}
                                             href={`#${targetId}`}
                                             onClick={(e) => handleNavClick(e, targetId)}
-                                            className="text-white/100 hover:text-white text-md font-normal transition-all duration-300"
+                                            className="text-white/100 hover:text-white text-base font-normal transition-all duration-300"
                                             initial={{ opacity: 1, y: 0 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: 0.1 * index, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
@@ -306,7 +306,7 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                                                     key={item}
                                                     href={`#${targetId}`}
                                                     onClick={(e) => handleNavClick(e, targetId)}
-                                                    className="text-white text-2xl font-medium"
+                                                    className="text-white text-3xl font-medium"
                                                     initial={{ opacity: 0, y: 20 }}
                                                     animate={{ opacity: 1, y: 0 }}
                                                     transition={{ delay: 0.1 + i * 0.05, duration: 0.4 }}
@@ -353,7 +353,7 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                                     </motion.div>
 
                                     <motion.p
-                                        className="mt-6 sm:mt-10 text-sm sm:text-base md:text-lg text-white/100 max-w-md sm:max-w-lg md:max-w-2xl leading-relaxed font-light"
+                                        className="mt-6 sm:mt-10 text-base sm:text-lg md:text-xl text-white/100 max-w-md sm:max-w-lg md:max-w-2xl leading-relaxed font-light"
                                         initial={{ opacity: 1, y: 0 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: 0.2, duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
@@ -389,7 +389,7 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                                     </motion.div>
 
                                     <motion.div
-                                        className="mt-8 sm:mt-16 grid grid-cols-2 sm:flex sm:flex-wrap justify-start items-stretch gap-2 sm:gap-3 text-xs sm:text-sm"
+                                        className="mt-8 sm:mt-16 grid grid-cols-2 sm:flex sm:flex-wrap justify-start items-stretch gap-2 sm:gap-3 text-sm sm:text-base"
                                         initial={{ opacity: 1 }}
                                         animate={{ opacity: 1 }}
                                         transition={{ delay: 0.6, duration: 0.7 }}
@@ -405,7 +405,7 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                                                     transition={{ delay: 0.7 + index * 0.1, duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
                                                     style={{ borderRadius: 16, border: "2px solid rgba(200,200,200,0.04)" }}
                                                 >
-                                                    <span className="text-sm">✓</span>
+                                                    <span className="text-base">✓</span>
                                                     <span>{item}</span>
                                                 </motion.span>
                                             ))}
@@ -429,7 +429,7 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                 <svg ref={phoneIconRef} className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-1C7.82 18 2 12.18 2 5V3z" />
                 </svg>
-                <span className="font-semibold text-lg sm:text-xl" style={{ backgroundColor: "#192119" }}>
+                <span className="font-semibold text-xl sm:text-2xl" style={{ backgroundColor: "#192119" }}>
           Call us at 502-207-3007
         </span>
             </motion.a>

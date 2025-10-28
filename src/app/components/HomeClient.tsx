@@ -139,7 +139,7 @@ export default function HomeClient({ initialVideo }: HomeClientProps) {
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-light text-white mb-2">
               Our <span className="font-normal text-[#40d6d1]">Services</span>
             </h2>
-            <p className="text-sm sm:text-base text-white/60 max-w-xl mx-auto">
+            <p className="text-base sm:text-lg text-white/60 max-w-xl mx-auto">
               Premium roofing solutions to protect your investment
             </p>
           </motion.div>
@@ -283,10 +283,10 @@ ${
                     </div>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-base font-medium text-white mb-1 group-hover:text-[#40d6d1] transition-colors duration-300">
+                    <h3 className="text-lg font-medium text-white mb-1 group-hover:text-[#40d6d1] transition-colors duration-300">
                       {service.title}
                     </h3>
-                    <p className="text-white/50 text-sm leading-relaxed line-clamp-2">
+                    <p className="text-white/50 text-base leading-relaxed line-clamp-2">
                       {service.description}
                     </p>
                   </div>
@@ -318,7 +318,7 @@ ${
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-light text-white mb-4">
               View Our <span className="font-normal text-[#40d6d1]">Work</span>
             </h2>
-            <p className="text-base text-white/70 max-w-xl mx-auto">
+            <p className="text-lg text-white/70 max-w-xl mx-auto">
               Quality craftsmanship that speaks for itself
             </p>
           </motion.div>
@@ -333,8 +333,8 @@ ${
             transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
             className="text-center mt-4"
           >
-            <h3 className="text-xl text-white mb-4">Ready to Start Your Project?</h3>
-            <p className="text-white/70 mb-6 max-w-md mx-auto">
+            <h3 className="text-2xl text-white mb-4">Ready to Start Your Project?</h3>
+            <p className="text-lg text-white/70 mb-6 max-w-md mx-auto">
               Proudly Kentucky-based roofers. Schedule your free inspection today.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -382,7 +382,7 @@ ${
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-light text-white mb-2">
               About <span className="font-normal text-[#40d6d1]">Us</span>
             </h2>
-            <p className="text-sm sm:text-base text-white/60 max-w-xl mx-auto">
+            <p className="text-base sm:text-lg text-white/60 max-w-xl mx-auto">
               Your trusted partner in premium roofing solutions
             </p>
           </motion.div>
@@ -398,7 +398,7 @@ ${
             >
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-2xl sm:text-2xl font-semibold text-white mb-4">
+                  <h3 className="text-2xl sm:text-3xl font-semibold text-white mb-4">
                     Built on Trust, Delivered with Excellence
                   </h3>
                   <div className="space-y-4 text-xl text-white/80 leading-relaxed">
@@ -430,7 +430,7 @@ ${
                       <div className="text-3xl font-semibold text-[#40d6d1]" style={{ marginBottom: "0px" }}>
                         {stat.number}
                       </div>
-                      <div className="text-md text-white/60">{stat.label}</div>
+                      <div className="text-base text-white/60">{stat.label}</div>
                     </motion.div>
                   ))}
                 </div>
@@ -463,19 +463,19 @@ ${
                   {/* Mobile */}
                   <div className="flex flex-col sm:hidden gap-3">
                     <div className="flex justify-between items-center">
-                      <h3 className="text-xl font-semibold text-white">Ibrahim Al-Saba</h3>
-                      <p className="text-white/70 text-sm">Owner, Onyx Roofing</p>
+                      <h3 className="text-2xl font-semibold text-white">Ibrahim Al-Saba</h3>
+                      <p className="text-white/70 text-base">Owner, Onyx Roofing</p>
                     </div>
                     <a
                       href="tel:5022073007"
                       style={{ borderRadius: "10px" }}
-                      className="shimmer-effect w-full flex items-center justify-center gap-2 border border-white/15 bg-[#549956]/56 px-4 py-2 text-md text-white hover:bg-[#40d6d1] hover:text-[#192119] hover:border-[#40d6d1]/50 transition-colors"
+                      className="shimmer-effect w-full flex items-center justify-center gap-2 border border-white/15 bg-[#549956]/56 px-4 py-2 text-base text-white hover:bg-[#40d6d1] hover:text-[#192119] hover:border-[#40d6d1]/50 transition-colors"
                       aria-label="Call Ibrahim at (502) 207-3007"
                     >
                       <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                         <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-1C7.82 18 2 12.18 2 5V3z" />
                       </svg>
-                      <span className="whitespace-nowrap" style={{ fontSize: "16px" }}>
+                      <span className="whitespace-nowrap" style={{ fontSize: "18px" }}>
                         (502) 207-3007
                       </span>
                     </a>
@@ -485,18 +485,18 @@ ${
                   <div className="hidden sm:flex items-center justify-between w-full gap-3">
                     <div>
                       <h3 className="text-2xl font-semibold text-white">Ibrahim Al-Saba</h3>
-                      <p className="text-white/70 text-md">Owner, Onyx Roofing</p>
+                      <p className="text-white/70 text-base">Owner, Onyx Roofing</p>
                     </div>
                     <a
                       href="tel:5022073007"
                       style={{ borderRadius: "10px" }}
-                      className="shimmer-effect shrink-0 inline-flex items-center gap-2 border border-white/15 bg-[#549956]/56 px-4 py-2 text-md text-white hover:bg-[#40d6d1] hover:text-[#192119] hover:border-[#40d6d1]/50 transition-colors"
+                      className="shimmer-effect shrink-0 inline-flex items-center gap-2 border border-white/15 bg-[#549956]/56 px-4 py-2 text-base text-white hover:bg-[#40d6d1] hover:text-[#192119] hover:border-[#40d6d1]/50 transition-colors"
                       aria-label="Call Ibrahim at (502) 207-3007"
                     >
                       <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                         <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-1C7.82 18 2 12.18 2 5V3z" />
                       </svg>
-                      <span className="whitespace-nowrap" style={{ fontSize: "18px" }}>
+                      <span className="whitespace-nowrap" style={{ fontSize: "20px" }}>
                         (502) 207-3007
                       </span>
                     </a>
@@ -542,7 +542,7 @@ ${
                       clipRule="evenodd"
                     />
                   </svg>
-                  <span className="text-md text-white/80">{badge}</span>
+                  <span className="text-base text-white/80">{badge}</span>
                 </motion.div>
               ))}
             </div>
@@ -571,7 +571,7 @@ ${
                     </div>
 
                     {/* Text + Call Button */}
-                    <p className="text-white/70 text-sm sm:text-base max-w-lg mx-auto mb-6">
+                    <p className="text-white/70 text-base sm:text-lg max-w-lg mx-auto mb-6">
                         Not seeing your city? <br /> We frequently travel for storm and insurance work—reach out.
                     </p>
                     <a
@@ -608,7 +608,7 @@ ${
                   height={48}
                   className="h-12 w-auto mb-4"
                 />
-                <p className="text-white/70 text-sm leading-relaxed max-w-md">
+                <p className="text-white/70 text-base leading-relaxed max-w-md">
                   Your trusted roofing professionals serving Louisville and all of Kentucky. We deliver premium
                   craftsmanship with a commitment to excellence that protects your most valuable investment.
                 </p>
@@ -626,7 +626,7 @@ ${
                     </svg>
                   </div>
                   <div>
-                    <p className="text-xs text-white/50">Call us anytime</p>
+                    <p className="text-sm text-white/50">Call us anytime</p>
                     <p className="font-medium">(502) 207-3007</p>
                   </div>
                 </motion.a>
@@ -647,7 +647,7 @@ ${
                     </svg>
                   </div>
                   <div>
-                    <p className="text-xs text-white/50">Email us</p>
+                    <p className="text-sm text-white/50">Email us</p>
                     <p className="font-medium">info@onyxroofingpro.com</p>
                   </div>
                 </motion.a>
@@ -661,7 +661,7 @@ ${
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
             >
-              <h3 className="text-lg font-medium text-white mb-4">Services</h3>
+              <h3 className="text-xl font-medium text-white mb-4">Services</h3>
               <ul className="space-y-2">
                 {[
                   "Roof Replacement",
@@ -680,7 +680,7 @@ ${
                   >
                     <a
                       href="#services"
-                      className="text-white/60 hover:text-[#40d6d1] transition-colors duration-300 text-sm block py-1 hover:translate-x-1 transform transition-transform"
+                      className="text-white/60 hover:text-[#40d6d1] transition-colors duration-300 text-base block py-1 hover:translate-x-1 transform transition-transform"
                     >
                       {service}
                     </a>
@@ -696,7 +696,7 @@ ${
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
             >
-              <h3 className="text-lg font-medium text-white mb-4">Company</h3>
+              <h3 className="text-xl font-medium text-white mb-4">Company</h3>
               <ul className="space-y-2">
                 {[
                   { name: "About Us", href: "#about" },
@@ -716,14 +716,14 @@ ${
                     {item.action ? (
                       <button
                         onClick={item.action}
-                        className="text-white/60 hover:text-[#40d6d1] transition-colors duration-300 text-sm block py-1 hover:translate-x-1 transform transition-transform text-left"
+                        className="text-white/60 hover:text-[#40d6d1] transition-colors duration-300 text-base block py-1 hover:translate-x-1 transform transition-transform text-left"
                       >
                         {item.name}
                       </button>
                     ) : (
                       <a
                         href={item.href}
-                        className="text-white/60 hover:text-[#40d6d1] transition-colors duration-300 text-sm block py-1 hover:translate-x-1 transform transition-transform"
+                        className="text-white/60 hover:text-[#40d6d1] transition-colors duration-300 text-base block py-1 hover:translate-x-1 transform transition-transform"
                       >
                         {item.name}
                       </a>
@@ -742,7 +742,7 @@ ${
             transition={{ duration: 0.7, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
             className="border-t border-white/10 pt-8 mb-8"
           >
-            <h3 className="text-sm font-medium text-white/80 mb-3">Service Areas</h3>
+            <h3 className="text-base font-medium text-white/80 mb-3">Service Areas</h3>
             <div className="flex flex-wrap gap-2">
               {[
                 "Louisville",
@@ -766,7 +766,7 @@ ${
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: 0.3 + index * 0.02, ease: [0.25, 0.1, 0.25, 1] }}
-                  className="px-3 py-1 bg-white/5 text-white/60 text-xs rounded-full border border-white/10 hover:bg-[#40d6d1]/10 hover:text-[#40d6d1] hover:border-[#40d6d1]/20 transition-all duration-300 cursor-default"
+                  className="px-3 py-1 bg-white/5 text-white/60 text-sm rounded-full border border-white/10 hover:bg-[#40d6d1]/10 hover:text-[#40d6d1] hover:border-[#40d6d1]/20 transition-all duration-300 cursor-default"
                 >
                   {city}
                 </motion.span>
@@ -793,7 +793,7 @@ ${
               transition={{ duration: 0.7, delay: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
               className="text-center"
             >
-              <p className="text-xs text-white/30">
+              <p className="text-sm text-white/30">
                 Website developed by{" "}
                 <a
                   href="https://al-saba.com"
