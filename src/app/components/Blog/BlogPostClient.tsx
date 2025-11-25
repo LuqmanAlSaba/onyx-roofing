@@ -1,8 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
 import QuoteCTA from '@/app/components/Blog/QuoteCTA';
-import ConsultationForm from '@/app/components/ConsultationForm';
+
+const ConsultationForm = dynamic(() => import('@/app/components/ConsultationForm'), {
+    ssr: false, // Form is client-side interaction only
+});
 
 interface BlogPostClientProps {
     ctaTitle?: string;
@@ -16,11 +20,13 @@ export default function BlogPostClient({ ctaTitle, ctaDescription, ctaButtonText
     return (
         <>
             {/* Consultation Form Overlay */}
-            <ConsultationForm
-                open={isFormOpen}
-                onClose={() => setIsFormOpen(false)}
-                initialService="Roof Inspection"
-            />
+            {isFormOpen && (
+                <ConsultationForm
+                    open={isFormOpen}
+                    onClose={() => setIsFormOpen(false)}
+                    initialService="Roof Inspection"
+                />
+            )}
 
             {/* CTA with form trigger */}
             <QuoteCTA

@@ -28,7 +28,7 @@ export default function BlogListingClient({ posts }: BlogListingClientProps) {
             Our Blog
           </h1>
           <p className="text-lg sm:text-xl text-white/60 max-w-2xl mx-auto font-light leading-relaxed">
-            Expert roofing advice, maintenance tips, and industry insights for Louisville homeowners
+            Expert roofing advice, maintenance tips, and industry insights for Kentucky homeowners
           </p>
         </motion.div>
 

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Hamburger from "./Hamburger";
 
 interface NavigationProps {
@@ -11,24 +12,27 @@ interface NavigationProps {
 
 export default function Navigation({ variant = "fixed" }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  const idMap: Record<string, string> = {
+    services: "services",
+    projects: "portfolio",
+    about: "about",
+    contact: "contact",
+    coverage: "coverage",
+    blog: "blog"
+  };
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-    // Blog navigation uses regular navigation, not smooth scroll
+    // Blog navigation uses regular navigation
     if (targetId === 'blog') {
       if (isMenuOpen) setIsMenuOpen(false);
       return;
     }
 
-    // For hash links, prevent default and scroll smoothly
-    if (targetId !== 'home') {
+    // If we are on the home page, scroll smoothly
+    if (pathname === '/') {
       e.preventDefault();
-      const idMap: Record<string, string> = {
-        services: "services",
-        projects: "portfolio",
-        about: "about",
-        contact: "contact",
-        coverage: "coverage"
-      };
       const id = idMap[targetId] || targetId;
       const el = document.getElementById(id);
       if (el) {
@@ -36,7 +40,7 @@ export default function Navigation({ variant = "fixed" }: NavigationProps) {
         if (isMenuOpen) setIsMenuOpen(false);
       }
     } else {
-      // Home link - just navigate
+      // If not on home page, allow default navigation (which will go to /#id)
       if (isMenuOpen) setIsMenuOpen(false);
     }
   };
@@ -73,7 +77,8 @@ export default function Navigation({ variant = "fixed" }: NavigationProps) {
         <div className="hidden md:flex items-center gap-8">
           {["Services", "Projects", "About", "Coverage", "Contact", "Blog"].map((item, index) => {
             const targetId = item.toLowerCase();
-            const href = targetId === 'blog' ? '/blog' : `/#${targetId}`;
+            const sectionId = idMap[targetId] || targetId;
+            const href = targetId === 'blog' ? '/blog' : `/#${sectionId}`;
             const isBlog = item === "Blog";
 
             return (
@@ -123,7 +128,8 @@ export default function Navigation({ variant = "fixed" }: NavigationProps) {
             <div className="h-full flex flex-col items-center justify-center space-y-6 px-6">
               {["Services", "Projects", "About", "Contact", "Blog"].map((item, i) => {
                 const targetId = item.toLowerCase();
-                const href = targetId === 'blog' ? '/blog' : `/#${targetId}`;
+                const sectionId = idMap[targetId] || targetId;
+                const href = targetId === 'blog' ? '/blog' : `/#${sectionId}`;
                 const isBlog = item === "Blog";
 
                 return (

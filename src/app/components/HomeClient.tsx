@@ -2,11 +2,22 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import Hero from "@/app/components/Hero";
-import ServiceAreaMap from "@/app/components/ServiceAreaMap";
 import ReviewCarousel from "@/app/components/reviews/ReviewCarousel";
 import { ReviewItem } from "@/app/components/reviews/common";
-import ConsultationForm from "@/app/components/ConsultationForm";
+
+// Dynamically import heavy components
+const ServiceAreaMap = dynamic(() => import("@/app/components/ServiceAreaMap"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-[420px] md:h-[450px] bg-[#0f1410] rounded-2xl border border-white/5 animate-pulse" />
+  ),
+});
+
+const ConsultationForm = dynamic(() => import("@/app/components/ConsultationForm"), {
+  ssr: false,
+});
 
 interface HomeClientProps {
   initialVideo: string;
@@ -26,12 +37,18 @@ const mapServiceToForm = (serviceTitle: string): string | undefined => {
 
 export default function HomeClient({ initialVideo }: HomeClientProps) {
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isFormMounted, setIsFormMounted] = useState(false);
   const [selectedService, setSelectedService] = useState<string | undefined>(undefined);
+
+  const openForm = () => {
+    setIsFormMounted(true);
+    setIsFormOpen(true);
+  };
 
   const handleServiceClick = (serviceTitle: string) => {
     const formService = mapServiceToForm(serviceTitle);
     setSelectedService(formService);
-    setIsFormOpen(true);
+    openForm();
   };
 
   // --- Portfolio Items (Unchanged) ---
@@ -64,19 +81,21 @@ export default function HomeClient({ initialVideo }: HomeClientProps) {
       {/* HERO */}
       <Hero
         isFormOpen={isFormOpen}
-        onOpenForm={() => setIsFormOpen(true)}
+        onOpenForm={openForm}
         initialVideo={initialVideo}
       />
 
-      {/* Consultation Form Overlay (now separate component) */}
-      <ConsultationForm
-        open={isFormOpen}
-        onClose={() => {
-          setIsFormOpen(false);
-          setSelectedService(undefined);
-        }}
-        initialService={selectedService}
-      />
+      {/* Consultation Form Overlay (lazy loaded) */}
+      {isFormMounted && (
+        <ConsultationForm
+          open={isFormOpen}
+          onClose={() => {
+            setIsFormOpen(false);
+            setSelectedService(undefined);
+          }}
+          initialService={selectedService}
+        />
+      )}
 
       {/* Services Section */}
       <section
@@ -218,11 +237,10 @@ duration-200 ease-out
 hover:shadow-lg hover:bg-white/[0.07]
 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400
 cursor-pointer text-left w-full
-${
-    service.highlight
-        ? "bg-gradient-to-br from-[#40d6d1]/20 to-[#13938f]/20 border border-[#40d6d1]/30 hover:border-[#40d6d1]/50"
-        : "bg-[#2a2d31]/30 backdrop-blur-sm border border-white/5 hover:border-[#40d6d1]/20 hover:bg-[#2a2d31]/50"
-}`}
+${service.highlight
+                    ? "bg-gradient-to-br from-[#40d6d1]/20 to-[#13938f]/20 border border-[#40d6d1]/30 hover:border-[#40d6d1]/50"
+                    : "bg-[#2a2d31]/30 backdrop-blur-sm border border-white/5 hover:border-[#40d6d1]/20 hover:bg-[#2a2d31]/50"
+                  }`}
               >
                 {service.highlight && (
                   <div className="absolute top-0 right-0 px-2 py-0.5 bg-[#40d6d1] text-[#192119] text-[10px] font-semibold rounded-bl-lg">
@@ -231,11 +249,10 @@ ${
                 )}
                 <div className="p-5 flex items-start space-x-4">
                   <div
-                    className={`flex-shrink-0 w-11 h-11 rounded-lg flex items-center justify-center transition-all duration-300 ${
-    service.highlight
-        ? "bg-[#40d6d1]/20 group-hover:bg-[#40d6d1]/30"
-        : "bg-[#40d6d1]/10 group-hover:bg-[#40d6d1]/20"
-}`}
+                    className={`flex-shrink-0 w-11 h-11 rounded-lg flex items-center justify-center transition-all duration-300 ${service.highlight
+                        ? "bg-[#40d6d1]/20 group-hover:bg-[#40d6d1]/30"
+                        : "bg-[#40d6d1]/10 group-hover:bg-[#40d6d1]/20"
+                      }`}
                   >
                     <div className="text-[#40d6d1] group-hover:scale-110 transition-transform duration-300">
                       {service.icon}
@@ -298,7 +315,7 @@ ${
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <button
-                onClick={() => setIsFormOpen(true)}
+                onClick={openForm}
                 className="shimmer-effect inline-flex items-center px-6 py-3 bg-[#13a19c] hover:bg-[#0f7a76] text-white font-medium rounded-full cursor-pointer transition-all duration-300 group transform-gpu"
               >
                 Schedule Free Inspection
@@ -509,39 +526,39 @@ ${
         </div>
       </section>
 
-        <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+      >
+        <section
+          id="coverage"
+          className="relative py-16 px-6 sm:px-12 bg-gradient-to-br from-[#1a1f1a] to-[#1a1f1a]"
         >
-            <section
-                id="coverage"
-                className="relative py-16 px-6 sm:px-12 bg-gradient-to-br from-[#1a1f1a] to-[#1a1f1a]"
+          <div className="max-w-6xl mx-auto text-center">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-light text-white mb-10">
+              Our <span className="font-normal text-[#40d6d1]">Coverage Area</span>
+            </h2>
+
+            {/* Map */}
+            <div className="rounded-2xl shadow-lg w-full mx-auto mb-8">
+              <ServiceAreaMap />
+            </div>
+
+            {/* Text + Call Button */}
+            <p className="text-white/70 text-sm sm:text-base max-w-lg mx-auto mb-6">
+              Not seeing your city? <br /> We frequently travel for storm and insurance work—reach out.
+            </p>
+            <a
+              href="tel:5022073007"
+              className="shimmer-effect inline-block border border-[#40d6d1]/40 text-white rounded-lg px-6 py-3 hover:bg-[#40d6d1]/10 transition"
             >
-                <div className="max-w-6xl mx-auto text-center">
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-light text-white mb-10">
-                        Our <span className="font-normal text-[#40d6d1]">Coverage Area</span>
-                    </h2>
-
-                    {/* Map */}
-                    <div className="rounded-2xl shadow-lg w-full mx-auto mb-8">
-                        <ServiceAreaMap />
-                    </div>
-
-                    {/* Text + Call Button */}
-                    <p className="text-white/70 text-sm sm:text-base max-w-lg mx-auto mb-6">
-                        Not seeing your city? <br /> We frequently travel for storm and insurance work—reach out.
-                    </p>
-                    <a
-                        href="tel:5022073007"
-                        className="shimmer-effect inline-block border border-[#40d6d1]/40 text-white rounded-lg px-6 py-3 hover:bg-[#40d6d1]/10 transition"
-                    >
-                        Call 502-207-3007
-                    </a>
-                </div>
-            </section>
-        </motion.div>
+              Call 502-207-3007
+            </a>
+          </div>
+        </section>
+      </motion.div>
 
       {/* Footer Section */}
       <footer id="contact" className="relative bg-[#0f1611] text-white overflow-hidden">
@@ -661,7 +678,7 @@ ${
                   { name: "About Us", href: "#about" },
                   { name: "Our Projects", href: "#portfolio" },
                   { name: "Service Areas", href: "#contact" },
-                  { name: "Get Quote", href: "#", action: () => setIsFormOpen(true) },
+                  { name: "Get Quote", href: "#", action: openForm },
                   { name: "Contact", href: "#contact" },
                   { name: "Reviews", href: "#" },
                 ].map((item, index) => (

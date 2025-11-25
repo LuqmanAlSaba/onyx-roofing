@@ -1,5 +1,6 @@
 import { getSelectedVideo } from "@/lib/video-selection";
 import HomeClient from "@/app/components/HomeClient";
+import DeferredFontAwesome from "@/app/components/DeferredFontAwesome";
 import { headers } from "next/headers";
 
 export default async function Home() {
@@ -28,6 +29,7 @@ export default async function Home() {
         <link rel="preload" as="video" href={initialVideo} type="video/mp4" />
       )}
       <HomeClient initialVideo={initialVideo} />
+      <DeferredFontAwesome />
     </>
   );
 }

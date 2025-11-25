@@ -241,35 +241,40 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                                 <motion.div
                                     key="hero-content"
                                     className="relative z-20 text-left mx-auto px-4 max-w-md sm:max-w-lg md:max-w-4xl pt-40 w-full"
-                                    initial={{ opacity: 1, scale: 1 }}
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    animate={{ opacity: 1, scale: 1 }}
                                     exit={{ opacity: 0, scale: 0.95 }}
-                                    transition={{ duration: 0.15, ease: "easeOut" }}
+                                    transition={{ duration: 0.3, ease: "easeOut" }}
                                 >
-                                    <motion.div initial={{ opacity: 1, y: 0 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}>
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                                    >
                                         <h1
                                             className="text-2xl sm:text-2xl md:text-4xl lg:text-6xl font-light leading-tight"
                                             style={{ textAlign: "left", textShadow: "-0px 0px 3px rgba(0,0,0,.32)" }}
                                         >
-                      <span className="block text-white mb-1 sm:mb-3 tracking-wide" style={{ mixBlendMode: "difference" }}>
-                        Built to{" "}
-                          <span className="font-normal" style={{ mixBlendMode: "difference", color: "#40d6d1" }}>
-                          Withstand.
-                        </span>
-                      </span>
-                                            <span className="block text-white tracking-wide" style={{ mixBlendMode: "difference" }}>
-                        Designed to{" "}
+                                            <span className="block text-white mb-1 sm:mb-3 tracking-wide" style={{ mixBlendMode: "difference" }}>
+                                                Built to{" "}
                                                 <span className="font-normal" style={{ mixBlendMode: "difference", color: "#40d6d1" }}>
-                          Impress.
-                        </span>
-                      </span>
+                                                    Withstand.
+                                                </span>
+                                            </span>
+                                            <span className="block text-white tracking-wide" style={{ mixBlendMode: "difference" }}>
+                                                Designed to{" "}
+                                                <span className="font-normal" style={{ mixBlendMode: "difference", color: "#40d6d1" }}>
+                                                    Impress.
+                                                </span>
+                                            </span>
                                         </h1>
                                     </motion.div>
 
                                     <motion.p
                                         className="mt-6 sm:mt-10 text-sm sm:text-base md:text-lg text-white/100 max-w-md sm:max-w-lg md:max-w-2xl leading-relaxed font-light"
-                                        initial={{ opacity: 1, y: 0 }}
+                                        initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.2, duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+                                        transition={{ delay: 0.1, duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
                                     >
                                         Your trusted roofing professionals serving Louisville and all of Kentucky.
                                         {!isMobile ? <span className="block mt-1">Premium craftsmanship for discerning homeowners.</span> : ""}
@@ -277,9 +282,9 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
 
                                     <motion.div
                                         className="mt-8 sm:mt-12 flex flex-col sm:flex-row gap-3 sm:gap-5 justify-start items-start"
-                                        initial={{ opacity: 1, y: 0 }}
+                                        initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.4, duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+                                        transition={{ delay: 0.2, duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
                                     >
                                         <button
                                             onClick={onOpenForm}
@@ -307,9 +312,9 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
 
                                     <motion.div
                                         className="mt-8 sm:mt-16 grid grid-cols-2 sm:flex sm:flex-wrap justify-start items-stretch gap-2 sm:gap-3 text-xs sm:text-sm"
-                                        initial={{ opacity: 1 }}
+                                        initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
-                                        transition={{ delay: 0.6, duration: 0.7 }}
+                                        transition={{ delay: 0.3, duration: 0.4 }}
                                     >
                                         {["Licensed & Insured", "Free Inspection", "Kentucky Owned", "Family Business"]
                                             .filter((item) => !(isMobile && (item === "Kentucky Owned" || item === "Family Business")))
@@ -317,9 +322,9 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                                                 <motion.span
                                                     key={item}
                                                     className="inline-flex items-center gap-2 text-white/100 font-light px-2 sm:px-3 py-1 sm:py-2 bg-[#474747]/75 backdrop-blur-md h-full transform-gpu"
-                                                    initial={{ opacity: 1, y: 0 }}
+                                                    initial={{ opacity: 0, y: 20 }}
                                                     animate={{ opacity: 1, y: 0 }}
-                                                    transition={{ delay: 0.7 + index * 0.1, duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                                                    transition={{ delay: 0.35 + index * 0.05, duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
                                                     style={{ borderRadius: 16, border: "2px solid rgba(200,200,200,0.04)" }}
                                                 >
                                                     <span className="text-sm">✓</span>
@@ -347,8 +352,8 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                     <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-1C7.82 18 2 12.18 2 5V3z" />
                 </svg>
                 <span className="font-semibold text-lg sm:text-xl" style={{ backgroundColor: "#192119" }}>
-          Call us at 502-207-3007
-        </span>
+                    Call us at 502-207-3007
+                </span>
             </motion.a>
 
             {/* Gradient overlay at bottom edge */}
