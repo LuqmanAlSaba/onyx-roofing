@@ -82,7 +82,7 @@ const UL = ({ children, listType = 'default' }: { children: React.ReactNode; lis
   <ul className="list-none space-y-4">
     {React.Children.map(children, (child) => {
       if (React.isValidElement(child) && child.type === 'li') {
-        const { children: liChildren, ...props } = child.props as any;
+        const { children: liChildren, ...props } = child.props as { children: React.ReactNode;[key: string]: unknown };
 
         // Choose icon and color based on list type
         let IconComponent = Check;
@@ -141,7 +141,7 @@ const ListSection = ({ title, children }: { title?: string; children: React.Reac
   // Clone children and pass listType to UL components
   const childrenWithProps = React.Children.map(children, (child) => {
     if (React.isValidElement(child) && child.type === UL) {
-      return React.cloneElement(child as React.ReactElement<any>, { listType });
+      return React.cloneElement(child as React.ReactElement<{ listType: string }>, { listType });
     }
     return child;
   });
@@ -165,7 +165,7 @@ const AdvantagesList = ({ title, children }: { title?: string; children: React.R
   // Clone children and pass advantages listType to UL components
   const childrenWithProps = React.Children.map(children, (child) => {
     if (React.isValidElement(child) && child.type === UL) {
-      return React.cloneElement(child as React.ReactElement<any>, { listType: 'advantages' });
+      return React.cloneElement(child as React.ReactElement<{ listType: string }>, { listType: 'advantages' });
     }
     return child;
   });
@@ -189,7 +189,7 @@ const DisadvantagesList = ({ title, children }: { title?: string; children: Reac
   // Clone children and pass disadvantages listType to UL components
   const childrenWithProps = React.Children.map(children, (child) => {
     if (React.isValidElement(child) && child.type === UL) {
-      return React.cloneElement(child as React.ReactElement<any>, { listType: 'disadvantages' });
+      return React.cloneElement(child as React.ReactElement<{ listType: string }>, { listType: 'disadvantages' });
     }
     return child;
   });
@@ -215,7 +215,7 @@ const NumberedList = ({ title, children }: { title?: string; children: React.Rea
 
   React.Children.forEach(children, (child) => {
     if (React.isValidElement(child) && child.type === UL) {
-      items = React.Children.toArray((child.props as any).children);
+      items = React.Children.toArray((child.props as { children: React.ReactNode }).children);
     } else if (React.isValidElement(child) && child.type === 'li') {
       items.push(child);
     }
@@ -234,7 +234,7 @@ const NumberedList = ({ title, children }: { title?: string; children: React.Rea
       <div className="space-y-4">
         {liItems.map((item, index) => {
           if (React.isValidElement(item)) {
-            const { children: liChildren, ...props } = item.props as any;
+            const { children: liChildren, ...props } = item.props as { children: React.ReactNode;[key: string]: unknown };
             return (
               <div key={index} {...props} className="flex items-start gap-4">
                 <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-[#40d6d1] to-[#2cc2bd] flex items-center justify-center shadow-lg shadow-[#40d6d1]/20">
@@ -288,6 +288,7 @@ const Img = ({ src, alt }: { src?: string; alt?: string }) => {
   const ImageContent = () => {
     if (src.startsWith('http')) {
       return (
+        // eslint-disable-next-line @next/next/no-img-element
         <img
           src={src}
           alt={alt || ''}
@@ -389,6 +390,7 @@ const ImageWithPrice = ({ src, alt, price, priceDescription }: { src: string; al
   const ImageContent = () => {
     if (src.startsWith('http')) {
       return (
+        // eslint-disable-next-line @next/next/no-img-element
         <img
           src={src}
           alt={alt || ''}
@@ -642,7 +644,7 @@ const MaterialComparison = () => {
     <div className="my-12 relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen">
       <div className="max-w-[94vw] mx-auto px-4 sm:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6">
-          {materials.map((material, index) => (
+          {materials.map((material) => (
             <div
               key={material.name}
               className="bg-white/[0.02] border border-white/5 rounded-xl px-4 py-6"
