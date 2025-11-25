@@ -10,6 +10,7 @@ export interface BlogMetadata {
   excerpt: string;
   featuredImage: string;
   categories: string[];
+  published?: boolean;
 }
 
 export interface BlogPost extends BlogMetadata {
@@ -46,6 +47,7 @@ async function parseMDXFile(filePath: string, slug: string): Promise<BlogPost> {
     excerpt: metadata.excerpt,
     featuredImage: metadata.featuredImage,
     categories: metadata.categories || [],
+    published: metadata.published ?? true, // Default to true if not specified
     content,
     readingTime: readTime,
   };
@@ -73,8 +75,11 @@ export async function getAllPosts(): Promise<BlogPost[]> {
     })
   );
 
+  // Filter out unpublished posts
+  const publishedPosts = allPostsData.filter((post) => post.published !== false);
+
   // Sort posts by date (newest first)
-  return allPostsData.sort((a, b) => {
+  return publishedPosts.sort((a, b) => {
     const dateA = new Date(a.date).getTime();
     const dateB = new Date(b.date).getTime();
     return dateB - dateA;
@@ -86,7 +91,7 @@ export async function getAllPosts(): Promise<BlogPost[]> {
  */
 export async function getPostBySlug(slug: string): Promise<BlogPost> {
   const fullPath = path.join(postsDirectory, `${slug}.mdx`);
-  
+
   // Try .mdx first, then .md
   let filePath = fullPath;
   if (!fs.existsSync(fullPath)) {
@@ -105,7 +110,7 @@ export async function getPostBySlug(slug: string): Promise<BlogPost> {
  */
 export function getAllCategories(posts: BlogPost[]): string[] {
   const categoriesSet = new Set<string>();
-  
+
   posts.forEach((post) => {
     post.categories.forEach((category) => {
       categoriesSet.add(category);
@@ -155,7 +160,7 @@ export function getRelatedPosts(
       .filter((p) => !relatedPosts.includes(p))
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
       .slice(0, limit - relatedPosts.length);
-    
+
     relatedPosts.push(...recentPosts);
   }
 

@@ -46,42 +46,6 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
         }
     }, [open, initialService]);
 
-    // Prevent body scroll when form is open
-    useEffect(() => {
-        if (open) {
-            // Store original values
-            const originalBodyOverflow = document.body.style.overflow;
-            const originalHtmlOverflow = document.documentElement.style.overflow;
-            const originalBodyPosition = document.body.style.position;
-            const originalBodyTop = document.body.style.top;
-            const originalBodyWidth = document.body.style.width;
-            
-            // Get current scroll position
-            const scrollY = window.scrollY;
-
-            // Prevent scrolling on both body and html (for mobile browsers, especially iOS Safari)
-            document.body.style.overflow = 'hidden';
-            document.documentElement.style.overflow = 'hidden';
-            
-            // Additional fix for iOS Safari - lock body position
-            document.body.style.position = 'fixed';
-            document.body.style.top = `-${scrollY}px`;
-            document.body.style.width = '100%';
-
-            // Restore original overflow and scroll position when form closes
-            return () => {
-                document.body.style.overflow = originalBodyOverflow;
-                document.documentElement.style.overflow = originalHtmlOverflow;
-                document.body.style.position = originalBodyPosition;
-                document.body.style.top = originalBodyTop;
-                document.body.style.width = originalBodyWidth;
-                
-                // Restore scroll position
-                window.scrollTo(0, scrollY);
-            };
-        }
-    }, [open]);
-
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [submitStage, setSubmitStage] = useState<"idle" | "loading" | "success" | "complete">("idle");
     const [rippleOrigin, setRippleOrigin] = useState({ x: 0, y: 0 });

@@ -6,13 +6,17 @@ import { getAllPosts, getPostBySlug, getRelatedPosts } from '@/lib/blog';
 import { ArrowLeft } from 'lucide-react';
 import BlogHeader from '@/app/components/Blog/BlogHeader';
 import BlogPost from '@/app/components/Blog/BlogPost';
+import BlogPostContent from '@/app/components/Blog/BlogPostContent';
 import RelatedPosts from '@/app/components/Blog/RelatedPosts';
+import BlogPostClient from '@/app/components/Blog/BlogPostClient';
+
 import Navigation from '@/app/components/Navigation';
+import ReadingProgressBar from '@/app/components/Blog/ReadingProgressBar';
 
 // Generate static params for all blog posts
 export async function generateStaticParams() {
   const posts = await getAllPosts();
-  
+
   return posts.map((post) => ({
     slug: post.slug,
   }));
@@ -21,10 +25,10 @@ export async function generateStaticParams() {
 // Generate dynamic metadata for SEO
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  
+
   try {
     const post = await getPostBySlug(slug);
-    
+
     return {
       title: `${post.title} | Onyx Roofing Blog`,
       description: post.excerpt,
@@ -66,7 +70,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  
+
   let post;
   try {
     post = await getPostBySlug(slug);
@@ -110,7 +114,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
-      <main 
+      <main
         className="min-h-screen bg-gradient-to-br from-[#192119] to-[#1a1f1a]"
         style={{
           border: "16px solid #1a1f1a",
@@ -118,6 +122,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         }}
       >
         <div style={{ borderRadius: "32px 32px 0 0", minHeight: "100vh" }} className="bg-gradient-to-br from-[#192119] to-[#1a1f1a] relative overflow-hidden">
+          <ReadingProgressBar />
           <Navigation variant="fixed" />
 
           {/* Back to Blog Navigation */}
@@ -156,8 +161,17 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               readingTime={post.readingTime}
               categories={post.categories}
             />
-            
-            <BlogPost content={post.content} />
+
+            <BlogPost>
+              <BlogPostContent content={post.content} />
+            </BlogPost>
+
+            {/* Client component for form and CTA */}
+            <BlogPostClient
+              ctaTitle={slug === 'kentucky-winter-roof-prep' ? "Is Your Roof Winter-Ready?" : undefined}
+              ctaDescription={slug === 'kentucky-winter-roof-prep' ? "Don't let the freeze-thaw cycle catch you off guard. Schedule a comprehensive winter roof inspection with Onyx Roofing today." : undefined}
+              ctaButtonText={slug === 'kentucky-winter-roof-prep' ? "Schedule Inspection" : undefined}
+            />
           </article>
 
           {/* Related Posts Section */}
