@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 
 export default async function Home() {
   // Server-side video selection - no API call needed!
-  const initialVideo = getSelectedVideo();
+  const initialVideo = await getSelectedVideo();
 
   // Detect mobile devices to use image instead of video
   const headersList = await headers();

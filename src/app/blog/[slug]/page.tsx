@@ -129,7 +129,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           <div className="relative max-w-4xl mx-auto px-4 sm:px-8 pt-16 sm:pt-16 pb-8">
             <Link
               href="/blog"
-              className="shimmer-effect inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#2a2d31]/30 backdrop-blur-sm border border-white/10 text-[#40d6d1] hover:text-white hover:border-[#40d6d1]/40 transition-all duration-300 group"
+              className="shimmer-effect inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#2a2d31]/80 backdrop-blur-md border border-[#40d6d1]/30 text-[#40d6d1] hover:bg-[#40d6d1] hover:text-[#1a1f1a] hover:border-[#40d6d1] transition-all duration-300 group shadow-lg"
             >
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
               <span className="text-sm font-light">Back to Blog</span>
