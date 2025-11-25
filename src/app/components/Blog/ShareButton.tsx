@@ -39,7 +39,7 @@ export default function ShareButton({ title }: { title: string }) {
     return (
         <motion.button
             onClick={handleShare}
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/80 hover:bg-white/10 hover:text-white hover:border-[#40d6d1]/50 transition-all duration-300 group"
+            className="flex w-fit items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/80 hover:bg-white/10 hover:text-white hover:border-[#40d6d1]/50 transition-all duration-300 group"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
         >
