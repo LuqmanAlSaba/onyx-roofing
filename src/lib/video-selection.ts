@@ -8,11 +8,11 @@ export function chooseVideo(hour: number, month: number, day: number, isSnowing:
     // Month is 1-indexed (1=Jan, ..., 10=Oct, 11=Nov, 12=Dec)
     if (month === 10) return '/videos/house-halloween.mp4'; // October
 
-    const isWinterHoliday = (month === 11 && day >= 25) || month === 12; // Nov 25 - Dec 31
+
 
     if (hour >= 21 || hour < 6) return '/videos/house-night.mp4';
 
-    if (isWinterHoliday) return '/videos/house-snowy-blurred.mp4';
+
 
     if (hour >= 19) return '/videos/house-sunset.mp4';
     if (hour >= 12) return '/videos/house-afternoon.mp4';
