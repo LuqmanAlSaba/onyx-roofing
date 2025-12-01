@@ -203,17 +203,17 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                 </motion.div>
 
                 {/* NAV + HERO CONTENT */}
-                <div className="relative z-100 pb-16 md:pb-0">
+                <div className="relative z-100 min-h-screen flex flex-col pb-16 md:pb-0">
                     {/* Navigation */}
                     <Navigation variant="hero" />
 
                     {/* HERO copy + CTAs */}
-                    <section className="relative h-full flex items-center justify-center px-4 sm:px-8">
+                    <section className="relative flex-grow flex flex-col items-center justify-center px-4 sm:px-8 pt-20 md:pt-28 pb-32 md:pb-40">
                         <AnimatePresence mode="wait">
                             {!isFormOpen ? (
                                 <motion.div
                                     key="hero-content"
-                                    className="relative z-20 text-left mx-auto px-4 max-w-md sm:max-w-lg md:max-w-4xl pt-40 w-full"
+                                    className="relative z-20 text-left mx-auto px-4 max-w-md sm:max-w-lg md:max-w-4xl w-full"
                                     initial={{ opacity: 0, scale: 0.95 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     exit={{ opacity: 0, scale: 0.95 }}
@@ -228,7 +228,7 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                                             className="text-2xl sm:text-2xl md:text-4xl lg:text-6xl font-light leading-tight"
                                             style={{ textAlign: "left", textShadow: "-0px 0px 3px rgba(0,0,0,.32)" }}
                                         >
-                                            <span className="block text-white mb-1 sm:mb-3 tracking-wide" style={{ mixBlendMode: "difference" }}>
+                                            <span className="block text-white mb-0 sm:mb-1 tracking-wide" style={{ mixBlendMode: "difference" }}>
                                                 Built to{" "}
                                                 <span className="font-normal" style={{ mixBlendMode: "difference", color: "#40d6d1" }}>
                                                     Withstand.
@@ -244,7 +244,7 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                                     </motion.div>
 
                                     <motion.p
-                                        className="mt-6 sm:mt-10 text-sm sm:text-base md:text-lg text-white/100 max-w-md sm:max-w-lg md:max-w-2xl leading-relaxed font-light"
+                                        className="mt-2 sm:mt-4 text-sm sm:text-base md:text-lg text-white/100 max-w-md sm:max-w-lg md:max-w-2xl leading-relaxed font-light"
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: 0.1, duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
