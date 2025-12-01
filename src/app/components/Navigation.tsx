@@ -64,7 +64,7 @@ export default function Navigation({ variant = "fixed" }: NavigationProps) {
         >
           <Link href="/">
             <Image
-              src="/onyx-roofing-logo-black.webp"
+              src="/onyx-roofing-logo.svg"
               alt="Onyx Roofing"
               width={120}
               height={40}

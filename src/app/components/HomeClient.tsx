@@ -250,8 +250,8 @@ ${service.highlight
                 <div className="p-5 flex items-start space-x-4">
                   <div
                     className={`flex-shrink-0 w-11 h-11 rounded-lg flex items-center justify-center transition-all duration-300 ${service.highlight
-                        ? "bg-[#40d6d1]/20 group-hover:bg-[#40d6d1]/30"
-                        : "bg-[#40d6d1]/10 group-hover:bg-[#40d6d1]/20"
+                      ? "bg-[#40d6d1]/20 group-hover:bg-[#40d6d1]/30"
+                      : "bg-[#40d6d1]/10 group-hover:bg-[#40d6d1]/20"
                       }`}
                   >
                     <div className="text-[#40d6d1] group-hover:scale-110 transition-transform duration-300">
@@ -578,7 +578,7 @@ ${service.highlight
             >
               <div className="mb-6">
                 <Image
-                  src="/onyx-roofing-logo-black.webp"
+                  src="/onyx-roofing-logo.svg"
                   alt="Onyx Roofing"
                   width={120}
                   height={48}

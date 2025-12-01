@@ -99,7 +99,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       name: 'Onyx Roofing',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://onyxroofingpro.com/onyx-roofing-logo-white.svg',
+        url: 'https://onyxroofingpro.com/onyx-roofing-logo.svg',
       },
     },
     description: post.excerpt,
