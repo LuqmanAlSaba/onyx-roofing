@@ -26,7 +26,7 @@ export default async function Home() {
         <link rel="preload" as="image" href={getImagePathFromVideo(initialVideo)} type="image/webp" />
       ) : (
         // Desktop: Preload video for animated background
-        <link rel="preload" as="video" href={initialVideo} type="video/mp4" />
+        <link rel="preload" as="video" href={`/videos/blurred/${initialVideo.split('/').pop()?.replace('.mp4', '-blurred.mp4').replace('-blurred-blurred', '-blurred')}`} type="video/mp4" />
       )}
       <HomeClient initialVideo={initialVideo} />
       <DeferredFontAwesome />

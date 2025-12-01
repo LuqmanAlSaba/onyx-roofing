@@ -3,7 +3,7 @@ import { getWeather } from './weather';
 const LOU_TZ = 'America/Kentucky/Louisville';
 
 export function chooseVideo(hour: number, month: number, day: number, isSnowing: boolean = false): string {
-    if (isSnowing) return '/videos/house-snowy.mp4';
+    if (isSnowing) return '/videos/house-snowy-blurred.mp4';
 
     // Month is 1-indexed (1=Jan, ..., 10=Oct, 11=Nov, 12=Dec)
     if (month === 10) return '/videos/house-halloween.mp4'; // October
@@ -12,7 +12,7 @@ export function chooseVideo(hour: number, month: number, day: number, isSnowing:
 
     if (hour >= 21 || hour < 6) return '/videos/house-night.mp4';
 
-    if (isWinterHoliday) return '/videos/house-snowy.mp4';
+    if (isWinterHoliday) return '/videos/house-snowy-blurred.mp4';
 
     if (hour >= 19) return '/videos/house-sunset.mp4';
     if (hour >= 12) return '/videos/house-afternoon.mp4';

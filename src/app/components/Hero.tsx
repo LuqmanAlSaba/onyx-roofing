@@ -154,6 +154,22 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
         return `/images/hero-blurred/${filename}`;
     }, []);
 
+    // Helper to get the pre-blurred video path
+    const getBlurredVideoPath = React.useCallback((videoPath: string) => {
+        if (!videoPath) return '';
+        const filename = videoPath.split('/').pop();
+        if (!filename) return '';
+
+        // Handle cases where the video might already be the blurred version
+        // or if it's the snowy one which is named with -blurred in video-selection.ts
+        let blurredFilename = filename;
+        if (!filename.includes('-blurred')) {
+            blurredFilename = filename.replace('.mp4', '-blurred.mp4');
+        }
+
+        return `/videos/blurred/${blurredFilename}`;
+    }, []);
+
     return (
         <main
             className="h-full text-white relative overflow-hidden font-inter antialiased"
@@ -198,10 +214,10 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                         <motion.video
                             id="heroVideo"
                             ref={videoRef}
-                            src={currentVideo}
+                            src={getBlurredVideoPath(currentVideo)}
                             className="house-background absolute w-full h-full will-change-transform object-cover"
                             style={{
-                                filter: "blur(8px) brightness(1) saturate(0.75)",
+                                filter: "brightness(1) saturate(0.75)",
                                 transform: `scale(1.08) translate3d(${mousePosition.x * -50}px, calc(${mousePosition.y * -15}px - 10px), 0)`,
                                 maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)",
                                 WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)",
