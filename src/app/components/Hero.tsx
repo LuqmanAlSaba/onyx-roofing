@@ -15,7 +15,6 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
     // Local UI state
     const [scrolled, setScrolled] = useState(false);
     const [pastVideoSection, setPastVideoSection] = useState(false);
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [isMobile, setIsMobile] = useState(false);
 
     // Refs
@@ -97,44 +96,7 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
         return () => window.removeEventListener("scroll", onScroll);
     }, []);
 
-    // Optimized parallax - only update when change is significant
-    useEffect(() => {
-        let targetX = 0,
-            targetY = 0,
-            currentX = 0,
-            currentY = 0,
-            raf = 0;
-        const k = 0.08;
-        const threshold = 0.003; // Increased threshold to reduce updates
 
-        const onMove = (e: MouseEvent) => {
-            const { clientX, clientY } = e;
-            const cx = window.innerWidth / 2;
-            const cy = window.innerHeight / 2;
-            targetX = (clientX - cx) / cx;
-            targetY = (clientY - cy) / cy;
-        };
-
-        const loop = () => {
-            const dx = (targetX - currentX) * k;
-            const dy = (targetY - currentY) * k;
-            currentX += dx;
-            currentY += dy;
-
-            // Only update state when change is significant
-            if (Math.abs(dx) > threshold || Math.abs(dy) > threshold) {
-                setMousePosition({ x: currentX, y: currentY });
-            }
-            raf = requestAnimationFrame(loop);
-        };
-
-        window.addEventListener("mousemove", onMove, { passive: true });
-        raf = requestAnimationFrame(loop);
-        return () => {
-            window.removeEventListener("mousemove", onMove);
-            cancelAnimationFrame(raf);
-        };
-    }, []);
 
 
 
@@ -218,7 +180,7 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                             className="house-background absolute w-full h-full will-change-transform object-cover"
                             style={{
                                 filter: "brightness(1) saturate(0.75)",
-                                transform: `scale(1.08) translate3d(${mousePosition.x * -50}px, calc(${mousePosition.y * -15}px - 10px), 0)`,
+                                transform: "scale(1.08)",
                                 maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)",
                                 WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)",
                                 left: 0,
