@@ -146,7 +146,7 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
             }}
         >
             <div className="relative h-full overflow-hidden" style={{ borderRadius: "32px 32px 0 0", minHeight: "100vh", maxWidth: "100%" }}>
-                <canvas id="confetti-canvas" className="absolute inset-0 pointer-events-none h-full" style={{ zIndex: 100 }} />
+
 
                 {/* Blurred, animated video/image background */}
                 <motion.div
@@ -177,9 +177,9 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                             id="heroVideo"
                             ref={videoRef}
                             src={getBlurredVideoPath(currentVideo)}
-                            className="house-background absolute w-full h-full will-change-transform object-cover"
+                            className="house-background absolute w-full h-full object-cover"
                             style={{
-                                filter: "brightness(1) saturate(0.75)",
+                                filter: "saturate(0.75)",
                                 transform: "scale(1.08)",
                                 maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)",
                                 WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)",
@@ -202,9 +202,6 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                         />
                     )}
 
-                    {/* Soft glows */}
-                    <div className="hidden md:block absolute top-1/3 left-1/4 w-96 h-96 bg-[#13938f]/3 rounded-full blur-[120px] animate-pulse-slow will-change-[opacity]" />
-                    <div className="hidden md:block absolute bottom-1/3 right-1/3 w-96 h-96 bg-white/3 rounded-full blur-[100px] animate-pulse-slower will-change-[opacity]" />
                 </motion.div>
 
                 {/* NAV + HERO CONTENT */}
