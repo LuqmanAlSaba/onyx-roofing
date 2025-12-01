@@ -108,22 +108,7 @@ body {
   animation: phone-wiggle 7.5s ease-in-out infinite;
 }
 
-.hero-blur-edges::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: 10;
-  background: radial-gradient(
-          ellipse at center,
-          rgba(0, 0, 0, 0) 50%,
-          rgba(0, 0, 0, 0.2) 80%,
-          rgba(0, 0, 0, 0.4) 100%
-  );
-  mix-blend-mode: soft-light;
-  filter: blur(16px);
-}
+
 
 .error-border {
   border-color: #ef4444 !important;
@@ -132,11 +117,7 @@ body {
   color: #f87171;
 }
 
-.edge-fades{
-  --fade:200px;
-  -webkit-mask-image:linear-gradient(to right,transparent 0,#000000 var(--fade),#000000 calc(100% - var(--fade)),transparent 100%);
-  mask-image:linear-gradient(to right,transparent 0,#000000 var(--fade),#000000 calc(100% - var(--fade)),transparent 100%);
-}
+
 
 @keyframes shimmer5s {
     /* idle off-screen (pause) */

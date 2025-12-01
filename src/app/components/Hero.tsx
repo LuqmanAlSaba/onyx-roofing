@@ -181,8 +181,6 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                             style={{
                                 filter: "saturate(0.75)",
                                 transform: "scale(1.08)",
-                                maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)",
-                                WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.6) 100%)",
                                 left: 0,
                                 width: "100%",
                                 height: "100%",
@@ -279,7 +277,6 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                                                 if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                                             }}
                                             className="shimmer-effect px-6 sm:px-8 md:px-10 py-3 sm:py-4 border border-white/50 text-white hover:bg-white hover:text-gray-900 font-normal rounded-full transition-all duration-300 cursor-pointer text-sm sm:text-base transform-gpu"
-                                            style={{ backdropFilter: "blur(20px)" }}
                                         >
                                             View Our Work
                                         </motion.a>
