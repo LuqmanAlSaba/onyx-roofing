@@ -229,15 +229,15 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                                             style={{ textAlign: "left", textShadow: "-0px 0px 3px rgba(0,0,0,.32)" }}
                                         >
                                             <span className="block text-white mb-0 sm:mb-1 tracking-wide" style={{ mixBlendMode: "difference" }}>
-                                                Built to{" "}
+                                                Family{" "}
                                                 <span className="font-normal" style={{ mixBlendMode: "difference", color: "#40d6d1" }}>
-                                                    Withstand.
+                                                    Built.
                                                 </span>
                                             </span>
                                             <span className="block text-white tracking-wide" style={{ mixBlendMode: "difference" }}>
-                                                Designed to{" "}
+                                                Locally{" "}
                                                 <span className="font-normal" style={{ mixBlendMode: "difference", color: "#40d6d1" }}>
-                                                    Impress.
+                                                    Trusted.
                                                 </span>
                                             </span>
                                         </h1>

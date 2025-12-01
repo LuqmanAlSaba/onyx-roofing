@@ -15,6 +15,7 @@ html {
   html {
     scroll-behavior: auto;
   }
+
   /* Also disable parallax and heavy animations */
   * {
     animation-duration: 0.01ms !important;
@@ -68,32 +69,69 @@ body {
 }
 
 @keyframes tiny-spin {
-  from   { transform: rotate(0deg); }
-  to     { transform: rotate(10deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(10deg);
+  }
 }
 
 .ttt {
   background-color: #192119;
   opacity: 1;
-  background-image:  radial-gradient(rgba(255,255,255, 0.1) 0.5px, transparent 0.5px), radial-gradient(rgba(255,255,255, 0.1) 0.5px, #646464 0.5px);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 0.5px, transparent 0.5px), radial-gradient(rgba(255, 255, 255, 0.1) 0.5px, #646464 0.5px);
   background-size: 20px 20px;
-  background-position: 0 0,10px 10px;
+  background-position: 0 0, 10px 10px;
   width: 100%;
   left: 0%;
   bottom: 5%;
 }
 
 @keyframes phone-wiggle {
-  0%, 20%, 100% { transform: rotate(0deg); }
-  2% { transform: rotate(-15deg); }
-  4% { transform: rotate(15deg); }
-  6% { transform: rotate(-15deg); }
-  8% { transform: rotate(15deg); }
-  10% { transform: rotate(-10deg); }
-  12% { transform: rotate(10deg); }
-  14% { transform: rotate(-5deg); }
-  16% { transform: rotate(5deg); }
-  18% { transform: rotate(0deg); }
+
+  0%,
+  20%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  2% {
+    transform: rotate(-15deg);
+  }
+
+  4% {
+    transform: rotate(15deg);
+  }
+
+  6% {
+    transform: rotate(-15deg);
+  }
+
+  8% {
+    transform: rotate(15deg);
+  }
+
+  10% {
+    transform: rotate(-10deg);
+  }
+
+  12% {
+    transform: rotate(10deg);
+  }
+
+  14% {
+    transform: rotate(-5deg);
+  }
+
+  16% {
+    transform: rotate(5deg);
+  }
+
+  18% {
+    transform: rotate(0deg);
+  }
 }
 
 .animate-pulse-slow {
@@ -113,6 +151,7 @@ body {
 .error-border {
   border-color: #ef4444 !important;
 }
+
 .error-text {
   color: #f87171;
 }
@@ -120,31 +159,45 @@ body {
 
 
 @keyframes shimmer5s {
-    /* idle off-screen (pause) */
-    0%   { transform: translateX(-150%); }
-    70%  { transform: translateX(-150%); }
 
-    /* quick sweep (~1.5s of the 5s total) */
-    85%  { transform: translateX(150%); }
-    100% { transform: translateX(150%); }
+  /* idle off-screen (pause) */
+  0% {
+    transform: translateX(-150%);
+  }
+
+  70% {
+    transform: translateX(-150%);
+  }
+
+  /* quick sweep (~1.5s of the 5s total) */
+  85% {
+    transform: translateX(150%);
+  }
+
+  100% {
+    transform: translateX(150%);
+  }
 }
 
 .shimmer-effect {
-    position: relative;
-    overflow: hidden;        /* keep it inside the rounded card */
+  position: relative;
+  overflow: hidden;
+  /* keep it inside the rounded card */
 }
 
 .shimmer-effect::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.25), transparent);
-    transform: translateX(-150%);
-    animation: shimmer5s 6s ease-in-out infinite;
-    pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  transform: translateX(-150%);
+  animation: shimmer5s 6s ease-in-out infinite;
+  pointer-events: none;
 }
 
 /* Accessibility */
 @media (prefers-reduced-motion: reduce) {
-    .shimmer-effect::before { animation: none; }
+  .shimmer-effect::before {
+    animation: none;
+  }
 }
