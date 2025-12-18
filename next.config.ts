@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 3600, // improved cache for images
   },
   experimental: {
-    optimizeCss: true,
+    optimizeCss: false,
     // Note: Next.js 15.4.2 still requires 'critters' internally
     // 'beasties' is the modern fork but not yet supported by Next.js
 
