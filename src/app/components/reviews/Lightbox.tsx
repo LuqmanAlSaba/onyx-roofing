@@ -12,12 +12,12 @@ type LightboxAction =
     | { type: "PREV_ITEM"; payload: { count: number } };
 
 export function Lightbox({
-                             open,
-                             currentIndex,
-                             items,
-                             dispatch,
-                             isMobile,
-                         }: {
+    open,
+    currentIndex,
+    items,
+    dispatch,
+    isMobile,
+}: {
     open: boolean;
     currentIndex: number;
     items: ReviewItem[];
@@ -99,8 +99,10 @@ export function Lightbox({
             body.style.top = "";
             body.style.width = "";
 
-            // Restore scroll position
+            // Restore scroll position immediately (without smooth scroll)
+            html.style.scrollBehavior = "auto";
             window.scrollTo(0, scrollY);
+            html.style.scrollBehavior = "";
 
             window.removeEventListener("keydown", onKey);
         };
@@ -260,9 +262,8 @@ export function Lightbox({
                                                                 key={index}
                                                                 onClick={() => dispatch({ type: "PREV_ITEM", payload: { count: 0 } })} // noop; dots were decorative before
                                                                 aria-label={`Review ${index + 1}`}
-                                                                className={`h-2.5 rounded-full transition-all duration-300 ease-in-out ${
-                                                                    currentIndex === index ? "w-4 bg-white" : "w-2.5 bg-white/40 hover:bg-white/70"
-                                                                }`}
+                                                                className={`h-2.5 rounded-full transition-all duration-300 ease-in-out ${currentIndex === index ? "w-4 bg-white" : "w-2.5 bg-white/40 hover:bg-white/70"
+                                                                    }`}
                                                             />
                                                         ))}
                                                     </div>
@@ -374,11 +375,10 @@ export function Lightbox({
                                                         </div>
 
                                                         <div
-                                                            className={`flex-1 min-h-0 overflow-auto ${
-                                                                !isExpanded
+                                                            className={`flex-1 min-h-0 overflow-auto ${!isExpanded
                                                                     ? "[-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_calc(100%-4rem),transparent_100%)] [mask-image:linear-gradient(to_bottom,black_0%,black_calc(100%-4rem),transparent_100%)]"
                                                                     : ""
-                                                            }`}
+                                                                }`}
                                                         >
                                                             <blockquote
                                                                 ref={textInnerRef}
