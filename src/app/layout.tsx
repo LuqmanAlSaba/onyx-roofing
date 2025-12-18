@@ -35,14 +35,14 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://onyxroofingpro.com'),
+  metadataBase: new URL('https://www.onyxroofingpro.com'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     title: "Onyx Roofing - Roofing Services Louisville, KY",
     description: "Professional roofing services in Louisville, Kentucky. Roof replacement, repair, storm damage, and gutter installation. Licensed & insured. Free inspection.",
-    url: 'https://onyxroofingpro.com',
+    url: 'https://www.onyxroofingpro.com',
     siteName: 'Onyx Roofing',
     images: [
       {
@@ -123,7 +123,7 @@ export default function RootLayout({
               "@type": "RoofingContractor",
               "name": "Onyx Roofing",
               "description": "Professional roofing services in Louisville, Kentucky. Specializing in roof replacement, repair, storm damage, and gutter installation.",
-              "url": "https://onyxroofingpro.com",
+              "url": "https://www.onyxroofingpro.com",
               "telephone": "+1-502-207-3007",
               "email": "info@onyxroofingpro.com",
               "address": {
@@ -211,7 +211,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Organization",
               "name": "Onyx Roofing",
-              "url": "https://onyxroofingpro.com",
+              "url": "https://www.onyxroofingpro.com",
               "logo": "onyx-roofing-og.png",
               "contactPoint": {
                 "@type": "ContactPoint",
