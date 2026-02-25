@@ -5,23 +5,23 @@ import Image from "next/image";
 import { ReviewItem, getBlurProps, renderStars } from "./common";
 
 export function CarouselTrack({
-                                  containerRef,
-                                  displayItems,
-                                  finalExtendedItems,
-                                  isMobile,
-                                  mobileCarouselIndex,
-                                  touchedItem,
-                                  onTouchStartItem,
-                                  onOpenLightbox,
-                                  dragX,
-                                  x1,
-                                  handleDrag,
-                                  handleDragStart,
-                                  handleDragEnd,
-                                  handleHoverStart,
-                                  handleHoverEnd,
-                                  minDrag,
-                              }: {
+    containerRef,
+    displayItems,
+    finalExtendedItems,
+    isMobile,
+    mobileCarouselIndex,
+    touchedItem,
+    onTouchStartItem,
+    onOpenLightbox,
+    dragX,
+    x1,
+    handleDrag,
+    handleDragStart,
+    handleDragEnd,
+    handleHoverStart,
+    handleHoverEnd,
+    minDrag,
+}: {
     containerRef: React.Ref<HTMLDivElement>;
     displayItems: ReviewItem[];
     finalExtendedItems: ReviewItem[];
@@ -70,7 +70,7 @@ export function CarouselTrack({
 
                             return (
                                 <motion.div
-                                    key={`${item.imageSrc}-${idx}`}
+                                    key={`${item.imageSrc || item.reviewerName}-${idx}`}
                                     className="relative flex-shrink-0 w-[280px] sm:w-[400px] md:w-[500px] h-[180px] sm:h-[240px] md:h-[300px] rounded-lg overflow-hidden group cursor-pointer"
                                     whileHover={!isMobile ? { scale: 1.05, zIndex: 10 } : {}}
                                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
@@ -79,45 +79,70 @@ export function CarouselTrack({
                                     onClick={() => onOpenLightbox(baseIndex)}
                                     animate={{ zIndex: isMobile && touchedItem === idx ? 10 : 1 }}
                                 >
-                                    <div className="absolute inset-0">
-                                        <Image
-                                            src={item.imageSrc}
-                                            alt={item.title}
-                                            fill
-                                            className="object-cover transition-transform duration-700 group-hover:scale-110"
-                                            sizes="(max-width: 768px) 280px, (max-width: 1024px) 400px, 500px"
-                                            priority={idx < 3}
-                                            quality={85}
-                                            style={{ borderRadius: "6px" }}
-                                            {...getBlurProps(item.blurDataURL)}
-                                        />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                                    </div>
-
-                                    <div className="absolute inset-x-0 bottom-0 h-24 sm:h-28 md:h-32 z-[5] pointer-events-none blur-feather" />
-
-                                    <div className="absolute bottom-0 left-0 right-0 z-10 p-3 sm:p-4">
-                                        <div className="flex items-center gap-2 mb-2">{renderStars(item.rating, "h-4 w-4")}</div>
-                                        <p className="text-xs sm:text-sm text-[#40d6d1] font-medium mb-1">{item.reviewerName}</p>
-                                        <h3 className="text-xs sm:text-sm font-semibold text-white mb-1 line-clamp-1">{item.title}</h3>
-                                        <p className="text-xs text-white/80 line-clamp-2 leading-relaxed">
-                                            "
-                                            {item.description.length > 80 ? `${item.description.substring(0, 80)}...` : item.description}
-                                            "
-                                        </p>
-                                        {item.serviceName && (
-                                            <div className="mt-2">
-                                                <span className="inline-flex items-center px-2 py-1 bg-[#40d6d1]/20 text-[#40d6d1] text-xs font-medium rounded-md">
-                                                    {item.serviceName}
-                                                </span>
+                                    {item.imageSrc ? (
+                                        <>
+                                            <div className="absolute inset-0">
+                                                <Image
+                                                    src={item.imageSrc!}
+                                                    alt={item.title}
+                                                    fill
+                                                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                                    sizes="(max-width: 768px) 280px, (max-width: 1024px) 400px, 500px"
+                                                    priority={idx < 3}
+                                                    quality={85}
+                                                    style={{ borderRadius: "6px" }}
+                                                    {...getBlurProps(item.blurDataURL)}
+                                                />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                                             </div>
-                                        )}
-                                    </div>
+
+                                            <div className="absolute inset-x-0 bottom-0 h-24 sm:h-28 md:h-32 z-[5] pointer-events-none blur-feather" />
+
+                                            <div className="absolute bottom-0 left-0 right-0 z-10 p-3 sm:p-4">
+                                                <div className="flex items-center gap-2 mb-2">{renderStars(item.rating, "h-4 w-4")}</div>
+                                                <p className="text-xs sm:text-sm text-[#40d6d1] font-medium mb-1">{item.reviewerName}</p>
+                                                <h3 className="text-xs sm:text-sm font-semibold text-white mb-1 line-clamp-1">{item.title}</h3>
+                                                <p className="text-xs text-white/80 line-clamp-2 leading-relaxed">
+                                                    "
+                                                    {item.description.length > 80 ? `${item.description.substring(0, 80)}...` : item.description}
+                                                    "
+                                                </p>
+                                                {item.serviceName && (
+                                                    <div className="mt-2">
+                                                        <span className="inline-flex items-center px-2 py-1 bg-[#40d6d1]/20 text-[#40d6d1] text-xs font-medium rounded-md">
+                                                            {item.serviceName}
+                                                        </span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <div className="absolute inset-0 bg-gradient-to-br from-[#1a231a] to-[#0f150f] p-5 sm:p-6 flex flex-col justify-between overflow-hidden">
+                                            <span className="absolute -top-4 -right-2 text-[120px] text-white/5 leading-none select-none pointer-events-none font-serif">"</span>
+
+                                            <div className="relative z-10 flex flex-col h-full">
+                                                <div className="flex items-center gap-2 mb-3 sm:mb-4">{renderStars(item.rating, "h-4 w-4")}</div>
+                                                <h3 className="text-sm sm:text-base font-semibold text-white mb-2 line-clamp-2">{item.title}</h3>
+                                                <p className="text-xs sm:text-sm text-white/80 italic leading-relaxed line-clamp-3 sm:line-clamp-4 flex-grow">
+                                                    "{item.description}"
+                                                </p>
+                                                <div className="mt-4 pt-3 border-t border-white/10 shrink-0">
+                                                    <p className="text-xs sm:text-sm text-[#40d6d1] font-medium">{item.reviewerName}</p>
+                                                    {item.serviceName && (
+                                                        <div className="mt-1.5">
+                                                            <span className="inline-flex items-center px-1.5 py-0.5 bg-[#40d6d1]/10 text-[#40d6d1] text-[10px] sm:text-xs font-medium rounded">
+                                                                {item.serviceName}
+                                                            </span>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
 
                                     <div
-                                        className={`absolute inset-0 rounded-xl border border-[#40d6d1] transition-opacity duration-300 pointer-events-none ${
-                                            isMobile && touchedItem === idx ? "opacity-100" : "opacity-0 group-hover:opacity-100"
-                                        }`}
+                                        className={`absolute inset-0 rounded-xl border border-[#40d6d1] transition-opacity duration-300 pointer-events-none ${isMobile && touchedItem === idx ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                                            }`}
                                     />
                                 </motion.div>
                             );

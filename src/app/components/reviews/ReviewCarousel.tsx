@@ -50,10 +50,10 @@ function carouselReducer(state: typeof initialState, action: Action) {
 }
 
 export default function ReviewCarousel({
-                                           items,
-                                           autoScrollSpeed = 24,
-                                           enableQueryParam = true,
-                                       }: ReviewCarouselProps) {
+    items,
+    autoScrollSpeed = 34,
+    enableQueryParam = true,
+}: ReviewCarouselProps) {
     const [state, dispatch] = useReducer(carouselReducer, initialState);
     const { selectedIndex, isUserPaused, isDragging, touchedItem } = state;
 
@@ -189,7 +189,7 @@ export default function ReviewCarousel({
         const interval = setInterval(() => {
             const nextIndex = (mobileCarouselIndex + 1) % finalExtendedItems.length;
             goToMobileIndex(nextIndex);
-        }, 3000);
+        }, 2400);
         return () => clearInterval(interval);
     }, [
         isMobile,

@@ -217,19 +217,36 @@ export function Lightbox({
                                     <div className="w-full h-full px-0 md:px-4 lg:px-4 py-2 md:py-0 lg:py-6 flex items-center justify-center">
                                         <motion.div variants={mediaVariants} className="grid grid-cols-12 gap-6 lg:gap-8 items-start">
                                             {/* Media */}
-                                            <div className="col-span-12 md:col-span-7 lg:col-span-8">
-                                                <div className="relative overflow-hidden">
-                                                    <Image
-                                                        src={currentItem.imageSrc}
-                                                        alt={currentItem.title}
-                                                        width={1600}
-                                                        height={1000}
-                                                        className="w-full h-full max-h-[68vh] xl:max-h-[72vh] object-cover"
-                                                        quality={95}
-                                                        priority
-                                                        {...getBlurProps(currentItem.blurDataURL)}
-                                                        style={{ borderRadius: "6px" }}
-                                                    />
+                                            <div className={currentItem.imageSrc ? "col-span-12 md:col-span-7 lg:col-span-8" : "col-span-12"}>
+                                                <div className="relative overflow-hidden w-full h-full">
+                                                    {currentItem.imageSrc ? (
+                                                        <Image
+                                                            src={currentItem.imageSrc}
+                                                            alt={currentItem.title}
+                                                            width={1600}
+                                                            height={1000}
+                                                            className="w-full h-full max-h-[68vh] xl:max-h-[72vh] object-cover"
+                                                            quality={95}
+                                                            priority
+                                                            {...getBlurProps(currentItem.blurDataURL)}
+                                                            style={{ borderRadius: "6px" }}
+                                                        />
+                                                    ) : (
+                                                        <div className="w-full h-full min-h-[40vh] max-h-[68vh] xl:max-h-[72vh] bg-gradient-to-br from-[#1a231a] to-[#0f150f] rounded-[6px] flex flex-col items-center justify-center p-8 md:p-12 text-center relative overflow-hidden overflow-y-auto">
+                                                            <span className="absolute -top-10 right-4 text-[240px] text-white/5 leading-none select-none pointer-events-none font-serif rotate-[15deg]">"</span>
+                                                            <div className="relative z-10 flex flex-col items-center max-w-4xl w-full mx-auto my-auto">
+                                                                <div className="flex items-center gap-2 mb-6">{renderStars(currentItem.rating, "h-8 w-8")}</div>
+                                                                <h3 className="font-bold text-white text-2xl md:text-3xl lg:text-4xl mb-6 leading-tight">
+                                                                    {currentItem.title}
+                                                                </h3>
+                                                                <p className="text-white/80 text-lg md:text-xl italic mb-6 leading-relaxed">"{currentItem.description}"</p>
+                                                                <p className="font-semibold text-[#40d6d1] text-xl mt-4">{currentItem.reviewerName}</p>
+                                                                {currentItem.serviceName && (
+                                                                    <span className="inline-block mt-3 px-3 py-1 bg-white/5 rounded-full text-white/60 text-sm">{currentItem.serviceName}</span>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    )}
                                                     <motion.button
                                                         aria-label="Previous review"
                                                         variants={controlVariants}
@@ -271,35 +288,37 @@ export function Lightbox({
                                             </div>
 
                                             {/* Text */}
-                                            <div className="col-span-12 md:col-span-5 lg:col-span-4">
-                                                <motion.div
-                                                    variants={blockVariants}
-                                                    className="flex flex-col space-y-4 lg:space-y-5 rounded-lg bg-white/5 ring-1 ring-white/10 px-5 pt-5 pb-8 lg:px-6 lg:pt-6 lg:pb-10 h-[68vh] xl:h-[72vh] overflow-auto scrollbar-hide [-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_calc(100%-4rem),transparent_100%)] [mask-image:linear-gradient(to_bottom,black_0%,black_calc(100%-4rem),transparent_100%)]"
-                                                >
-                                                    <div>
-                                                        <h3 className="font-bold text-white leading-tight break-words text-[clamp(1.25rem,2.2vw,2rem)] md:text-[clamp(1.35rem,2vw,2.25rem)] lg:text-[clamp(1.4rem,1.6vw,2.2rem)]">
-                                                            {currentItem.title}
-                                                        </h3>
-                                                        <p className="text-white/60 text-xs mt-1">
-                                                            {currentItem.reviewDate && `Reviewed ${currentItem.reviewDate}`}
-                                                        </p>
-                                                        {currentItem.serviceName && (
-                                                            <p className="text-[#40d6d1] text-xs font-medium mt-0.5">{currentItem.serviceName}</p>
+                                            {currentItem.imageSrc && (
+                                                <div className="col-span-12 md:col-span-5 lg:col-span-4">
+                                                    <motion.div
+                                                        variants={blockVariants}
+                                                        className="flex flex-col space-y-4 lg:space-y-5 rounded-lg bg-white/5 ring-1 ring-white/10 px-5 pt-5 pb-8 lg:px-6 lg:pt-6 lg:pb-10 h-[68vh] xl:h-[72vh] overflow-auto scrollbar-hide [-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_calc(100%-4rem),transparent_100%)] [mask-image:linear-gradient(to_bottom,black_0%,black_calc(100%-4rem),transparent_100%)]"
+                                                    >
+                                                        <div>
+                                                            <h3 className="font-bold text-white leading-tight break-words text-[clamp(1.25rem,2.2vw,2rem)] md:text-[clamp(1.35rem,2vw,2.25rem)] lg:text-[clamp(1.4rem,1.6vw,2.2rem)]">
+                                                                {currentItem.title}
+                                                            </h3>
+                                                            <p className="text-white/60 text-xs mt-1">
+                                                                {currentItem.reviewDate && `Reviewed ${currentItem.reviewDate}`}
+                                                            </p>
+                                                            {currentItem.serviceName && (
+                                                                <p className="text-[#40d6d1] text-xs font-medium mt-0.5">{currentItem.serviceName}</p>
+                                                            )}
+                                                        </div>
+
+                                                        <div>
+                                                            <h4 className="text-base font-semibold text-white">{currentItem.reviewerName}</h4>
+                                                            <div className="mt-1 flex items-center gap-1">{renderStars(currentItem.rating, "h-5 w-5")}</div>
+                                                        </div>
+
+                                                        {currentItem.description && (
+                                                            <blockquote className="text-[0.98rem] text-white/90 italic border-l-4 pl-4 leading-[1.5] whitespace-pre-wrap">
+                                                                {currentItem.description}
+                                                            </blockquote>
                                                         )}
-                                                    </div>
-
-                                                    <div>
-                                                        <h4 className="text-base font-semibold text-white">{currentItem.reviewerName}</h4>
-                                                        <div className="mt-1 flex items-center gap-1">{renderStars(currentItem.rating, "h-5 w-5")}</div>
-                                                    </div>
-
-                                                    {currentItem.description && (
-                                                        <blockquote className="text-[0.98rem] text-white/90 italic border-l-4 pl-4 leading-[1.5] whitespace-pre-wrap">
-                                                            {currentItem.description}
-                                                        </blockquote>
-                                                    )}
-                                                </motion.div>
-                                            </div>
+                                                    </motion.div>
+                                                </div>
+                                            )}
                                         </motion.div>
                                     </div>
                                 )}
@@ -315,18 +334,31 @@ export function Lightbox({
                                         }}
                                     >
                                         {/* Image */}
-                                        <motion.div className="relative mx-6 mb-3 mt-0 overflow-hidden shrink-0" variants={mediaVariants} style={{ borderRadius: "6px" }}>
-                                            <Image
-                                                src={currentItem.imageSrc}
-                                                alt={currentItem.title}
-                                                width={1200}
-                                                height={800}
-                                                className="w-full max-h-[42svh] object-cover"
-                                                style={{ borderRadius: "6px" }}
-                                                quality={95}
-                                                priority
-                                                {...getBlurProps(currentItem.blurDataURL)}
-                                            />
+                                        <motion.div className={`relative mx-6 mt-0 flex flex-col overflow-hidden shrink-0 ${currentItem.imageSrc ? 'mb-3' : 'mb-6 flex-1'}`} variants={mediaVariants} style={{ borderRadius: "6px", minHeight: currentItem.imageSrc ? "auto" : "0" }}>
+                                            {currentItem.imageSrc ? (
+                                                <Image
+                                                    src={currentItem.imageSrc}
+                                                    alt={currentItem.title}
+                                                    width={1200}
+                                                    height={800}
+                                                    className="w-full max-h-[42svh] object-cover"
+                                                    style={{ borderRadius: "6px" }}
+                                                    quality={95}
+                                                    priority
+                                                    {...getBlurProps(currentItem.blurDataURL)}
+                                                />
+                                            ) : (
+                                                <div className="w-full h-full flex-grow bg-gradient-to-br from-[#1a231a] to-[#0f150f] rounded-[6px] p-6 sm:p-8 flex flex-col items-center justify-center relative shadow-inner overflow-hidden overflow-y-auto">
+                                                    <span className="absolute -top-6 right-2 text-[140px] text-white/5 leading-none select-none pointer-events-none font-serif rotate-12">"</span>
+                                                    <div className="flex items-center gap-2 mb-4 relative z-10">{renderStars(currentItem.rating, "h-6 w-6")}</div>
+                                                    <h3 className="font-bold text-white text-xl md:text-2xl text-center relative z-10">{currentItem.title}</h3>
+                                                    <p className="text-white/80 text-base md:text-lg italic mt-4 text-center relative z-10">"{currentItem.description}"</p>
+                                                    <p className="text-[#40d6d1] font-semibold mt-4 text-center relative z-10">{currentItem.reviewerName}</p>
+                                                    {currentItem.serviceName && (
+                                                        <span className="inline-block mt-2 px-2 py-1 bg-white/5 rounded text-white/60 text-xs text-center relative z-10">{currentItem.serviceName}</span>
+                                                    )}
+                                                </div>
+                                            )}
                                             <motion.button
                                                 aria-label="Previous review"
                                                 variants={controlVariants}
@@ -352,55 +384,57 @@ export function Lightbox({
                                         </motion.div>
 
                                         {/* Collapsed panel */}
-                                        <div className="flex-1 px-6 pb-5 flex flex-col">
-                                            {/* static rounded shell */}
-                                            <div className={`relative flex-1 min-h-0 ${PANEL_WIDTH} rounded-t-[6px] overflow-hidden ring-1 ring-white/10 bg-[#2B2D31]`}>
-                                                {/* shared-layout element: block, fills shell */}
-                                                <motion.div
-                                                    layoutId="mobileReviewPanel"
-                                                    transition={{ type: "spring", stiffness: 420, damping: 40 }}
-                                                    className="h-full w-full flex flex-col"
-                                                    style={{ borderRadius: 0 }}
-                                                >
-                                                    <div className="h-full overflow-hidden px-5 py-4 lg:px-6 lg:py-5 flex flex-col space-y-4">
-                                                        <div className="shrink-0">
-                                                            <h3 className="font-bold text-white leading-tight break-words text-xl">{currentItem.title}</h3>
-                                                            <p className="text-white/60 text-xs mt-1">{currentItem.reviewDate && `Reviewed ${currentItem.reviewDate}`}</p>
-                                                            {currentItem.serviceName && <p className="text-[#40d6d1] text-xs font-medium mt-0.5">{currentItem.serviceName}</p>}
-                                                        </div>
+                                        {currentItem.imageSrc && (
+                                            <div className="flex-1 px-6 pb-5 flex flex-col">
+                                                {/* static rounded shell */}
+                                                <div className={`relative flex-1 min-h-0 ${PANEL_WIDTH} rounded-t-[6px] overflow-hidden ring-1 ring-white/10 bg-[#2B2D31]`}>
+                                                    {/* shared-layout element: block, fills shell */}
+                                                    <motion.div
+                                                        layoutId="mobileReviewPanel"
+                                                        transition={{ type: "spring", stiffness: 420, damping: 40 }}
+                                                        className="h-full w-full flex flex-col"
+                                                        style={{ borderRadius: 0 }}
+                                                    >
+                                                        <div className="h-full overflow-hidden px-5 py-4 lg:px-6 lg:py-5 flex flex-col space-y-4">
+                                                            <div className="shrink-0">
+                                                                <h3 className="font-bold text-white leading-tight break-words text-xl">{currentItem.title}</h3>
+                                                                <p className="text-white/60 text-xs mt-1">{currentItem.reviewDate && `Reviewed ${currentItem.reviewDate}`}</p>
+                                                                {currentItem.serviceName && <p className="text-[#40d6d1] text-xs font-medium mt-0.5">{currentItem.serviceName}</p>}
+                                                            </div>
 
-                                                        <div className="flex items-center justify-between shrink-0">
-                                                            <h4 className="text-base font-semibold text-white">{currentItem.reviewerName}</h4>
-                                                            {renderStars(currentItem.rating, "h-5 w-5")}
-                                                        </div>
+                                                            <div className="flex items-center justify-between shrink-0">
+                                                                <h4 className="text-base font-semibold text-white">{currentItem.reviewerName}</h4>
+                                                                {renderStars(currentItem.rating, "h-5 w-5")}
+                                                            </div>
 
-                                                        <div
-                                                            className={`flex-1 min-h-0 overflow-auto ${!isExpanded
+                                                            <div
+                                                                className={`flex-1 min-h-0 overflow-auto ${!isExpanded
                                                                     ? "[-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_calc(100%-4rem),transparent_100%)] [mask-image:linear-gradient(to_bottom,black_0%,black_calc(100%-4rem),transparent_100%)]"
                                                                     : ""
-                                                                }`}
-                                                        >
-                                                            <blockquote
-                                                                ref={textInnerRef}
-                                                                className="text-[0.98rem] text-white/90 italic border-l-4 pl-4 leading-[1.5] whitespace-pre-wrap [display:-webkit-box] [-webkit-box-orient:vertical] overflow-hidden"
-                                                                style={isExpanded ? ({}) : ({ WebkitLineClamp: String(clampLines) } as React.CSSProperties)}
+                                                                    }`}
                                                             >
-                                                                {currentItem.description}
-                                                            </blockquote>
+                                                                <blockquote
+                                                                    ref={textInnerRef}
+                                                                    className="text-[0.98rem] text-white/90 italic border-l-4 pl-4 leading-[1.5] whitespace-pre-wrap [display:-webkit-box] [-webkit-box-orient:vertical] overflow-hidden"
+                                                                    style={isExpanded ? ({}) : ({ WebkitLineClamp: String(clampLines) } as React.CSSProperties)}
+                                                                >
+                                                                    {currentItem.description}
+                                                                </blockquote>
+                                                            </div>
                                                         </div>
-                                                    </div>
 
-                                                    {!isExpanded && isOverflowing && (
-                                                        <button
-                                                            className="absolute right-4 bottom-3 text-sm font-medium text-[#40d6d1] hover:underline active:opacity-90"
-                                                            onClick={() => setIsExpanded(true)}
-                                                        >
-                                                            Read more
-                                                        </button>
-                                                    )}
-                                                </motion.div>
+                                                        {!isExpanded && isOverflowing && (
+                                                            <button
+                                                                className="absolute right-4 bottom-3 text-sm font-medium text-[#40d6d1] hover:underline active:opacity-90"
+                                                                onClick={() => setIsExpanded(true)}
+                                                            >
+                                                                Read more
+                                                            </button>
+                                                        )}
+                                                    </motion.div>
+                                                </div>
                                             </div>
-                                        </div>
+                                        )}
 
 
 

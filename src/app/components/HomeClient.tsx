@@ -51,21 +51,33 @@ export default function HomeClient({ initialVideo }: HomeClientProps) {
     openForm();
   };
 
-  // --- Portfolio Items (Unchanged) ---
+  // --- Portfolio Items ---
   const portfolioItems: ReviewItem[] = [
-    {
-      imageSrc: "/ibrahim-house.webp",
-      title: "Residential Roof Repair",
-      description: "Repaired damaged shingles and fixed leaking areas",
-      reviewerName: "Luqman Al-Saba",
-      rating: 5,
-    },
     {
       imageSrc: "/lynley-house.webp",
       title: "Residential Roof Replacement",
       description:
         "Onyx Roofing did a fantastic job for one of my clients who had just purchased a home that needed a new roof. The transformation was major — the look, quality, and workmanship really elevated the entire property.\n\nIt gave my client peace of mind knowing the home was protected with a roof built to last.\n\nAs a real estate professional, it's great to have a trusted roofing company I can recommend without hesitation. Onyx Roofing exceeded expectations, and I'll gladly refer them again.",
       reviewerName: "Zach Fry, The Real Estate Guy!",
+      rating: 5,
+    },
+
+    {
+      title: "Strongly recommend.",
+      description: "Onyx Roofing did great work for us. They inspected our roof after a storm. By ladder and drone. They came over quickly and were thorough. Our roof was okay - no action required - a relief. On another occasion, we asked for help with a gutter issue. They took care of it. Fast. Affordable. Nice people. Trustworthy. Five Stars. Strongly recommend.",
+      reviewerName: "Ben St Clair",
+      rating: 5,
+    },
+    {
+      title: "Quality job and professional",
+      description: "Onyx Roofing did a great and thorough job. We were informed, they were professional, and they did a quality job. We are so glad we used them for our new roof. They worked with our insurance company to get our hail damage taken care of.",
+      reviewerName: "Jessica Siegel",
+      rating: 5,
+    },
+    {
+      title: "Made everything easy",
+      description: "Onyx Roofing took a stressful situation and made it easy. From inspection, to selection to dealing with the insurance company, I couldn't ask for anything more. They took their time, didn't pressure us and made sure everything was done right.",
+      reviewerName: "Marc Reinicke",
       rating: 5,
     },
   ];
@@ -308,7 +320,7 @@ ${service.highlight
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-            className="flex justify-center mb-12"
+            className="flex justify-center mb-24"
           >
             <a
               href="https://g.page/r/CaYAvXoOZrHnEAE/review"
@@ -329,7 +341,7 @@ ${service.highlight
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-            className="text-center mt-4"
+            className="text-center mt-24"
           >
             <h3 className="text-xl text-white mb-4">Ready to Start Your Project?</h3>
             <p className="text-white/70 mb-6 max-w-md mx-auto">

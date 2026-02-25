@@ -5,7 +5,7 @@ import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 export interface ReviewItem {
     title: string;
     description: string;
-    imageSrc: string;
+    imageSrc?: string;
     reviewerName: string;
     blurDataURL?: string;
     reviewerPhoto?: string;
