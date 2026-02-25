@@ -345,7 +345,7 @@ ${service.highlight
           >
             <h3 className="text-xl text-white mb-4">Ready to Start Your Project?</h3>
             <p className="text-white/70 mb-6 max-w-md mx-auto">
-              Proudly Kentucky-based roofers. Schedule your free inspection today.
+              Proudly St. Matthews based roofers. Schedule your free inspection today.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <button
@@ -413,7 +413,7 @@ ${service.highlight
                   </h3>
                   <div className="space-y-4 text-xl text-white/80 leading-relaxed">
                     <p>
-                      Onyx Roofing is a family-owned business serving Louisville and all of Kentucky. We've built our
+                      Onyx Roofing is a family-owned business serving St. Matthews, Louisville, and all of Kentucky. We've built our
                       reputation on exceptional craftsmanship, honest pricing, and unparalleled service.
                     </p>
                     <p>
@@ -619,7 +619,7 @@ ${service.highlight
                   className="h-12 w-auto mb-4 invert brightness-0 invert"
                 />
                 <p className="text-white/70 text-sm leading-relaxed max-w-md">
-                  Your trusted roofing professionals serving Louisville and all of Kentucky. We deliver premium
+                  Your trusted roofing professionals serving St. Matthews, Louisville, and all of Kentucky. We deliver premium
                   craftsmanship with a commitment to excellence that protects your most valuable investment.
                 </p>
               </div>
@@ -774,6 +774,7 @@ ${service.highlight
             <h3 className="text-sm font-medium text-white/80 mb-3">Service Areas</h3>
             <div className="flex flex-wrap gap-2">
               {[
+                "St. Matthews",
                 "Louisville",
                 "Lexington",
                 "Bowling Green",

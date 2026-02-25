@@ -14,7 +14,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Onyx Roofing - Roofing Services Louisville, KY | Free Inspection",
-  description: "Professional roofing services in Louisville, Kentucky. Roof replacement, repair, storm damage, and gutter installation. Licensed & insured. Free inspection. Call (502) 207-3007.",
+  description: "Professional roofing services in St. Matthews, Louisville, and all of Kentucky. Roof replacement, repair, storm damage, and gutter installation. Licensed & insured. Free inspection. Call (502) 207-3007.",
   keywords: [
     "roofing services Louisville KY",
     "roof replacement Kentucky",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Onyx Roofing - Roofing Services Louisville, KY",
-    description: "Professional roofing services in Louisville, Kentucky. Roof replacement, repair, storm damage, and gutter installation. Licensed & insured. Free inspection.",
+    description: "Professional roofing services in St. Matthews, Louisville, and all of Kentucky. Roof replacement, repair, storm damage, and gutter installation. Licensed & insured. Free inspection.",
     url: 'https://www.onyxroofingpro.com',
     siteName: 'Onyx Roofing',
     images: [
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: "Onyx Roofing - Roofing Services Louisville, KY",
-    description: "Professional roofing services in Louisville, Kentucky. Roof replacement, repair, storm damage, and gutter installation. Licensed & insured. Free inspection.",
+    description: "Professional roofing services in St. Matthews, Louisville, and all of Kentucky. Roof replacement, repair, storm damage, and gutter installation. Licensed & insured. Free inspection.",
     images: ['/onyx-roofing-og.png'],
     site: '@OnyxRoofingPro',
     creator: '@OnyxRoofingPro',
@@ -108,7 +108,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta name="description" content="Professional roofing services in Louisville, Kentucky. Roof replacement, repair, storm damage, and gutter installation. Licensed &amp; insured. Free inspection. Call (502) 207-3007." />
+        <meta name="description" content="Professional roofing services in St. Matthews, Louisville, and all of Kentucky. Roof replacement, repair, storm damage, and gutter installation. Licensed &amp; insured. Free inspection. Call (502) 207-3007." />
         <title>Onyx Roofing - Roofing Services Louisville, KY | Free Inspection</title>
       </head>
       <body
@@ -122,7 +122,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "RoofingContractor",
               "name": "Onyx Roofing",
-              "description": "Professional roofing services in Louisville, Kentucky. Specializing in roof replacement, repair, storm damage, and gutter installation.",
+              "description": "Professional roofing services in St. Matthews, Louisville, and all of Kentucky. Specializing in roof replacement, repair, storm damage, and gutter installation.",
               "url": "https://www.onyxroofingpro.com",
               "telephone": "+1-502-207-3007",
               "email": "info@onyxroofingpro.com",
@@ -138,6 +138,7 @@ export default function RootLayout({
                 "longitude": -85.7585
               },
               "areaServed": [
+                "St. Matthews, KY",
                 "Louisville, KY",
                 "Lexington, KY",
                 "Bowling Green, KY",
