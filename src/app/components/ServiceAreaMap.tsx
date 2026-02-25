@@ -7,32 +7,32 @@ import "mapbox-gl/dist/mapbox-gl.css";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || "";
 
-type Place = { name: string; lng: number; lat: number };
+type Place = { name: string; lng: number; lat: number; isStar?: boolean };
 
 const DEFAULT_PLACES: Place[] = [
-    { name: "Louisville",       lng: -85.7585, lat: 38.2527 },
-    { name: "St. Matthews",     lng: -85.6400, lat: 38.2526 },
-    { name: "Prospect",         lng: -85.6150, lat: 38.3451 },
-    { name: "Jeffersontown",    lng: -85.5644, lat: 38.1940 },
-    { name: "Middletown",       lng: -85.5380, lat: 38.2456 },
-    { name: "The Highlands",    lng: -85.7140, lat: 38.2367 },
-    { name: "Shively",          lng: -85.8225, lat: 38.2003 },
-    { name: "Anchorage",        lng: -85.5330, lat: 38.2667 },
-    { name: "New Albany, IN",   lng: -85.8241, lat: 38.2856 },
-    { name: "Clarksville, IN",  lng: -85.7597, lat: 38.2967 },
+    { name: "Louisville", lng: -85.7585, lat: 38.2527 },
+    { name: "St. Matthews", lng: -85.6400, lat: 38.2526, isStar: true },
+    { name: "Prospect", lng: -85.6150, lat: 38.3451 },
+    { name: "Jeffersontown", lng: -85.5644, lat: 38.1940 },
+    { name: "Middletown", lng: -85.5380, lat: 38.2456 },
+    { name: "The Highlands", lng: -85.7140, lat: 38.2367 },
+    { name: "Shively", lng: -85.8225, lat: 38.2003 },
+    { name: "Anchorage", lng: -85.5330, lat: 38.2667 },
+    { name: "New Albany, IN", lng: -85.8241, lat: 38.2856 },
+    { name: "Clarksville, IN", lng: -85.7597, lat: 38.2967 },
 ];
 
 const SRC_ID = "service-places";
 const LAY_GLOW = "places-glow";
-const LAY_DOT  = "places-dot";
+const LAY_DOT = "places-dot";
 const LAY_TEXT = "places-label";
 
 export default function ServiceAreaMap({
-                                           places = DEFAULT_PLACES,
-                                           interactive = false,
-                                           className = "h-[420px] md:h-[450px]",
-                                           center = [-85.736, 38.26] as LngLatLike,
-                                       }: {
+    places = DEFAULT_PLACES,
+    interactive = false,
+    className = "h-[420px] md:h-[450px]",
+    center = [-85.736, 38.26] as LngLatLike,
+}: {
     places?: Place[];
     interactive?: boolean;
     className?: string;
@@ -41,16 +41,17 @@ export default function ServiceAreaMap({
     const containerRef = useRef<HTMLDivElement | null>(null);
     const mapRef = useRef<Map | null>(null);
     const roRef = useRef<ResizeObserver | null>(null);
+    const starMarkerRef = useRef<mapboxgl.Marker | null>(null);
 
     const makeGeoJSON = (pts: Place[]) =>
-        ({
-            type: "FeatureCollection",
-            features: pts.map((p) => ({
-                type: "Feature",
-                properties: { name: p.name },
-                geometry: { type: "Point", coordinates: [p.lng, p.lat] as [number, number] },
-            })),
-        } as GeoJSON.FeatureCollection);
+    ({
+        type: "FeatureCollection",
+        features: pts.map((p) => ({
+            type: "Feature",
+            properties: { name: p.name, isStar: (p as any).isStar || false },
+            geometry: { type: "Point", coordinates: [p.lng, p.lat] as [number, number] },
+        })),
+    } as GeoJSON.FeatureCollection);
 
     const fitToPlaces = (map: mapboxgl.Map, pts: Place[], fallback: LngLatLike) => {
         if (pts.length > 1) {
@@ -93,6 +94,7 @@ export default function ServiceAreaMap({
                     id: LAY_GLOW,
                     type: "circle",
                     source: SRC_ID,
+                    filter: ["!=", ["get", "isStar"], true],
                     paint: {
                         "circle-radius": 10,
                         "circle-color": "#40d6d1",
@@ -108,6 +110,7 @@ export default function ServiceAreaMap({
                     id: LAY_DOT,
                     type: "circle",
                     source: SRC_ID,
+                    filter: ["!=", ["get", "isStar"], true],
                     paint: {
                         "circle-radius": 6,
                         "circle-color": "#40d6d1",
@@ -123,6 +126,7 @@ export default function ServiceAreaMap({
                     id: LAY_TEXT,
                     type: "symbol",
                     source: SRC_ID,
+                    filter: ["!=", ["get", "isStar"], true],
                     layout: {
                         "text-field": ["get", "name"],
                         "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
@@ -139,6 +143,27 @@ export default function ServiceAreaMap({
                 });
             }
 
+            // Create Star Marker
+            const starPlace = places.find(p => (p as any).isStar);
+            if (starPlace) {
+                const el = document.createElement('div');
+                el.className = 'star-marker';
+                el.innerHTML = `
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFD700" stroke="#B8860B" stroke-width="1.5" style="filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.6))">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+                  </svg>
+                  <div style="color: #FFD700; font-family: 'Open Sans', 'Arial Unicode MS'; font-size: 14px; font-weight: bold; position: absolute; left: 30px; top: 2px; white-space: nowrap; text-shadow: 0 0 4px #000, 0 0 2px #000;">
+                    ${starPlace.name}
+                  </div>
+                `;
+
+                const marker = new mapboxgl.Marker({ element: el })
+                    .setLngLat([starPlace.lng, starPlace.lat])
+                    .addTo(map);
+
+                starMarkerRef.current = marker;
+            }
+
             fitToPlaces(map, places, center);
         });
 
@@ -151,6 +176,10 @@ export default function ServiceAreaMap({
 
         return () => {
             ro.disconnect();
+            if (starMarkerRef.current) {
+                starMarkerRef.current.remove();
+                starMarkerRef.current = null;
+            }
             if (map.getLayer(LAY_TEXT)) map.removeLayer(LAY_TEXT);
             if (map.getLayer(LAY_DOT)) map.removeLayer(LAY_DOT);
             if (map.getLayer(LAY_GLOW)) map.removeLayer(LAY_GLOW);
@@ -167,6 +196,13 @@ export default function ServiceAreaMap({
         if (!map) return;
         const src = map.getSource(SRC_ID) as mapboxgl.GeoJSONSource | undefined;
         if (src) src.setData(makeGeoJSON(places));
+
+        // Update marker if needed
+        const starPlace = places.find(p => (p as any).isStar);
+        if (starPlace && starMarkerRef.current) {
+            starMarkerRef.current.setLngLat([starPlace.lng, starPlace.lat]);
+        }
+
         fitToPlaces(map, places, center);
     }, [places, center]);
 
