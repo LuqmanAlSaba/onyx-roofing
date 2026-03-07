@@ -200,6 +200,8 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                         />
                     )}
 
+                    {/* Dark overlay for text readability */}
+                    <div className="absolute inset-0 bg-black/40" />
                 </motion.div>
 
                 {/* NAV + HERO CONTENT */}
@@ -208,7 +210,7 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
                     <Navigation variant="hero" />
 
                     {/* HERO copy + CTAs */}
-                    <section className="relative flex-grow flex flex-col items-center justify-center px-4 sm:px-8 pt-20 md:pt-28 pb-32 md:pb-40">
+                    <section className="relative flex-grow flex flex-col items-center justify-center px-4 sm:px-8 pt-10 md:pt-16 pb-48 md:pb-64">
                         <AnimatePresence mode="wait">
                             {!isFormOpen ? (
                                 <motion.div

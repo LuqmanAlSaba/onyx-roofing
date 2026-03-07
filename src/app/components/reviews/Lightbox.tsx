@@ -214,8 +214,33 @@ export function Lightbox({
                             >
                                 {/* Desktop layout */}
                                 {!isMobile && (
-                                    <div className="w-full h-full px-0 md:px-4 lg:px-4 py-2 md:py-0 lg:py-6 flex items-center justify-center">
-                                        <motion.div variants={mediaVariants} className="grid grid-cols-12 gap-6 lg:gap-8 items-start">
+                                    <div className="w-full h-full px-0 md:px-4 lg:px-4 py-2 md:py-0 lg:py-6 flex flex-col items-center justify-center relative">
+                                        {/* Navigation arrows - fixed position relative to panel */}
+                                        <motion.button
+                                            aria-label="Previous review"
+                                            variants={controlVariants}
+                                            className="absolute left-0 md:left-2 lg:left-2 top-1/2 -translate-y-1/2 z-10 bg-black/90 hover:bg-black backdrop-blur-sm p-3 text-white text-xl focus:outline-none focus:ring-2 focus:ring-[#40d6d1] rounded-full transition-all hover:scale-110"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                dispatch({ type: "PREV_ITEM", payload: { count: items.length } });
+                                            }}
+                                        >
+                                            <FaAngleLeft />
+                                        </motion.button>
+                                        <motion.button
+                                            aria-label="Next review"
+                                            variants={controlVariants}
+                                            className="absolute right-0 md:right-2 lg:right-2 top-1/2 -translate-y-1/2 z-10 bg-black/90 hover:bg-black backdrop-blur-sm p-3 text-white text-xl focus:outline-none focus:ring-2 focus:ring-[#40d6d1] rounded-full transition-all hover:scale-110"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                dispatch({ type: "NEXT_ITEM", payload: { count: items.length } });
+                                            }}
+                                        >
+                                            <FaAngleRight />
+                                        </motion.button>
+
+                                        {/* Review content */}
+                                        <motion.div variants={mediaVariants} className="grid grid-cols-12 gap-6 lg:gap-8 items-start w-full pb-12">
                                             {/* Media */}
                                             <div className={currentItem.imageSrc ? "col-span-12 md:col-span-7 lg:col-span-8" : "col-span-12"}>
                                                 <div className="relative overflow-hidden w-full h-full">
@@ -232,7 +257,13 @@ export function Lightbox({
                                                             style={{ borderRadius: "6px" }}
                                                         />
                                                     ) : (
-                                                        <div className="w-full h-full min-h-[40vh] max-h-[68vh] xl:max-h-[72vh] bg-gradient-to-br from-[#1a231a] to-[#0f150f] rounded-[6px] flex flex-col items-center justify-center p-8 md:p-12 text-center relative overflow-hidden overflow-y-auto">
+                                                        <motion.div
+                                                            key={currentIndex}
+                                                            initial={{ opacity: 0, scale: 0.97 }}
+                                                            animate={{ opacity: 1, scale: 1 }}
+                                                            transition={{ duration: 0.35, ease: "easeOut" }}
+                                                            className="w-full h-full min-h-[40vh] max-h-[68vh] xl:max-h-[72vh] bg-gradient-to-br from-[#1a231a] to-[#0f150f] rounded-[6px] flex flex-col items-center justify-center p-8 md:p-12 text-center relative overflow-hidden overflow-y-auto"
+                                                        >
                                                             <span className="absolute -top-10 right-4 text-[240px] text-white/5 leading-none select-none pointer-events-none font-serif rotate-[15deg]">"</span>
                                                             <div className="relative z-10 flex flex-col items-center max-w-4xl w-full mx-auto my-auto">
                                                                 <div className="flex items-center gap-2 mb-6">{renderStars(currentItem.rating, "h-8 w-8")}</div>
@@ -245,46 +276,9 @@ export function Lightbox({
                                                                     <span className="inline-block mt-3 px-3 py-1 bg-white/5 rounded-full text-white/60 text-sm">{currentItem.serviceName}</span>
                                                                 )}
                                                             </div>
-                                                        </div>
+                                                        </motion.div>
                                                     )}
-                                                    <motion.button
-                                                        aria-label="Previous review"
-                                                        variants={controlVariants}
-                                                        className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 backdrop-blur-sm p-3 text-white text-xl focus:outline-none focus:ring-2 focus:ring-[#40d6d1] rounded-full transition-all hover:scale-110"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            dispatch({ type: "PREV_ITEM", payload: { count: items.length } });
-                                                        }}
-                                                    >
-                                                        <FaAngleLeft />
-                                                    </motion.button>
-                                                    <motion.button
-                                                        aria-label="Next review"
-                                                        variants={controlVariants}
-                                                        className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 backdrop-blur-sm p-3 text-white text-xl focus:outline-none focus:ring-2 focus:ring-[#40d6d1] rounded-full transition-all hover:scale-110"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            dispatch({ type: "NEXT_ITEM", payload: { count: items.length } });
-                                                        }}
-                                                    >
-                                                        <FaAngleRight />
-                                                    </motion.button>
                                                 </div>
-
-                                                {/* Dots */}
-                                                {items.length > 1 && (
-                                                    <div className="flex justify-center items-center gap-2.5 pt-4">
-                                                        {items.map((_, index) => (
-                                                            <button
-                                                                key={index}
-                                                                onClick={() => dispatch({ type: "PREV_ITEM", payload: { count: 0 } })} // noop; dots were decorative before
-                                                                aria-label={`Review ${index + 1}`}
-                                                                className={`h-2.5 rounded-full transition-all duration-300 ease-in-out ${currentIndex === index ? "w-4 bg-white" : "w-2.5 bg-white/40 hover:bg-white/70"
-                                                                    }`}
-                                                            />
-                                                        ))}
-                                                    </div>
-                                                )}
                                             </div>
 
                                             {/* Text */}
@@ -320,6 +314,19 @@ export function Lightbox({
                                                 </div>
                                             )}
                                         </motion.div>
+
+                                        {/* Dots - pinned to bottom */}
+                                        {items.length > 1 && (
+                                            <div className="absolute bottom-6 left-0 right-0 flex justify-center items-center gap-2.5">
+                                                {items.map((_, index) => (
+                                                    <div
+                                                        key={index}
+                                                        className={`h-2.5 rounded-full transition-all duration-300 ease-in-out ${currentIndex === index ? "w-4 bg-white" : "w-2.5 bg-white/40"
+                                                            }`}
+                                                    />
+                                                ))}
+                                            </div>
+                                        )}
                                     </div>
                                 )}
 
