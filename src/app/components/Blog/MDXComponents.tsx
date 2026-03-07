@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { MDXComponents } from 'mdx/types';
-import { Check, Plus, Minus } from 'lucide-react';
+import { Check, Plus, Minus, Lightbulb, TriangleAlert } from 'lucide-react';
 
 // Custom heading components with design system styling
 const H1 = ({ children }: { children: React.ReactNode }) => (
@@ -147,14 +147,20 @@ const ListSection = ({ title, children }: { title?: string; children: React.Reac
   });
 
   return (
-    <div className="my-8 p-6 sm:p-8 bg-white/[0.02] border border-white/5 rounded-2xl">
-      {title && (
-        <h3 className="text-xl font-medium text-white mb-6 border-b border-white/10 pb-4">
-          {title}
-        </h3>
-      )}
-      <div className="space-y-4">
-        {childrenWithProps}
+    <div className="my-8 rounded-2xl overflow-hidden border border-white/8 shadow-lg shadow-black/20">
+      <div className="flex">
+        {/* Left accent bar */}
+        <div className="w-1 flex-shrink-0 bg-gradient-to-b from-[#40d6d1] to-[#40d6d1]/30" />
+        <div className="flex-1 p-6 sm:p-8 bg-white/[0.025]">
+          {title && (
+            <h3 className="text-xl font-semibold text-white mb-5 pb-4 border-b border-white/10">
+              {title}
+            </h3>
+          )}
+          <div className="space-y-4">
+            {childrenWithProps}
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -698,6 +704,92 @@ const Cost = ({ value, description }: { value: string; description?: string }) =
   </div>
 );
 
+// Expert Tip Component (Localized Insights)
+const ExpertTip = ({ title = "Kentucky Roofing Insight", children }: { title?: string; children: React.ReactNode }) => (
+  <div className="not-prose my-10 relative group">
+    {/* Ambient glow */}
+    <div className="absolute -inset-[2px] bg-gradient-to-r from-[#40d6d1]/50 via-[#40d6d1]/20 to-[#40d6d1]/50 rounded-2xl opacity-50 group-hover:opacity-80 transition duration-500 blur-[3px]" />
+    <div className="relative bg-gradient-to-br from-[#0a1f1c] to-[#0d1a17] border border-[#40d6d1]/30 rounded-2xl p-6 sm:p-8">
+      <div className="flex items-start gap-5">
+        <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-[#40d6d1] to-[#2aada9] flex items-center justify-center shadow-lg shadow-[#40d6d1]/30 ring-1 ring-[#40d6d1]/20">
+          <Lightbulb className="w-5 h-5 text-[#0a1f1c]" strokeWidth={2.5} />
+        </div>
+        <div className="flex-1 min-w-0">
+          <h4 className="text-sm font-bold text-[#40d6d1] mb-2 uppercase tracking-widest">{title}</h4>
+          <div className="text-white/85 leading-relaxed text-base md:text-lg">
+            {children}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+// Weather Alert Component (Severe Storm Prep)
+const WeatherAlert = ({ title = "Severe Weather Warning", date, children }: { title?: string; date?: string; children: React.ReactNode }) => (
+  <div className="not-prose my-10 rounded-2xl bg-gradient-to-br from-red-950/60 via-amber-950/30 to-red-950/20 border border-red-500/30 p-6 sm:p-8 relative overflow-hidden shadow-lg shadow-red-950/20">
+    {/* Top accent line */}
+    <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-red-500/0 via-red-500/60 to-red-500/0 rounded-t-2xl" />
+    {/* Subtle background icon */}
+    <div className="absolute -bottom-6 -right-6 opacity-[0.05]">
+      <TriangleAlert className="w-48 h-48" />
+    </div>
+    <div className="relative z-10">
+      <div className="flex items-start gap-4 mb-4">
+        <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-red-500/20 border border-red-500/30 flex items-center justify-center shadow-sm shadow-red-500/10">
+          <TriangleAlert className="w-5 h-5 text-red-400" />
+        </div>
+        <div className="pt-0.5">
+          <h4 className="text-base font-bold text-red-400 uppercase tracking-widest leading-tight">{title}</h4>
+          {date && (
+            <span className="text-xs font-medium text-red-400/60 mt-0.5 block">{date}</span>
+          )}
+        </div>
+      </div>
+      <div className="text-white/85 leading-relaxed text-base md:text-lg border-t border-red-500/15 pt-4">
+        {children}
+      </div>
+    </div>
+  </div>
+);
+
+// Timeline Checklist Component — single column, left-aligned vertical timeline
+const TimelineChecklist = ({ children }: { children: React.ReactNode }) => {
+  const items = React.Children.toArray(children);
+  return (
+    <div className="not-prose my-12">
+      <div className="relative pl-14 sm:pl-16">
+        {/* Vertical Line */}
+        <div className="absolute left-[19px] sm:left-[23px] top-5 bottom-5 w-0.5 bg-gradient-to-b from-[#40d6d1] via-[#40d6d1]/50 to-[#40d6d1]/10 rounded-full" />
+        <div className="space-y-6">
+          {items.map((child, index) =>
+            React.isValidElement(child)
+              ? React.cloneElement(child as React.ReactElement<{ _step: number }>, { _step: index + 1 })
+              : child
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const TimelineStep = ({ _step, title, children }: { _step?: number; step?: number | string; title: string; children: React.ReactNode }) => (
+  <div className="relative">
+    {/* Number Badge — auto-numbered by parent */}
+    <div className="absolute -left-14 sm:-left-16 top-3 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#40d6d1] flex items-center justify-center z-10 shadow-[0_0_18px_rgba(64,214,209,0.5)]">
+      <span className="text-[#080e0d] font-black text-base sm:text-lg tabular-nums leading-none select-none">{_step}</span>
+    </div>
+
+    {/* Content Card */}
+    <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-5 sm:p-6 hover:bg-white/[0.055] hover:border-[#40d6d1]/25 transition-all duration-300 group">
+      <h4 className="text-lg sm:text-xl font-semibold text-white mb-2 group-hover:text-[#40d6d1]/90 transition-colors duration-300">{title}</h4>
+      <div className="text-white/70 leading-relaxed text-base sm:text-lg">
+        {children}
+      </div>
+    </div>
+  </div>
+);
+
 // Export MDX components object
 export const mdxComponents: MDXComponents = {
   h1: H1,
@@ -734,4 +826,8 @@ export const mdxComponents: MDXComponents = {
   ImageWithPrice,
   RecommendationCard,
   RecommendationGrid,
+  ExpertTip,
+  WeatherAlert,
+  TimelineChecklist,
+  TimelineStep,
 };

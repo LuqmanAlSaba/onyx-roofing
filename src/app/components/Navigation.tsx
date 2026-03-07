@@ -45,18 +45,32 @@ export default function Navigation({ variant = "fixed" }: NavigationProps) {
     }
   };
 
+  const isFixed = variant !== "hero";
   const navClasses = variant === "hero"
     ? "absolute top-0 left-0 right-0 z-40 py-6 md:py-10"
-    : "sticky top-0 left-0 right-0 z-40 py-6 md:py-10 bg-[#192119]/95 backdrop-blur-md";
+    : "sticky top-0 left-0 right-0 z-40 py-6 md:py-10";
 
   return (
     <motion.nav
-      className={navClasses}
+      className={`${navClasses} relative`}
       initial={{ y: 0, opacity: 1 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
     >
-      <div className="max-w-7xl mx-auto px-12 pt-0 sm:px-8 flex items-center justify-between">
+      {isFixed && (
+        <div
+          className="absolute inset-0 z-[1] pointer-events-none"
+          style={{
+            bottom: "-32px",
+            background: "linear-gradient(to bottom, rgba(25,33,25,0.95) 70%, rgba(25,33,25,0) 100%)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            maskImage: "linear-gradient(to bottom, black 70%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to bottom, black 70%, transparent 100%)",
+          }}
+        />
+      )}
+      <div className="relative z-[2] max-w-7xl mx-auto px-12 pt-0 sm:px-8 flex items-center justify-between">
         <motion.div
           className="h-10 sm:h-13 w-auto z-100 relative"
           whileHover={{ scale: 1.03 }}

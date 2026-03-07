@@ -1,6 +1,6 @@
 'use client';
 
-import { Calendar, Clock, User } from 'lucide-react';
+import { Calendar, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ShareButton from './ShareButton';
 
@@ -40,9 +40,13 @@ export default function BlogHeader({
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
         {/* Metadata */}
-        <div className="flex flex-wrap items-center gap-4 text-sm text-white/60">
+        <div className="flex flex-wrap items-center gap-4 text-base text-white/60">
           <div className="flex items-center gap-2">
-            <User className="w-4 h-4" />
+            <img
+              src="/images/blog/ibrahim-profile-photo.png"
+              alt={author}
+              className="w-12 h-12 rounded-full object-cover"
+            />
             <span>{author}</span>
           </div>
           <div className="flex items-center gap-2">

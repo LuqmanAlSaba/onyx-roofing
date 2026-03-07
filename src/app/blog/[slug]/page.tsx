@@ -121,7 +121,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           background: "#1a1f1a",
         }}
       >
-        <div style={{ borderRadius: "32px 32px 0 0", minHeight: "100vh" }} className="bg-gradient-to-br from-[#192119] to-[#1a1f1a] relative overflow-hidden">
+        <div style={{ borderRadius: "32px 32px 0 0", minHeight: "100vh" }} className="bg-gradient-to-br from-[#192119] to-[#1a1f1a] relative">
           <ReadingProgressBar />
           <Navigation variant="fixed" />
 
