@@ -80,6 +80,18 @@ export default function HomeClient({ initialVideo }: HomeClientProps) {
       reviewerName: "Marc Reinicke",
       rating: 5,
     },
+    {
+      title: "Third time's the charm",
+      description: "My husband and I called Onyx Roofing as a third times the charm for our leaky roof. We previously had two companies come out and fix the problem but our leak persisted. Ibrahim got on our roof and immediately saw many issues that could have led to our indoor leak. He helped us for about 9 months with insurance and temporary patching until we could get a new roof. 9 months of back and forth and he stuck with us through the entire thing! We had our new roof installed last week and since then it has rained EVERY day and our leak is GONE! We cannot thank Ibrahim enough for everything he has done for us! HIGHLY recommend!",
+      reviewerName: "Ashlee Carr",
+      rating: 5,
+    },
+    {
+      title: "Great experience with Ibrahim",
+      description: "We had a great experience with Ibrahim! We needed a handful of small repairs done after storm damage. He showed up on time, gave us a great price and got it done the same day with in just a few hours. We'll definitely be using Onyx again for future roofing needs!",
+      reviewerName: "Natalie Marino",
+      rating: 5,
+    },
   ];
 
   return (
