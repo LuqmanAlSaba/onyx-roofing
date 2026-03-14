@@ -120,7 +120,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "RoofingContractor",
+              "@type": ["LocalBusiness", "RoofingContractor"],
               "name": "Onyx Roofing",
               "description": "Professional roofing services in St. Matthews, Louisville, and all of Kentucky. Specializing in roof replacement, repair, storm damage, and gutter installation.",
               "url": "https://www.onyxroofingpro.com",

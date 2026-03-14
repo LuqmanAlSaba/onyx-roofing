@@ -121,6 +121,30 @@ export default function HomeClient({ initialVideo }: HomeClientProps) {
         />
       )}
 
+      {/* Social Buttons Section */}
+      <section className="bg-gradient-to-br from-[#1a1f1a] to-[#192119] pt-12 pb-4 flex justify-center items-center w-full relative z-10">
+        <div className="flex flex-wrap justify-center gap-4 sm:gap-6 text-xl sm:text-2xl px-4">
+          {[
+            { name: "Facebook", icon: "facebook-f", href: "https://www.facebook.com/OnyxRoofing/" },
+            { name: "Instagram", icon: "instagram", href: "https://www.instagram.com/OnyxRoofingPro" },
+            { name: "LinkedIn", icon: "linkedin-in", href: "https://www.linkedin.com/in/onyx-roofing-331b3b383/" },
+          ].map(({ name, icon, href }) => (
+            <motion.a
+              key={name}
+              href={href}
+              aria-label={name}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-12 h-12 sm:w-14 sm:h-14 bg-[#2a2d31]/30 backdrop-blur-sm hover:bg-[#40d6d1]/20 text-white/60 hover:text-[#40d6d1] rounded-full flex items-center justify-center transition-all duration-300 border border-white/10 hover:border-[#40d6d1]/30 shadow-lg cursor-pointer transform-gpu"
+              whileHover={{ scale: 1.1, rotate: 5 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <i className={`fab fa-${icon}`}></i>
+            </motion.a>
+          ))}
+        </div>
+      </section>
+
       {/* Services Section */}
       <section
         id="services"

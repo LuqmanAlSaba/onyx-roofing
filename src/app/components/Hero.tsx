@@ -350,10 +350,10 @@ export default function Hero({ isFormOpen = false, onOpenForm, initialVideo }: H
             {/* Call banner */}
             <motion.a
                 href="tel:5022073007"
-                className="fixed bottom-0 inset-x-0 bg-[#192119] text-white text-center py-4 z-20 flex items-center justify-center"
-                style={{ borderRadius: 0, background: "#192119", textShadow: "0 1px 2px rgba(0,0,0,0.3)", maxWidth: "100vw" }}
+                className="fixed bottom-0 inset-x-0 bg-[#192119] text-white text-center py-4 z-50 flex items-center justify-center"
+                style={{ borderRadius: 0, background: "#192119", textShadow: "0 1px 2px rgba(0,0,0,0.3)", maxWidth: "100vw", paddingBottom: "max(1rem, env(safe-area-inset-bottom))" }}
                 initial={{ y: 0, opacity: 1 }}
-                animate={{ y: pastVideoSection ? 100 : 0, opacity: pastVideoSection ? 0 : 1 }}
+                animate={{ y: (pastVideoSection && !isMobile) ? 100 : 0, opacity: (pastVideoSection && !isMobile) ? 0 : 1 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
             >
                 <svg ref={phoneIconRef} className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
