@@ -34,6 +34,8 @@ export default function BlogCard({
     year: 'numeric',
     month: 'long',
     day: 'numeric',
+    // Front-matter dates are plain YYYY-MM-DD, which parse as UTC midnight
+    timeZone: 'UTC',
   });
 
   return (
