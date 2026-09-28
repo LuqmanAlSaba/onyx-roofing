@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Our Blog | Onyx Roofing',
     description: 'Expert roofing advice, maintenance tips, and industry insights from Onyx Roofing.',
-    url: 'https://onyxroofingpro.com/blog',
+    url: 'https://www.onyxroofingpro.com/blog',
     siteName: 'Onyx Roofing',
     type: 'website',
   },
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     description: 'Expert roofing advice, maintenance tips, and industry insights from Onyx Roofing.',
   },
   alternates: {
-    canonical: 'https://onyxroofingpro.com/blog',
+    canonical: 'https://www.onyxroofingpro.com/blog',
   },
 };
 

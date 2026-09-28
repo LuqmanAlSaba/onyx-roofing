@@ -57,7 +57,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         images: [post.featuredImage],
       },
       alternates: {
-        canonical: `https://onyxroofingpro.com/blog/${slug}`,
+        canonical: `https://www.onyxroofingpro.com/blog/${slug}`,
       },
     };
   } catch {
@@ -99,7 +99,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       name: 'Onyx Roofing',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://onyxroofingpro.com/onyx-roofing-logo.svg',
+        url: 'https://www.onyxroofingpro.com/onyx-roofing-logo.svg',
       },
     },
     description: post.excerpt,

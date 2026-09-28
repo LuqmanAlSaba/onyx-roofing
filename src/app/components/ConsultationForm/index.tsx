@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useAnimationControls, Variants, easeInOut } from "framer-motion";
+import { track } from "@vercel/analytics";
 import FormInput from "./FormInput";
 import AddressInput from "./AddressInput";
 import ServiceSelector from "./ServiceSelector";
@@ -206,6 +207,11 @@ export default function ConsultationForm({ open, onClose, initialService }: Prop
                     `Failed to submit form (${res.status}). Please try again or call us at 502-207-3007.`
                 );
             }
+
+            track("lead_form_submit", {
+                services: formData.services.join(", ") || "none",
+                page: window.location.pathname,
+            });
 
             setSubmitStage("success");
             await ejectConfetti();

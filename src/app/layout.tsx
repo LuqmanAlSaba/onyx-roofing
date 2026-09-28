@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import LeadTracking from '@/app/components/LeadTracking';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -88,9 +89,9 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
   other: {
     'geo.region': 'US-KY',
-    'geo.placename': 'Louisville, Kentucky',
-    'geo.position': '38.2527;-85.7585',
-    'ICBM': '38.2527, -85.7585',
+    'geo.placename': 'Saint Matthews, Kentucky',
+    'geo.position': '38.2616;-85.6408',
+    'ICBM': '38.2616, -85.6408',
   },
 };
 
@@ -107,10 +108,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <meta name="description" content="Professional roofing services in St. Matthews, Louisville, and all of Kentucky. Roof replacement, repair, storm damage, and gutter installation. Licensed &amp; insured. Free inspection. Call (502) 207-3007." />
-        <title>Onyx Roofing - Roofing Services Louisville, KY | Free Inspection</title>
-      </head>
       <body
         className={`${inter.className} antialiased`}
       >
@@ -128,14 +125,16 @@ export default function RootLayout({
               "email": "info@onyxroofingpro.com",
               "address": {
                 "@type": "PostalAddress",
-                "addressLocality": "Louisville",
+                "streetAddress": "327 N Bonner Ave",
+                "addressLocality": "Saint Matthews",
                 "addressRegion": "KY",
+                "postalCode": "40207",
                 "addressCountry": "US"
               },
               "geo": {
                 "@type": "GeoCoordinates",
-                "latitude": 38.2527,
-                "longitude": -85.7585
+                "latitude": 38.2616,
+                "longitude": -85.6408
               },
               "areaServed": [
                 "St. Matthews, KY",
@@ -150,8 +149,8 @@ export default function RootLayout({
                 "@type": "GeoCircle",
                 "geoMidpoint": {
                   "@type": "GeoCoordinates",
-                  "latitude": 38.2527,
-                  "longitude": -85.7585
+                  "latitude": 38.2616,
+                  "longitude": -85.6408
                 },
                 "geoRadius": "50000"
               },
@@ -213,7 +212,7 @@ export default function RootLayout({
               "@type": "Organization",
               "name": "Onyx Roofing",
               "url": "https://www.onyxroofingpro.com",
-              "logo": "onyx-roofing-og.png",
+              "logo": "https://www.onyxroofingpro.com/onyx-roofing-og.png",
               "contactPoint": {
                 "@type": "ContactPoint",
                 "telephone": "+1-502-207-3007",
@@ -225,6 +224,7 @@ export default function RootLayout({
         />
 
         {children}
+        <LeadTracking />
         <Analytics />
         <SpeedInsights />
       </body>

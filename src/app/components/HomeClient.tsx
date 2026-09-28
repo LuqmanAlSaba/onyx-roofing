@@ -699,6 +699,26 @@ ${service.highlight
                 </motion.a>
 
                 <motion.a
+                  href="https://www.google.com/maps/search/?api=1&query=Onyx+Roofing+327+N+Bonner+Ave+Saint+Matthews+KY+40207"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center text-white/80 hover:text-[#40d6d1] transition-colors duration-300 group"
+                  whileHover={{ x: 3 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <div className="w-10 h-10 bg-[#40d6d1]/10 rounded-lg flex items-center justify-center mr-3 group-hover:bg-[#40d6d1]/20 transition-colors duration-300">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  <address className="not-italic">
+                    <p className="text-xs text-white/50">Visit us</p>
+                    <p className="font-medium">327 N Bonner Ave, Saint Matthews, KY 40207</p>
+                  </address>
+                </motion.a>
+
+                <motion.a
                   href="https://g.page/r/CaYAvXoOZrHnEAE/review"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -735,6 +755,7 @@ ${service.highlight
                   "Gutter Installation",
                   "Roof Inspection",
                   "Emergency Service",
+                  "Insurance Claims",
                 ].map((service, index) => (
                   <motion.li
                     key={service}
@@ -744,7 +765,7 @@ ${service.highlight
                     transition={{ duration: 0.4, delay: 0.1 + index * 0.05, ease: [0.25, 0.1, 0.25, 1] }}
                   >
                     <a
-                      href="#services"
+                      href={service === "Insurance Claims" ? "/roof-insurance-claims" : "#services"}
                       className="text-white/60 hover:text-[#40d6d1] transition-colors duration-300 text-sm block py-1 hover:translate-x-1 transform transition-transform"
                     >
                       {service}
@@ -766,10 +787,11 @@ ${service.highlight
                 {[
                   { name: "About Us", href: "#about" },
                   { name: "Our Projects", href: "#portfolio" },
-                  { name: "Service Areas", href: "#contact" },
+                  { name: "Service Areas", href: "#coverage" },
+                  { name: "Insurance Claims", href: "/roof-insurance-claims" },
                   { name: "Get Quote", href: "#", action: openForm },
                   { name: "Contact", href: "#contact" },
-                  { name: "Reviews", href: "#" },
+                  { name: "Reviews", href: "#portfolio" },
                 ].map((item, index) => (
                   <motion.li
                     key={item.name}
@@ -849,7 +871,7 @@ ${service.highlight
             className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0"
           >
             <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 text-sm text-white/50">
-              <p>&copy; 2025 Onyx Roofing.</p>
+              <p>&copy; {new Date().getFullYear()} Onyx Roofing.</p>
             </div>
 
             <motion.div
