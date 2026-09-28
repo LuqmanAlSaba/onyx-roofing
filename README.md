@@ -23,7 +23,7 @@ Onyx Roofing provides comprehensive roofing services including:
 - **Performance**: Optimized images and fast loading times
 
 ### Technical Features
-- **Next.js 15**: Latest React framework with App Router
+- **Next.js 16**: Latest React framework with App Router
 - **TypeScript**: Type-safe development
 - **Tailwind CSS**: Utility-first styling
 - **Framer Motion**: Smooth animations and transitions
