@@ -23,9 +23,15 @@ export default function Navigation({ variant = "fixed" }: NavigationProps) {
     blog: "blog"
   };
 
+  // Items that are separate pages rather than homepage sections
+  const pageRoutes: Record<string, string> = {
+    insurance: "/roof-insurance-claims",
+    blog: "/blog",
+  };
+
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-    // Blog navigation uses regular navigation
-    if (targetId === 'blog') {
+    // Separate pages use regular navigation
+    if (pageRoutes[targetId]) {
       if (isMenuOpen) setIsMenuOpen(false);
       return;
     }
@@ -89,10 +95,10 @@ export default function Navigation({ variant = "fixed" }: NavigationProps) {
         </motion.div>
 
         <div className="hidden md:flex items-center gap-8">
-          {["Services", "Projects", "About", "Coverage", "Contact", "Blog"].map((item, index) => {
+          {["Services", "Projects", "About", "Coverage", "Contact", "Insurance", "Blog"].map((item, index) => {
             const targetId = item.toLowerCase();
             const sectionId = idMap[targetId] || targetId;
-            const href = targetId === 'blog' ? '/blog' : `/#${sectionId}`;
+            const href = pageRoutes[targetId] ?? `/#${sectionId}`;
             const isBlog = item === "Blog";
 
             return (
@@ -140,10 +146,10 @@ export default function Navigation({ variant = "fixed" }: NavigationProps) {
             }}
           >
             <div className="h-full flex flex-col items-center justify-center space-y-6 px-6">
-              {["Services", "Projects", "About", "Contact", "Blog"].map((item, i) => {
+              {["Services", "Projects", "About", "Contact", "Insurance", "Blog"].map((item, i) => {
                 const targetId = item.toLowerCase();
                 const sectionId = idMap[targetId] || targetId;
-                const href = targetId === 'blog' ? '/blog' : `/#${sectionId}`;
+                const href = pageRoutes[targetId] ?? `/#${sectionId}`;
                 const isBlog = item === "Blog";
 
                 return (

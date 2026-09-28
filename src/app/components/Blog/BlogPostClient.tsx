@@ -12,9 +12,10 @@ interface BlogPostClientProps {
     ctaTitle?: string;
     ctaDescription?: string;
     ctaButtonText?: string;
+    initialService?: string;
 }
 
-export default function BlogPostClient({ ctaTitle, ctaDescription, ctaButtonText }: BlogPostClientProps) {
+export default function BlogPostClient({ ctaTitle, ctaDescription, ctaButtonText, initialService = "Roof Inspection" }: BlogPostClientProps) {
     const [isFormOpen, setIsFormOpen] = useState(false);
 
     return (
@@ -24,7 +25,7 @@ export default function BlogPostClient({ ctaTitle, ctaDescription, ctaButtonText
                 <ConsultationForm
                     open={isFormOpen}
                     onClose={() => setIsFormOpen(false)}
-                    initialService="Roof Inspection"
+                    initialService={initialService}
                 />
             )}
 
